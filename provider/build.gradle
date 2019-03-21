@@ -1,17 +1,19 @@
+
+
 plugins {
     id 'java'
     id 'idea'
-    id 'org.springframework.boot' version "2.0.2.RELEASE"
+    id 'org.springframework.boot'
 }
 
 apply plugin: 'io.spring.dependency-management'
 apply from: 'gradle.properties'
 
-group 'io.university'
+group 'io.university.provider'
 version '1.0.0'
 
 bootJar {
-    mainClassName = 'io.university.AppStarter'
+    mainClassName = 'io.university.provider.AppStarter'
     version =  '1.0.0'
 }
 
