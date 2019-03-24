@@ -78,6 +78,12 @@ public class CPersonOracleValidator extends BasicCPersonValidator {
                         fillSpecialityStudy(speciality, subject.getSpeciality().getStudy(), studyMap, studyStorage);
                         subject.setSpeciality(speciality);
                     }
+
+//                    if(subject.getCode() != null && subjectStorage.exist(subject.getCode())) {
+//                        subjectStorage.save(subject);
+//                    }
+
+                    schedule.setSubject(subject);
                 }
                 p.getSchedules().forEach(validPerson::addSchedule);
             }

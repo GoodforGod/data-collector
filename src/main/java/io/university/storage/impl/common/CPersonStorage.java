@@ -45,6 +45,12 @@ public class CPersonStorage extends BasicJpaStorage<CPerson, Integer> {
                                                     final String birthPlace,
                                                     final Timestamp birthTimestamp
     ) {
-        return personRepository.findByNameAndMiddleNameAndSurnameAndBirthPlaceAndBirthTimestamp(name, middleName, surname, birthPlace, birthTimestamp);
+        return Optional.ofNullable(
+                personRepository.findByNameAndMiddleNameAndSurnameAndBirthPlaceAndBirthTimestamp(name,
+                middleName,
+                surname,
+                birthPlace,
+                birthTimestamp)
+        );
     }
 }

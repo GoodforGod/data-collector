@@ -23,6 +23,9 @@ import java.util.Set;
  * @since 05.03.2019
  */
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"name", "middleName", "surname", "birthTimestamp", "birthPlace"})
+})
 public class CPerson implements Serializable {
 
     public enum CPersonType {

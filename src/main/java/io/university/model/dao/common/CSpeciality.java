@@ -1,7 +1,7 @@
 package io.university.model.dao.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.dummymaker.annotation.complex.GenList;
+import io.dummymaker.annotation.complex.GenSet;
 import io.dummymaker.annotation.simple.number.GenUInteger;
 import io.dummymaker.annotation.simple.string.GenCompany;
 import io.dummymaker.annotation.simple.string.GenNick;
@@ -10,8 +10,8 @@ import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * ! NO DESCRIPTION !
@@ -36,9 +36,9 @@ public class CSpeciality implements Serializable {
     private String qualification;
 
     @JsonIgnore
-    @GenList(value = EmbeddedGenerator.class, depth = 8)
+    @GenSet(value = EmbeddedGenerator.class, depth = 8, max = 5)
     @OneToMany(mappedBy = "speciality", cascade = CascadeType.ALL)
-    private List<CSubject> subjects = new ArrayList<>();
+    private Set<CSubject> subjects = new HashSet<>();
 
     @JsonIgnore
     @OneToOne(mappedBy = "speciality", cascade = CascadeType.ALL)
@@ -60,7 +60,7 @@ public class CSpeciality implements Serializable {
         return qualification;
     }
 
-    public List<CSubject> getSubjects() {
+    public Set<CSubject> getSubjects() {
         return subjects;
     }
 

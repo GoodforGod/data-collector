@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
@@ -58,6 +59,7 @@ public abstract class BasicJpaStorage<T, ID extends Serializable>
         }
     }
 
+    @Transactional
     @Override
     public Optional<T> save(T t) {
         try {
@@ -68,6 +70,7 @@ public abstract class BasicJpaStorage<T, ID extends Serializable>
         }
     }
 
+    @Transactional
     @Override
     public List<T> save(Collection<T> t) {
         try {
@@ -81,6 +84,7 @@ public abstract class BasicJpaStorage<T, ID extends Serializable>
         }
     }
 
+    @Transactional
     @Override
     public boolean delete(T t) {
         if (isNotValid(t))
@@ -95,6 +99,7 @@ public abstract class BasicJpaStorage<T, ID extends Serializable>
         }
     }
 
+    @Transactional
     @Override
     public boolean deleteById(ID id) {
         if (isIdNotValid(id))

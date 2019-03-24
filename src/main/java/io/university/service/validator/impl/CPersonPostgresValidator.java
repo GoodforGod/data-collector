@@ -1,9 +1,6 @@
 package io.university.service.validator.impl;
 
-import io.university.model.dao.common.CDepartment;
-import io.university.model.dao.common.CPerson;
-import io.university.model.dao.common.CSpeciality;
-import io.university.model.dao.common.CStudy;
+import io.university.model.dao.common.*;
 import io.university.storage.impl.common.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,9 +50,30 @@ public class CPersonPostgresValidator extends BasicCPersonValidator{
 
             if (p.getStudy() == null && isExist && existPerson.getStudy() != null) {
                 p.setStudy(existPerson.getStudy());
+            } else if(p.getStudy() != null) {
+                studyMap.put(p.getStudy().hashCode(), p.getStudy());
+
+                CDepartment department = p.getStudy().getDepartment();
+                if(department != null) {
+                    departmentMap.put(department.hashCode(), department);
+                }
+
+                CSpeciality speciality = p.getStudy().getSpeciality();
+                if(speciality != null) {
+                    specialityMap.put(speciality.hashCode(), speciality);
+                }
             }
 
             fillPersonStudy(p, departmentMap, specialityMap, studyMap, studyStorage, departmentStorage, specialityStorage);
+
+            p.setWorkHistory(null);
+            p.getPublishments().clear();
+            p.getPublishments().clear();
+            p.getConferences().clear();
+            p.getSchedules().clear();
+            p.getReadings().clear();
+            p.getLivings().clear();
+            p.getVisits().clear();
 
             if (isExist) {
                 if (!CollectionUtils.isEmpty(existPerson.getGrades())) {
@@ -64,37 +82,35 @@ public class CPersonPostgresValidator extends BasicCPersonValidator{
                             .forEach(p::addGrade);
                 }
 
-                if (existPerson.getWorkHistory() != null) {
-                    p.setWorkHistory(existPerson.getWorkHistory());
+                final CWorkHistory history = existPerson.getWorkHistory();
+                if (history != null) {
+                    if(p.getStudy() != null) {
+                        history.setDepartment(p.getStudy().getDepartment());
+                    }
+
+                    p.setWorkHistory(history);
                 }
 
-                if (!CollectionUtils.isEmpty(existPerson.getPublishments())) {
+                if (!CollectionUtils.isEmpty(existPerson.getPublishments()))
                     existPerson.getPublishments().forEach(p::addPublishment);
-                }
 
-                if (!CollectionUtils.isEmpty(existPerson.getConferences())) {
+                if (!CollectionUtils.isEmpty(existPerson.getConferences()))
                     existPerson.getConferences().forEach(p::addConference);
-                }
 
-                if (!CollectionUtils.isEmpty(existPerson.getReadings())) {
+                if (!CollectionUtils.isEmpty(existPerson.getReadings()))
                     existPerson.getReadings().forEach(p::addReading);
-                }
 
-                if (!CollectionUtils.isEmpty(existPerson.getParticipations())) {
+                if (!CollectionUtils.isEmpty(existPerson.getParticipations()))
                     existPerson.getParticipations().forEach(p::addParticipation);
-                }
 
-                if (!CollectionUtils.isEmpty(existPerson.getLivings())) {
+                if (!CollectionUtils.isEmpty(existPerson.getLivings()))
                     existPerson.getLivings().forEach(p::addLiving);
-                }
 
-                if (!CollectionUtils.isEmpty(existPerson.getSchedules())) {
+                if (!CollectionUtils.isEmpty(existPerson.getSchedules()))
                     existPerson.getSchedules().forEach(p::addSchedule);
-                }
 
-                if (!CollectionUtils.isEmpty(existPerson.getVisits())) {
+                if (!CollectionUtils.isEmpty(existPerson.getVisits()))
                     existPerson.getVisits().forEach(p::addVisit);
-                }
             }
 
             validPeople.add(p);

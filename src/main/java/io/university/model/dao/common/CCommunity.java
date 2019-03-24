@@ -43,12 +43,12 @@ public class CCommunity {
     @GenUInteger
     private Integer housingNumber;
 
-    @GenSet(value = EmbeddedGenerator.class, depth = 8, max = 6)
+    @GenSet(value = EmbeddedGenerator.class, depth = 8, max = 4)
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
     private Set<CRoom> rooms = new HashSet<>();
 
     @JsonIgnore
-    @GenSet(value = EmbeddedGenerator.class, depth = 8, max = 6)
+    @GenSet(value = EmbeddedGenerator.class, depth = 8, max = 4)
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
     private Set<CVisit> visits = new HashSet<>();
 

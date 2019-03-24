@@ -38,6 +38,7 @@ public class CLiving {
     @JoinColumn(name = "person_uid")
     private CPerson person;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_uid")
     private CRoom room;
