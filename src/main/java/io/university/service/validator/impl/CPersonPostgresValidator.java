@@ -15,7 +15,7 @@ import java.util.*;
  * @since 13.03.2019
  */
 @Service
-public class CPersonPostgresValidator extends BasicCPersonValidator{
+public class CPersonPostgresValidator extends BasicCPersonValidator {
 
     @Autowired private CDepartmentStorage departmentStorage;
     @Autowired private CSpecialityStorage specialityStorage;
@@ -31,6 +31,7 @@ public class CPersonPostgresValidator extends BasicCPersonValidator{
 
         final Map<Integer, CDepartment> departmentMap = new HashMap<>();
         final Map<Integer, CSpeciality> specialityMap = new HashMap<>();
+        final Map<Integer, CSubject> subjectMap = new HashMap<>();
         final Map<Integer, CStudy> studyMap = new HashMap<>();
 
         final List<CPerson> validPeople = new ArrayList<>(people.size());
@@ -50,21 +51,30 @@ public class CPersonPostgresValidator extends BasicCPersonValidator{
 
             if (p.getStudy() == null && isExist && existPerson.getStudy() != null) {
                 p.setStudy(existPerson.getStudy());
-            } else if(p.getStudy() != null) {
-                studyMap.put(p.getStudy().hashCode(), p.getStudy());
+            } else if (p.getStudy() != null) {
+                // Set priority entity
+                if (!studyMap.containsKey(p.getStudy().hashCode())) {
+                    studyMap.put(p.getStudy().hashCode(), p.getStudy());
+                }
 
+                // Set priority entity
                 CDepartment department = p.getStudy().getDepartment();
-                if(department != null) {
+                if (department != null && !departmentMap.containsKey(department.hashCode())) {
                     departmentMap.put(department.hashCode(), department);
                 }
 
+                // Set priority entity
                 CSpeciality speciality = p.getStudy().getSpeciality();
-                if(speciality != null) {
+                if (speciality != null && !specialityMap.containsKey(speciality.hashCode())) {
                     specialityMap.put(speciality.hashCode(), speciality);
                 }
+
+                fillPersonStudy(p, departmentMap, specialityMap, studyMap, studyStorage, departmentStorage, specialityStorage);
             }
 
-            fillPersonStudy(p, departmentMap, specialityMap, studyMap, studyStorage, departmentStorage, specialityStorage);
+//            if(p.getStudy() != null && p.getStudy().getSpeciality() != null) {
+//                specialityStorage.save(p.getStudy().getSpeciality());
+//            }
 
             p.setWorkHistory(null);
             p.getPublishments().clear();
@@ -84,7 +94,7 @@ public class CPersonPostgresValidator extends BasicCPersonValidator{
 
                 final CWorkHistory history = existPerson.getWorkHistory();
                 if (history != null) {
-                    if(p.getStudy() != null) {
+                    if (p.getStudy() != null) {
                         history.setDepartment(p.getStudy().getDepartment());
                     }
 
@@ -111,6 +121,19 @@ public class CPersonPostgresValidator extends BasicCPersonValidator{
 
                 if (!CollectionUtils.isEmpty(existPerson.getVisits()))
                     existPerson.getVisits().forEach(p::addVisit);
+            }
+
+            if(!CollectionUtils.isEmpty(p.getGrades())) {
+                for (CGrade grade : p.getGrades()) {
+                    CSubject subject = subjectMap.computeIfAbsent(grade.getSubject().getCode(), (k) -> grade.getSubject());
+                    CSpeciality speciality = getSpeciality(subject.getSpeciality(), specialityMap, specialityStorage);
+
+                    speciality.addSubject(subject);
+                    subject.setSpeciality(speciality);
+
+                    grade.setSubject(subject);
+                    grade.setPerson(p);
+                }
             }
 
             validPeople.add(p);
