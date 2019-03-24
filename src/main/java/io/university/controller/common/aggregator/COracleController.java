@@ -39,8 +39,8 @@ public class COracleController extends BasicDatabaseController {
             return Collections.emptyList();
 
         return list.stream().peek(p -> {
+//            p.clearGrades();
             p.clearConference();
-            p.clearGrades();
             p.clearLivings();
             p.clearParticipation();
             p.clearPublishment();

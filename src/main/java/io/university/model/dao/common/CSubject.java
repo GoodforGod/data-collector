@@ -46,7 +46,7 @@ public class CSubject implements Serializable {
     private CSchedule schedule;
 
     @JsonIgnore
-    @GenSet(value = EmbeddedGenerator.class, depth = 8, max = 4)
+    @GenSet(value = EmbeddedGenerator.class, depth = 8, max = 6)
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     private Set<CGrade> grades = new HashSet<>();
 

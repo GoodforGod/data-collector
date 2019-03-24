@@ -52,6 +52,7 @@ abstract class BasicCPersonValidator implements IValidator<CPerson> {
             CStudy study = studyMap.computeIfAbsent(p.getStudy().hashCode(),
                     (k) -> studyStorage.find(p.getStudy().getId()).orElse(p.getStudy()));
 
+
             if (study.getDepartment() != null) {
                 CDepartment department = departmentMap.computeIfAbsent(study.getDepartment().hashCode(),
                         (k) -> departmentStorage.find(study.getDepartment().getId()).orElse(study.getDepartment()));
@@ -65,6 +66,7 @@ abstract class BasicCPersonValidator implements IValidator<CPerson> {
             }
 
             p.setStudy(study);
+            study.setPerson(p);
         }
     }
 }
