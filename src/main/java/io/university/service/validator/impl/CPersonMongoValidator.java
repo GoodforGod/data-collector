@@ -54,6 +54,7 @@ public class CPersonMongoValidator implements IValidator<CPerson> {
 //                        .collect(Collectors.toSet());
 
                 for (CVisit visit : p.getVisits()) {
+                    visit.setPerson(p);
                     if (visit.getCommunity() != null) {
                         CCommunity community = communityMap.computeIfAbsent(visit.getCommunity().hashCode(),
                                 (k) -> communityStorage.find(visit.getCommunity().getId()).orElse(visit.getCommunity()));
@@ -70,8 +71,12 @@ public class CPersonMongoValidator implements IValidator<CPerson> {
                             roomPairMap.forEach((k, v) -> {
                                     v.setCommunity(community);
                                     if(!CollectionUtils.isEmpty(k.getLivings())) {
-                                        k.getLivings().forEach(l -> livingMap.computeIfAbsent(l.hashCode(),
-                                                (lKey) -> livingStorage.find(l.getId()).orElse(l)));
+                                        k.getLivings().forEach(l -> {
+                                            CLiving living = livingMap.computeIfAbsent(l.hashCode(),
+                                                    (lKey) -> livingStorage.find(l.getId()).orElse(l));
+                                            living.setRoom(v);
+                                            living.setPerson(p);
+                                        });
                                     }
                             });
 
