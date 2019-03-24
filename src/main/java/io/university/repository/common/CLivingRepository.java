@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @since 11.03.2019
  */
 @Repository
-public interface CLivingRepository extends JpaRepository<CLiving, Integer> {
+public interface CLivingRepository extends JpaRepository<CLiving, String> {
 
 }

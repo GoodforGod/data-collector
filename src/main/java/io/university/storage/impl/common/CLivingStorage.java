@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @since 11.03.2019
  */
 @Component
-public class CLivingStorage extends BasicJpaStorage<CLiving, Integer> {
+public class CLivingStorage extends BasicJpaStorage<CLiving, String> {
 
     @Autowired
     public CLivingStorage(final CLivingRepository repository) {

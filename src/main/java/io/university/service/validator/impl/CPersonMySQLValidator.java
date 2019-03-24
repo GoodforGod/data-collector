@@ -18,21 +18,25 @@ import java.util.*;
 @Service
 public class CPersonMySQLValidator implements IValidator<CPerson> {
 
-    @Autowired private CProjectParticipationStorage participationStorage;
-    @Autowired private CPublishmentStorage publishmentStorage;
-    @Autowired private CConferenceStorage conferenceStorage;
-    @Autowired private CProjectStorage projectStorage;
-    @Autowired private CEditionStorage editionStorage;
-    @Autowired private CReadingStorage readingStorage;
-    @Autowired private CPersonStorage personStorage;
-    @Autowired private CBookStorage bookStorage;
-    @Autowired private CPersonStorage peopleStorage;
+    @Autowired
+    private CProjectParticipationStorage participationStorage;
+    @Autowired
+    private CPublishmentStorage publishmentStorage;
+    @Autowired
+    private CConferenceStorage conferenceStorage;
+    @Autowired
+    private CProjectStorage projectStorage;
+    @Autowired
+    private CEditionStorage editionStorage;
+    @Autowired
+    private CReadingStorage readingStorage;
+    @Autowired
+    private CPersonStorage peopleStorage;
+    @Autowired
+    private CBookStorage bookStorage;
 
     @Override
     public List<CPerson> validate(List<CPerson> people) {
-        if(CollectionUtils.isEmpty(people))
-            return Collections.emptyList();
-
         if (CollectionUtils.isEmpty(people))
             return Collections.emptyList();
 
@@ -55,52 +59,61 @@ public class CPersonMySQLValidator implements IValidator<CPerson> {
                     p.getBirthTimestamp()).orElse(p);
             validPerson.setCitationIndex(p.getCitationIndex());
 
-            final List<CReading> validReadings = new ArrayList<>(p.getReadings().size());
-            for (CReading reading: p.getReadings()) {
-                if (reading.getBook() == null)
-                    continue;
-                CBook book = bookMap.computeIfAbsent(reading.getBook().hashCode(),
-                        (k) -> bookStorage.find(reading.getBook().getId()).orElse(reading.getBook()));
-                reading.setBook(book);
-                validReadings.add(reading);
+            if(!CollectionUtils.isEmpty(p.getReadings())) {
+                final List<CReading> validReadings = new ArrayList<>(p.getReadings().size());
+                for (CReading reading : p.getReadings()) {
+                    if (reading.getBook() == null)
+                        continue;
+                    CBook book = bookMap.computeIfAbsent(reading.getBook().hashCode(),
+                            (k) -> bookStorage.find(reading.getBook().getId()).orElse(reading.getBook()));
+                    reading.setBook(book);
+                    validReadings.add(reading);
+                }
+                validPerson.clearReadings();
+                validReadings.forEach(validPerson::addReading);
             }
-            validPerson.clearReadings();
-            validReadings.forEach(validPerson::addReading);
 
-
-            final List<CConference> validConferences = new ArrayList<>(p.getConferences().size());
-            for (CConference conference: p.getConferences()) {
-                CConference validConference = conferenceMap.computeIfAbsent(conference.hashCode(),
-                    (k) -> conferenceStorage.find(conference.getId()).orElse(conference));
-                validConferences.add(validConference);
+            if(!CollectionUtils.isEmpty(p.getConferences())) {
+                final List<CConference> validConferences = new ArrayList<>(p.getConferences().size());
+                for (CConference conference : p.getConferences()) {
+                    CConference validConference = conferenceMap.computeIfAbsent(conference.hashCode(),
+                            (k) -> conferenceStorage.find(conference.getId()).orElse(conference));
+                    validConferences.add(validConference);
+                }
+                validPerson.clearConference();
+                validConferences.forEach(validPerson::addConference);
             }
-            validPerson.clearConference();
-            validConferences.forEach(validPerson::addConference);
 
-            final List<CProjectParticipation> validParticipations = new ArrayList<>(p.getParticipations().size());
-            for (CProjectParticipation participation: p.getParticipations()) {
-                if (participation.getProject() == null)
-                    continue;
-                CProject project = projectMap.computeIfAbsent(participation.getProject().hashCode(),
-                        (k) -> projectStorage.find(participation.getProject().getId()).orElse(participation.getProject()));
-                participation.setProject(project);
-                validParticipations.add(participation);
+            if(!CollectionUtils.isEmpty(p.getParticipations())) {
+                final List<CProjectParticipation> validParticipations = new ArrayList<>(p.getParticipations().size());
+                for (CProjectParticipation participation : p.getParticipations()) {
+                    if (participation.getProject() == null)
+                        continue;
+                    CProject project = projectMap.computeIfAbsent(participation.getProject().hashCode(),
+                            (k) -> projectStorage.find(participation.getProject().getId()).orElse(participation.getProject()));
+                    participation.setProject(project);
+                    validParticipations.add(participation);
+                }
+                validPerson.clearParticipation();
+                validParticipations.forEach(validPerson::addParticipation);
             }
-            validPerson.clearParticipation();
-            validParticipations.forEach(validPerson::addParticipation);
 
-            final List<CPublishment> validPublishments = new ArrayList<>(p.getPublishments().size());
-            for (CPublishment publishment: p.getPublishments()) {
-                if (publishment.getEdition() == null)
-                    continue;
-                CEdition edition = editionMap.computeIfAbsent(publishment.getEdition().hashCode(),
-                        (k) -> editionStorage.find(publishment.getEdition().getId()).orElse(publishment.getEdition()));
-                publishment.setEdition(edition);
-                validPublishments.add(publishment);
-            }
-            if(!validPublishments.isEmpty()){
-                validPerson.clearPublishment();
-                validPublishments.forEach(validPerson::addPublishment);
+            if(!CollectionUtils.isEmpty(p.getPublishments())) {
+                final List<CPublishment> validPublishments = new ArrayList<>(p.getPublishments().size());
+                for (CPublishment publishment : p.getPublishments()) {
+                    if (publishment.getEdition() == null)
+                        continue;
+
+                    CEdition edition = editionMap.computeIfAbsent(publishment.getEdition().hashCode(),
+                            (k) -> editionStorage.find(publishment.getEdition().getId()).orElse(publishment.getEdition()));
+                    publishment.setEdition(edition);
+                    validPublishments.add(publishment);
+                }
+
+                if (!validPublishments.isEmpty()) {
+                    validPerson.clearPublishment();
+                    validPublishments.forEach(validPerson::addPublishment);
+                }
             }
 
             validPeople.add(validPerson);

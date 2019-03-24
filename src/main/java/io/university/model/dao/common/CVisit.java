@@ -2,6 +2,7 @@ package io.university.model.dao.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
+import io.dummymaker.annotation.simple.string.GenId;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -16,8 +17,8 @@ import java.sql.Timestamp;
 public class CVisit {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GenId
+    private String id;
 
     @GenTime
     private Timestamp enterTimestamp;
@@ -34,7 +35,7 @@ public class CVisit {
     @JoinColumn(name = "community_uid")
     private CCommunity community;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 

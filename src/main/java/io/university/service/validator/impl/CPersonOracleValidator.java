@@ -1,7 +1,6 @@
 package io.university.service.validator.impl;
 
 import io.university.model.dao.common.*;
-import io.university.service.validator.IValidator;
 import io.university.storage.impl.common.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
  * @since 13.03.2019
  */
 @Service
-public class CPersonOracleValidator implements IValidator<CPerson> {
+public class CPersonOracleValidator extends BasicCPersonValidator {
 
     @Autowired private CDepartmentStorage departmentStorage;
     @Autowired private CSpecialityStorage specialityStorage;
@@ -47,24 +46,7 @@ public class CPersonOracleValidator implements IValidator<CPerson> {
                     p.getBirthPlace(),
                     p.getBirthTimestamp()).orElse(p);
 
-            if (p.getStudy() != null) {
-                CStudy study = studyMap.computeIfAbsent(p.getStudy().hashCode(),
-                        (k) -> studyStorage.find(p.getStudy().getId()).orElse(p.getStudy()));
-
-                if (study.getDepartment() != null) {
-                    CDepartment department = departmentMap.computeIfAbsent(study.getDepartment().hashCode(),
-                            (k) -> departmentStorage.find(study.getDepartment().getId()).orElse(study.getDepartment()));
-                    study.setDepartment(department);
-                }
-
-                if (study.getSpeciality() != null) {
-                    CSpeciality speciality = getSpeciality(study.getSpeciality(), specialityMap);
-                    fillStudy(speciality, study.getSpeciality().getStudy(), studyMap);
-                    study.setSpeciality(speciality);
-                }
-
-                validPerson.setStudy(study);
-            }
+            fillPersonStudy(p, departmentMap, specialityMap, studyMap, studyStorage, departmentStorage, specialityStorage);
 
             CWorkHistory history = p.getWorkHistory();
             if (history != null) {
@@ -92,8 +74,8 @@ public class CPersonOracleValidator implements IValidator<CPerson> {
                     }
 
                     if (subject.getSpeciality() != null) {
-                        CSpeciality speciality = getSpeciality(subject.getSpeciality(), specialityMap);
-                        fillStudy(speciality, subject.getSpeciality().getStudy(), studyMap);
+                        CSpeciality speciality = getSpeciality(subject.getSpeciality(), specialityMap, specialityStorage);
+                        fillSpecialityStudy(speciality, subject.getSpeciality().getStudy(), studyMap, studyStorage);
                         subject.setSpeciality(speciality);
                     }
                 }
@@ -104,25 +86,5 @@ public class CPersonOracleValidator implements IValidator<CPerson> {
         }
 
         return validPeople;
-    }
-
-    private CSpeciality getSpeciality(CSpeciality speciality,
-                                      Map<Integer, CSpeciality> specialityMap) {
-        return specialityMap.computeIfAbsent(
-                speciality.hashCode(),
-                (k) -> specialityStorage.find(speciality.getCode()).orElse(speciality));
-    }
-
-    private void fillStudy(CSpeciality speciality,
-                           CStudy primeStudy,
-                           Map<Integer, CStudy> studyMap) {
-        if (speciality.getStudy() != null) {
-            CStudy cStudy = studyMap.computeIfAbsent(speciality.getStudy().hashCode(), (k) -> speciality.getStudy());
-            speciality.setStudy(cStudy);
-        } else if(primeStudy != null) {
-            CStudy cStudy = studyMap.computeIfAbsent(primeStudy.hashCode(),
-                    (k) -> studyStorage.find(primeStudy.getId()).orElse(primeStudy));
-            speciality.setStudy(cStudy);
-        }
     }
 }

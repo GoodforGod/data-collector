@@ -32,7 +32,7 @@ public class OPeopleFactory extends BasicFactory<OPerson> {
         }
 
         public int getRatio(int n) {
-            return n < value ? 1 : n / value;
+            return n < value ? 1 : (n / value + 1);
         }
     }
 

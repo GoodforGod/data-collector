@@ -1,5 +1,6 @@
 package io.university.controller.common;
 
+import io.swagger.annotations.ApiParam;
 import io.university.model.dao.common.CPerson;
 import io.university.service.factory.impl.CPeopleFactory;
 import io.university.storage.impl.common.CPersonStorage;
@@ -31,13 +32,16 @@ public class CPeopleController {
     }
 
     @GetMapping("/fill")
-    public List<CPerson> fillWithPeople(@RequestParam(name = "amount", required = false) Integer amount) {
+    public List<CPerson> fillWithPeople(
+            @ApiParam(value = "Amount users to generate", defaultValue = "2")
+            @RequestParam(value = "amount", required = false) Integer amount
+    ) {
         final int genAmount = (amount != null && amount > 0)
                 ? amount
                 : ThreadLocalRandom.current().nextInt(2, 4);
 
         final List<CPerson> people = factory.build(genAmount);
         peopleStorage.save(people);
-        return people.subList(0, 1);
+        return people;
     }
 }
