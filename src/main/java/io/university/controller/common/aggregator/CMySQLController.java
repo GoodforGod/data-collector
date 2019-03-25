@@ -58,8 +58,7 @@ public class CMySQLController extends BasicDatabaseController {
             @RequestParam(value = "amount", required = false) Integer amount
     ) {
         final int generateAmount = (amount == null || amount < 1) ? 1 : amount;
-        final List<CPerson> people = generateAsJson(generateAmount);
-        return load(people);
+        return generateAsJson(generateAmount);
     }
 
     @ApiOperation(

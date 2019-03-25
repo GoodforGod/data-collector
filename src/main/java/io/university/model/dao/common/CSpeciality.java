@@ -9,6 +9,7 @@ import io.dummymaker.annotation.simple.string.GenNoun;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +24,7 @@ import java.util.Set;
 public class CSpeciality implements Serializable {
 
     @Id
+    @NotNull
     @GenUInteger
     private Integer code;
 

@@ -3,6 +3,7 @@ package io.university.model.dao.oracle;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenCharacter;
 import io.dummymaker.annotation.simple.number.GenUShort;
+import io.dummymaker.annotation.simple.string.GenId;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,14 +19,14 @@ import java.sql.Timestamp;
 public class OGrade implements Serializable {
 
     @Id
-    @GeneratedValue
-    private int id;
+    @GenId
+    private String id;
 
     @GenUShort
-    private int numValue;
+    private Integer numValue;
 
     @GenCharacter
-    private char latinValue;
+    private Character latinValue;
 
     @GenTime
     private Timestamp gradeTimestamp;
@@ -38,15 +39,15 @@ public class OGrade implements Serializable {
     @JoinColumn(name = "person_uid")
     private OPerson person;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public int getNumValue() {
+    public Integer getNumValue() {
         return numValue;
     }
 
-    public char getLatinValue() {
+    public Character getLatinValue() {
         return latinValue;
     }
 
@@ -75,20 +76,13 @@ public class OGrade implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        OGrade grade = (OGrade) o;
+        OGrade oGrade = (OGrade) o;
 
-        if (id != grade.id) return false;
-        if (numValue != grade.numValue) return false;
-        if (latinValue != grade.latinValue) return false;
-        return gradeTimestamp != null ? gradeTimestamp.equals(grade.gradeTimestamp) : grade.gradeTimestamp == null;
+        return id != null ? id.equals(oGrade.id) : oGrade.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + numValue;
-        result = 31 * result + (int) latinValue;
-        result = 31 * result + (gradeTimestamp != null ? gradeTimestamp.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }

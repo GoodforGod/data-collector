@@ -18,22 +18,14 @@ import java.util.*;
 @Service
 public class CPersonMySQLValidator implements IValidator<CPerson> {
 
-    @Autowired
-    private CProjectParticipationStorage participationStorage;
-    @Autowired
-    private CPublishmentStorage publishmentStorage;
-    @Autowired
-    private CConferenceStorage conferenceStorage;
-    @Autowired
-    private CProjectStorage projectStorage;
-    @Autowired
-    private CEditionStorage editionStorage;
-    @Autowired
-    private CReadingStorage readingStorage;
-    @Autowired
-    private CPersonStorage peopleStorage;
-    @Autowired
-    private CBookStorage bookStorage;
+    @Autowired private CProjectParticipationStorage participationStorage;
+    @Autowired private CPublishmentStorage publishmentStorage;
+    @Autowired private CConferenceStorage conferenceStorage;
+    @Autowired private CProjectStorage projectStorage;
+    @Autowired private CEditionStorage editionStorage;
+    @Autowired private CReadingStorage readingStorage;
+    @Autowired private CPersonStorage peopleStorage;
+    @Autowired private CBookStorage bookStorage;
 
     @Override
     public List<CPerson> validate(List<CPerson> people) {
