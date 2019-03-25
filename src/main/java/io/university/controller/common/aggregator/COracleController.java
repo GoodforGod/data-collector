@@ -5,13 +5,14 @@ import io.swagger.annotations.ApiParam;
 import io.university.model.dao.common.CPerson;
 import io.university.service.factory.impl.CPeopleFactory;
 import io.university.service.validator.impl.CPersonOracleValidator;
-import io.university.storage.impl.common.CPersonStorage;
+import io.university.storage.impl.common.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/common/oracle")
 public class COracleController extends BasicDatabaseController {
 
+    @Autowired private CDepartmentStorage departmentStorage;
+    @Autowired private CSpecialityStorage specialityStorage;
+    @Autowired private CScheduleStorage scheduleStorage;
+    @Autowired private CSubjectStorage subjectStorage;
     @Autowired private CPersonStorage peopleStorage;
+    @Autowired private CStudyStorage studyStorage;
+    @Autowired private CWorkStorage workStorage;
+    @Autowired private CGradeStorage gradeStorage;
+
     @Autowired private CPersonOracleValidator validator;
 
     @Autowired
@@ -47,6 +56,33 @@ public class COracleController extends BasicDatabaseController {
             p.clearReadings();
             p.clearVisits();
         }).collect(Collectors.toList());
+    }
+
+    @ApiOperation(
+            value = "Clean up Oracle schema",
+            notes = "Clean up Oracle people full data"
+    )
+    @GetMapping("/clean")
+    public Boolean clean() {
+        final Set<Integer> peopleIds = workStorage.findAll().stream()
+                .map(p -> p.getPerson().getId())
+                .collect(Collectors.toSet());
+
+        scheduleStorage.findAll().forEach(s -> peopleIds.addAll(
+                s.getPeople().stream()
+                        .map(CPerson::getId)
+                        .collect(Collectors.toSet()))
+        );
+
+        departmentStorage.deleteAll();
+        specialityStorage.deleteAll();
+        scheduleStorage.deleteAll();
+        subjectStorage.deleteAll();
+        studyStorage.deleteAll();
+        workStorage.deleteAll();
+        gradeStorage.deleteAll();
+        peopleIds.forEach(id -> peopleStorage.deleteById(id));
+        return true;
     }
 
     @ApiOperation(

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -13,7 +14,7 @@ import java.sql.Timestamp;
  * @since 10.03.2019
  */
 @Entity
-public class CProjectParticipation {
+public class CProjectParticipation implements Serializable {
 
     @Id
     @GeneratedValue

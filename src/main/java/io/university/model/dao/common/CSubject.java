@@ -42,7 +42,7 @@ public class CSubject implements Serializable {
 
     @JsonIgnore
     @GenEmbedded(depth = 7)
-    @OneToOne(mappedBy = "subject")
+    @OneToOne(mappedBy = "subject", cascade = CascadeType.ALL)
     private CSchedule schedule;
 
     @JsonIgnore

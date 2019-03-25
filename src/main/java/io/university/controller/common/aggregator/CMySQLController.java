@@ -5,13 +5,14 @@ import io.swagger.annotations.ApiParam;
 import io.university.model.dao.common.CPerson;
 import io.university.service.factory.impl.CPeopleFactory;
 import io.university.service.validator.impl.CPersonMySQLValidator;
-import io.university.storage.impl.common.CPersonStorage;
+import io.university.storage.impl.common.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/common/mysql")
 public class CMySQLController extends BasicDatabaseController {
 
+    @Autowired private CProjectParticipationStorage participationStorage;
+    @Autowired private CPublishmentStorage publishmentStorage;
+    @Autowired private CConferenceStorage conferenceStorage;
+    @Autowired private CProjectStorage projectStorage;
+    @Autowired private CEditionStorage editionStorage;
+    @Autowired private CReadingStorage readingStorage;
     @Autowired private CPersonStorage peopleStorage;
+    @Autowired private CBookStorage bookStorage;
+
     @Autowired private CPersonMySQLValidator validator;
 
     @Autowired
@@ -46,6 +55,30 @@ public class CMySQLController extends BasicDatabaseController {
             p.clearSchedule();
             p.clearVisits();
         }).collect(Collectors.toList());
+    }
+
+    @ApiOperation(
+            value = "Clean up MySQL schema",
+            notes = "Clean up MySQL people full data"
+    )
+    @GetMapping("/clean")
+    public Boolean clean() {
+        final Set<Integer> peopleIds = participationStorage.findAll().stream()
+                .map(p -> p.getPerson().getId())
+                .collect(Collectors.toSet());
+
+        readingStorage.findAll().forEach(r -> peopleIds.add(r.getPerson().getId()));
+        publishmentStorage.findAll().forEach(p -> peopleIds.add(p.getPerson().getId()));
+
+        participationStorage.deleteAll();
+        publishmentStorage.deleteAll();
+        conferenceStorage.deleteAll();
+        projectStorage.deleteAll();
+        editionStorage.deleteAll();
+        readingStorage.deleteAll();
+        bookStorage.deleteAll();
+        peopleIds.forEach(id -> peopleStorage.deleteById(id));
+        return true;
     }
 
     @ApiOperation(
