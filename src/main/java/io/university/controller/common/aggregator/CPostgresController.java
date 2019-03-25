@@ -51,6 +51,20 @@ public class CPostgresController extends BasicDatabaseController {
     }
 
     @ApiOperation(
+            value = "Generate Postgres schema",
+            notes = "Generate Postgres people data as schema describe"
+    )
+    @GetMapping("/generate")
+    public List<CPerson> generate(
+            @ApiParam(value = "Amount users to generate", defaultValue = "2")
+            @RequestParam(value = "amount", required = false) Integer amount
+    ) {
+        final int generateAmount = (amount == null || amount < 1) ? 1 : amount;
+        final List<CPerson> people = generateAsJson(generateAmount);
+        return load(people);
+    }
+
+    @ApiOperation(
             value = "Load emulation Postgres",
             notes = "Emulates load operation for Postgres"
     )

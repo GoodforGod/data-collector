@@ -51,6 +51,20 @@ public class CMongoController extends BasicDatabaseController {
     }
 
     @ApiOperation(
+            value = "Generate MongoDB schema",
+            notes = "Generate MongoDB people data as schema describe"
+    )
+    @GetMapping("/generate")
+    public List<CPerson> generate(
+            @ApiParam(value = "Amount users to generate", defaultValue = "2")
+            @RequestParam(value = "amount", required = false) Integer amount
+    ) {
+        final int generateAmount = (amount == null || amount < 1) ? 1 : amount;
+        final List<CPerson> people = generateAsJson(generateAmount);
+        return load(people);
+    }
+
+    @ApiOperation(
             value = "Load emulation MongoDB",
             notes = "Emulates load operation for MongoDB"
     )

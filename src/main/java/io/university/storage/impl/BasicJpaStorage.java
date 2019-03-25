@@ -108,4 +108,15 @@ public abstract class BasicJpaStorage<T, ID extends Serializable>
             return false;
         }
     }
+
+    @Override
+    public boolean deleteAll() {
+        try {
+            repository.deleteAll();
+            return true;
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return false;
+        }
+    }
 }

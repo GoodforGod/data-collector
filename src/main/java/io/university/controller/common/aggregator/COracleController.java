@@ -50,6 +50,20 @@ public class COracleController extends BasicDatabaseController {
     }
 
     @ApiOperation(
+            value = "Generate Oracle schema",
+            notes = "Generate Oracle people data as schema describe"
+    )
+    @GetMapping("/generate")
+    public List<CPerson> generate(
+            @ApiParam(value = "Amount users to generate", defaultValue = "2")
+            @RequestParam(value = "amount", required = false) Integer amount
+    ) {
+        final int generateAmount = (amount == null || amount < 1) ? 1 : amount;
+        final List<CPerson> people = generateAsJson(generateAmount);
+        return load(people);
+    }
+
+    @ApiOperation(
             value = "Load emulation Oracle",
             notes = "Emulates load operation for Oracle"
     )
