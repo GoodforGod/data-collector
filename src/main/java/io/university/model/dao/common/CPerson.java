@@ -1,5 +1,6 @@
 package io.university.model.dao.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenEnum;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.GenBoolean;
@@ -22,6 +23,9 @@ import java.util.Set;
  * @since 05.03.2019
  */
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"name", "middleName", "surname", "birthTimestamp", "birthPlace"})
+})
 public class CPerson implements Serializable {
 
     public enum CPersonType {
@@ -82,6 +86,7 @@ public class CPerson implements Serializable {
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private Set<CVisit> visits = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private Set<CLiving> livings = new HashSet<>();
 

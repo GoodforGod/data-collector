@@ -39,14 +39,27 @@ public class COracleController extends BasicDatabaseController {
             return Collections.emptyList();
 
         return list.stream().peek(p -> {
+//            p.clearGrades();
             p.clearConference();
-            p.clearGrades();
             p.clearLivings();
             p.clearParticipation();
             p.clearPublishment();
             p.clearReadings();
             p.clearVisits();
         }).collect(Collectors.toList());
+    }
+
+    @ApiOperation(
+            value = "Generate Oracle schema",
+            notes = "Generate Oracle people data as schema describe"
+    )
+    @GetMapping("/generate")
+    public List<CPerson> generate(
+            @ApiParam(value = "Amount users to generate", defaultValue = "2")
+            @RequestParam(value = "amount", required = false) Integer amount
+    ) {
+        final int generateAmount = (amount == null || amount < 1) ? 1 : amount;
+        return generateAsJson(generateAmount);
     }
 
     @ApiOperation(

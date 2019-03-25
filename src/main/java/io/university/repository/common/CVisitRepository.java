@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @since 11.03.2019
  */
 @Repository
-public interface CVisitRepository extends JpaRepository<CVisit, Integer> {
+public interface CVisitRepository extends JpaRepository<CVisit, String> {
 
 }

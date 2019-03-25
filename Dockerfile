@@ -1,5 +1,7 @@
 FROM goodforgod/debian-jdk10-oracle:sid
 
+ARG BRANCH=master
+
 # Install curl & unzip
 RUN apt-get -q update && \
     apt-get -qy install wget && \
@@ -8,8 +10,8 @@ RUN apt-get -q update && \
 
 # Download project, build it, remove installed stuff
 RUN cd / && \
-    curl -LOk https://github.com/GoodforGod/oracle-aggregator/archive/master.zip && \
-    unzip -q master.zip && \
+    curl -LOk https://github.com/GoodforGod/oracle-aggregator/archive/$BRANCH.zip && \
+    unzip -q $BRANCH.zip && \
     cd oracle-aggregator* && \
     wget -U "Chrome/68.0.3210.118" https://github.com/lazaronixon/ojdbc7/raw/master/com/heuristica/ojdbc7/12.1.0.2/ojdbc7-12.1.0.2.jar && \
     mkdir driver && \

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @since 11.03.2019
  */
 @Component
-public class CVisitStorage extends BasicJpaStorage<CVisit, Integer> {
+public class CVisitStorage extends BasicJpaStorage<CVisit, String> {
 
     @Autowired
     public CVisitStorage(final CVisitRepository repository) {

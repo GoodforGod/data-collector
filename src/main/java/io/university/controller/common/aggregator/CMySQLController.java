@@ -25,10 +25,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/common/mysql")
 public class CMySQLController extends BasicDatabaseController {
 
-    @Autowired
-    private CPersonStorage peopleStorage;
-    @Autowired
-    private CPersonMySQLValidator validator;
+    @Autowired private CPersonStorage peopleStorage;
+    @Autowired private CPersonMySQLValidator validator;
 
     @Autowired
     public CMySQLController(CPeopleFactory factory) {
@@ -48,6 +46,19 @@ public class CMySQLController extends BasicDatabaseController {
             p.clearSchedule();
             p.clearVisits();
         }).collect(Collectors.toList());
+    }
+
+    @ApiOperation(
+            value = "Generate MySQL schema",
+            notes = "Generate MySQL people data as schema describe"
+    )
+    @GetMapping("/generate")
+    public List<CPerson> generate(
+            @ApiParam(value = "Amount users to generate", defaultValue = "2")
+            @RequestParam(value = "amount", required = false) Integer amount
+    ) {
+        final int generateAmount = (amount == null || amount < 1) ? 1 : amount;
+        return generateAsJson(generateAmount);
     }
 
     @ApiOperation(

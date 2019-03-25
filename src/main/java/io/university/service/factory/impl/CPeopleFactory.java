@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -36,7 +37,7 @@ public class CPeopleFactory extends BasicFactory<CPerson> {
         }
 
         public int getRatio(int n) {
-            return n < value ? 1 : n / value;
+            return n < value ? 1 : (n / value + 1);
         }
     }
 
@@ -75,7 +76,7 @@ public class CPeopleFactory extends BasicFactory<CPerson> {
         final List<CSubject> subjects = specialities.stream()
                 .filter(s -> !CollectionUtils.isEmpty(s.getSubjects()))
                 .map(CSpeciality::getSubjects)
-                .flatMap(List::stream)
+                .flatMap(Set::stream)
                 .collect(Collectors.toList());
 
         final List<CSchedule> schedules = factory.produce(CSchedule.class, subjects.size());

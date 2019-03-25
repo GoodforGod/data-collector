@@ -3,6 +3,7 @@ package io.university.model.dao.common;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenUInteger;
+import io.dummymaker.annotation.simple.string.GenId;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -17,8 +18,8 @@ import java.sql.Timestamp;
 public class CLiving {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GenId
+    private String id;
 
     @GenTime
     private Timestamp enterTimestamp;
@@ -37,11 +38,12 @@ public class CLiving {
     @JoinColumn(name = "person_uid")
     private CPerson person;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_uid")
     private CRoom room;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -84,22 +86,11 @@ public class CLiving {
 
         CLiving living = (CLiving) o;
 
-        if (id != null ? !id.equals(living.id) : living.id != null) return false;
-        if (enterTimestamp != null ? !enterTimestamp.equals(living.enterTimestamp) : living.enterTimestamp != null)
-            return false;
-        if (exitTimestamp != null ? !exitTimestamp.equals(living.exitTimestamp) : living.exitTimestamp != null)
-            return false;
-        if (enterCource != null ? !enterCource.equals(living.enterCource) : living.enterCource != null) return false;
-        return invoiceCount != null ? invoiceCount.equals(living.invoiceCount) : living.invoiceCount == null;
+        return id != null ? id.equals(living.id) : living.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (enterTimestamp != null ? enterTimestamp.hashCode() : 0);
-        result = 31 * result + (exitTimestamp != null ? exitTimestamp.hashCode() : 0);
-        result = 31 * result + (enterCource != null ? enterCource.hashCode() : 0);
-        result = 31 * result + (invoiceCount != null ? invoiceCount.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }
