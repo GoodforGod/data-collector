@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class OPeopleFactory extends BasicFactory<OPerson> {
 
     private enum Ratio {
-        DEPARTMENT(100),
+        DEPARTMENT(50),
         SPECIALITY(30);
 
         private final int value;
@@ -32,7 +32,7 @@ public class OPeopleFactory extends BasicFactory<OPerson> {
         }
 
         public int getRatio(int n) {
-            return n < value ? 1 : n / value;
+            return n < value ? 1 : (n / value + 1);
         }
     }
 
@@ -56,15 +56,14 @@ public class OPeopleFactory extends BasicFactory<OPerson> {
             });
         }));
 
-        for (int i = 0; i < people.size(); i++) {
-            final OPerson p = people.get(i);
-            final OSpeciality speciality = specialities.get(i / Ratio.SPECIALITY.value);
+        for (final OPerson p : people) {
+            final OSpeciality speciality = randomPick(specialities);
 
             p.getStudy().setPerson(p);
             p.getStudy().setSpeciality(speciality);
             p.getWorkHistory().setPerson(p);
 
-            final ODepartment department = departments.get(i / Ratio.DEPARTMENT.value);
+            final ODepartment department = randomPick(departments);
             p.getStudy().setDepartment(department);
             p.getWorkHistory().setDepartment(department);
 
@@ -81,9 +80,8 @@ public class OPeopleFactory extends BasicFactory<OPerson> {
             subjects.get(i).setSchedule(schedules.get(i));
         }
 
-        for (int i = 0; i < people.size(); i++) {
-            final OPerson p = people.get(i);
-            final OSpeciality speciality = specialities.get(i / Ratio.SPECIALITY.value);
+        for (final OPerson p : people) {
+            final OSpeciality speciality = randomPick(specialities);
             speciality.getSubjects().forEach(s -> p.addSchedule(s.getSchedule()));
         }
 

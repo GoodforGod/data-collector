@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -17,11 +18,11 @@ import java.util.stream.Collectors;
 public class CPeopleFactory extends BasicFactory<CPerson> {
 
     private enum Ratio {
-        DEPARTMENT(100),
-        CONFERENCE(40),
-        EDITION(50),
-        PROJECT(40),
-        BOOKS(40),
+        DEPARTMENT(30),
+        CONFERENCE(20),
+        EDITION(10),
+        PROJECT(20),
+        BOOKS(30),
         COMMUNITY(30),
         SPECIALITY(30);
 
@@ -36,7 +37,7 @@ public class CPeopleFactory extends BasicFactory<CPerson> {
         }
 
         public int getRatio(int n) {
-            return n < value ? 1 : n / value;
+            return n < value ? 1 : (n / value + 1);
         }
     }
 
@@ -60,15 +61,14 @@ public class CPeopleFactory extends BasicFactory<CPerson> {
             });
         }));
 
-        for (int i = 0; i < people.size(); i++) {
-            final CPerson p = people.get(i);
-            final CSpeciality speciality = specialities.get(i / Ratio.SPECIALITY.value);
+        for (final CPerson p : people) {
+            final CSpeciality speciality = randomPick(specialities);
 
             p.getStudy().setPerson(p);
             p.getStudy().setSpeciality(speciality);
             p.getWorkHistory().setPerson(p);
 
-            final CDepartment department = departments.get(i / Ratio.DEPARTMENT.value);
+            final CDepartment department = randomPick(departments);
             p.getStudy().setDepartment(department);
             p.getWorkHistory().setDepartment(department);
         }
@@ -76,7 +76,7 @@ public class CPeopleFactory extends BasicFactory<CPerson> {
         final List<CSubject> subjects = specialities.stream()
                 .filter(s -> !CollectionUtils.isEmpty(s.getSubjects()))
                 .map(CSpeciality::getSubjects)
-                .flatMap(List::stream)
+                .flatMap(Set::stream)
                 .collect(Collectors.toList());
 
         final List<CSchedule> schedules = factory.produce(CSchedule.class, subjects.size());
@@ -86,9 +86,8 @@ public class CPeopleFactory extends BasicFactory<CPerson> {
             schedule.setSubject(subjects.get(i));
         }
 
-        for (int i = 0; i < people.size(); i++) {
-            final CPerson p = people.get(i);
-            final CSpeciality speciality = specialities.get(i / Ratio.DEPARTMENT.value);
+        for (final CPerson p : people) {
+            final CSpeciality speciality = randomPick(specialities);
             speciality.getSubjects().stream()
                     .filter(s -> s.getSchedule() != null)
                     .forEach(s -> p.addSchedule(s.getSchedule()));

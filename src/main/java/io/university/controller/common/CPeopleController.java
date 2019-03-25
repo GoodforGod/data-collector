@@ -1,12 +1,13 @@
 package io.university.controller.common;
 
+import io.swagger.annotations.ApiParam;
 import io.university.model.dao.common.CPerson;
 import io.university.service.factory.impl.CPeopleFactory;
 import io.university.storage.impl.common.CPersonStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,14 +31,17 @@ public class CPeopleController {
         return peopleStorage.findAll();
     }
 
-    @GetMapping("/fill/{amount}")
-    public List<CPerson> fillWithPeople(@PathVariable(name = "amount", required = false) Integer amount) {
+    @GetMapping("/fill")
+    public List<CPerson> fillWithPeople(
+            @ApiParam(value = "Amount users to generate", defaultValue = "2")
+            @RequestParam(value = "amount", required = false) Integer amount
+    ) {
         final int genAmount = (amount != null && amount > 0)
                 ? amount
                 : ThreadLocalRandom.current().nextInt(2, 4);
 
         final List<CPerson> people = factory.build(genAmount);
         peopleStorage.save(people);
-        return people.subList(0, 1);
+        return people;
     }
 }

@@ -60,4 +60,4 @@ Some tables changed, check DB for correct schema.
 
 ### JSON Example
 
-[Full JSON schema](https://pastebin.com/10irNJfY)
+[JSON schema](https://pastebin.com/80RDdizc)

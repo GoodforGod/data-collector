@@ -80,14 +80,11 @@ public class CGrade implements Serializable {
 
         CGrade cGrade = (CGrade) o;
 
-        if (id != null ? !id.equals(cGrade.id) : cGrade.id != null) return false;
-        return numValue != null ? numValue.equals(cGrade.numValue) : cGrade.numValue == null;
+        return id != null ? id.equals(cGrade.id) : cGrade.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (numValue != null ? numValue.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }

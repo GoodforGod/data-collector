@@ -18,7 +18,7 @@ public class OWorkHistory implements Serializable {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
 
     @GenTime
     private Timestamp startTimestamp;
@@ -67,5 +67,23 @@ public class OWorkHistory implements Serializable {
 
     public void setPerson(OPerson person) {
         this.person = person;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OWorkHistory that = (OWorkHistory) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        return position != null ? position.equals(that.position) : that.position == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (position != null ? position.hashCode() : 0);
+        return result;
     }
 }

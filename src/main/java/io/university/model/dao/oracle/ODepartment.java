@@ -19,7 +19,7 @@ public class ODepartment implements Serializable {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
 
     @GenCompany
     private String name;
@@ -32,7 +32,7 @@ public class ODepartment implements Serializable {
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<OStudy> studies = new ArrayList<>();
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

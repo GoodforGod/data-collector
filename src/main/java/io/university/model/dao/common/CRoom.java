@@ -9,6 +9,7 @@ import io.dummymaker.annotation.simple.number.GenUShort;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,7 +21,7 @@ import java.util.Set;
  * @since 11.03.2019
  */
 @Entity
-public class CRoom {
+public class CRoom implements Serializable {
 
     @Id
     @GeneratedValue
@@ -41,7 +42,6 @@ public class CRoom {
     @GenBoolean
     private Boolean haveInsects;
 
-    @JsonIgnore
     @GenSet(value = EmbeddedGenerator.class, depth = 8, max = 6)
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private Set<CLiving> livings = new HashSet<>();

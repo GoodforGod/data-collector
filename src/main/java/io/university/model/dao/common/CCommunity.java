@@ -8,6 +8,8 @@ import io.dummymaker.annotation.simple.string.GenCountry;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +20,7 @@ import java.util.Set;
  * @since 11.03.2019
  */
 @Entity
-public class CCommunity {
+public class CCommunity implements Serializable {
 
     @Id
     @GeneratedValue
@@ -42,12 +44,12 @@ public class CCommunity {
     @GenUInteger
     private Integer housingNumber;
 
-    @GenSet(value = EmbeddedGenerator.class, depth = 8, max = 6)
+    @GenSet(value = EmbeddedGenerator.class, depth = 8, max = 4)
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
     private Set<CRoom> rooms = new HashSet<>();
 
     @JsonIgnore
-    @GenSet(value = EmbeddedGenerator.class, depth = 8, max = 6)
+    @GenSet(value = EmbeddedGenerator.class, depth = 8, max = 4)
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
     private Set<CVisit> visits = new HashSet<>();
 
@@ -95,6 +97,10 @@ public class CCommunity {
     public CVisit addVisit(CVisit visit) {
         this.visits.add(visit);
         return visit;
+    }
+
+    public Set<CRoom> updateRooms(Collection<CRoom> rooms) {
+        return (this.rooms = new HashSet<>(rooms));
     }
 
     @Override

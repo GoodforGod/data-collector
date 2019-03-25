@@ -1,19 +1,19 @@
 package io.university.controller.common.aggregator;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.university.model.dao.common.CPerson;
 import io.university.service.factory.impl.CPeopleFactory;
 import io.university.service.validator.impl.CPersonMongoValidator;
-import io.university.storage.impl.common.CPersonStorage;
+import io.university.storage.impl.common.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 /**
@@ -26,7 +26,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/common/mongo")
 public class CMongoController extends BasicDatabaseController {
 
+    @Autowired private CCommunityStorage communityStorage;
     @Autowired private CPersonStorage peopleStorage;
+    @Autowired private CLivingStorage livingStorage;
+    @Autowired private CVisitStorage visitStorage;
+    @Autowired private CRoomStorage roomStorage;
+
     @Autowired private CPersonMongoValidator validator;
 
     @Autowired
@@ -52,12 +57,49 @@ public class CMongoController extends BasicDatabaseController {
     }
 
     @ApiOperation(
+            value = "Generate MongoDB schema",
+            notes = "Generate MongoDB people data as schema describe"
+    )
+    @GetMapping("/generate")
+    public List<CPerson> generate(
+            @ApiParam(value = "Amount users to generate", defaultValue = "2")
+            @RequestParam(value = "amount", required = false) Integer amount
+    ) {
+        final int generateAmount = (amount == null || amount < 1) ? 1 : amount;
+        return generateAsJson(generateAmount);
+    }
+
+    @ApiOperation(
+            value = "Clean up MongoDB schema",
+            notes = "Clean up MongoDB people full data"
+    )
+    @GetMapping("/clean")
+    public Boolean clean() {
+        final Set<Integer> peopleIds = visitStorage.findAll().stream()
+                .map(v -> v.getPerson().getId())
+                .collect(Collectors.toSet());
+
+        livingStorage.findAll().forEach(v -> peopleIds.add(v.getPerson().getId()));
+
+        visitStorage.deleteAll();
+        livingStorage.deleteAll();
+        roomStorage.deleteAll();
+        communityStorage.deleteAll();
+        peopleIds.forEach(id -> peopleStorage.deleteById(id));
+        return true;
+    }
+
+    @ApiOperation(
             value = "Load emulation MongoDB",
             notes = "Emulates load operation for MongoDB"
     )
     @GetMapping("/load/test")
-    public List<CPerson> testLoad() {
-        final List<CPerson> people = generateAsJson(2);
+    public List<CPerson> testLoad(
+            @ApiParam(value = "Amount users to generate", defaultValue = "2")
+            @RequestParam(value = "amount", required = false) Integer amount
+    ) {
+        final int generateAmount = (amount == null || amount < 1) ? ThreadLocalRandom.current().nextInt(2, 4) : amount;
+        final List<CPerson> people = generateAsJson(generateAmount);
         return load(people);
     }
 
@@ -66,7 +108,7 @@ public class CMongoController extends BasicDatabaseController {
             notes = "Load endpoint to post data for MongoDB"
     )
     @PostMapping("/load")
-    public List<CPerson> load(final List<CPerson> people) {
+    public List<CPerson> load(@RequestBody final List<CPerson> people) {
         final List<CPerson> validated = validator.validate(people);
         return peopleStorage.save(validated);
     }

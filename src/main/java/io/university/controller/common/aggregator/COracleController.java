@@ -1,19 +1,19 @@
 package io.university.controller.common.aggregator;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.university.model.dao.common.CPerson;
 import io.university.service.factory.impl.CPeopleFactory;
 import io.university.service.validator.impl.CPersonOracleValidator;
-import io.university.storage.impl.common.CPersonStorage;
+import io.university.storage.impl.common.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 /**
@@ -26,7 +26,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/common/oracle")
 public class COracleController extends BasicDatabaseController {
 
+    @Autowired private CDepartmentStorage departmentStorage;
+    @Autowired private CSpecialityStorage specialityStorage;
+    @Autowired private CScheduleStorage scheduleStorage;
+    @Autowired private CSubjectStorage subjectStorage;
     @Autowired private CPersonStorage peopleStorage;
+    @Autowired private CStudyStorage studyStorage;
+    @Autowired private CWorkStorage workStorage;
+    @Autowired private CGradeStorage gradeStorage;
+
     @Autowired private CPersonOracleValidator validator;
 
     @Autowired
@@ -40,8 +48,8 @@ public class COracleController extends BasicDatabaseController {
             return Collections.emptyList();
 
         return list.stream().peek(p -> {
+//            p.clearGrades();
             p.clearConference();
-            p.clearGrades();
             p.clearLivings();
             p.clearParticipation();
             p.clearPublishment();
@@ -51,12 +59,56 @@ public class COracleController extends BasicDatabaseController {
     }
 
     @ApiOperation(
+            value = "Clean up Oracle schema",
+            notes = "Clean up Oracle people full data"
+    )
+    @GetMapping("/clean")
+    public Boolean clean() {
+        final Set<Integer> peopleIds = workStorage.findAll().stream()
+                .map(p -> p.getPerson().getId())
+                .collect(Collectors.toSet());
+
+        scheduleStorage.findAll().forEach(s -> peopleIds.addAll(
+                s.getPeople().stream()
+                        .map(CPerson::getId)
+                        .collect(Collectors.toSet()))
+        );
+
+        departmentStorage.deleteAll();
+        specialityStorage.deleteAll();
+        scheduleStorage.deleteAll();
+        subjectStorage.deleteAll();
+        studyStorage.deleteAll();
+        workStorage.deleteAll();
+        gradeStorage.deleteAll();
+        peopleIds.forEach(id -> peopleStorage.deleteById(id));
+        return true;
+    }
+
+    @ApiOperation(
+            value = "Generate Oracle schema",
+            notes = "Generate Oracle people data as schema describe"
+    )
+    @GetMapping("/generate")
+    public List<CPerson> generate(
+            @ApiParam(value = "Amount users to generate", defaultValue = "2")
+            @RequestParam(value = "amount", required = false) Integer amount
+    ) {
+        final int generateAmount = (amount == null || amount < 1) ? 1 : amount;
+        return generateAsJson(generateAmount);
+    }
+
+    @ApiOperation(
             value = "Load emulation Oracle",
             notes = "Emulates load operation for Oracle"
     )
     @GetMapping("/load/test")
-    public List<CPerson> testLoad() {
-        final List<CPerson> people = generateAsJson(2);
+    public List<CPerson> testLoad(
+            @ApiParam(value = "Amount users to generate", defaultValue = "2")
+            @RequestParam(value = "amount", required = false) Integer amount
+    ) {
+        final int generateAmount = (amount == null || amount < 1) ? ThreadLocalRandom.current().nextInt(2, 4) : amount;
+        final List<CPerson> people = generateAsJson(generateAmount);
         return load(people);
     }
 
@@ -65,7 +117,7 @@ public class COracleController extends BasicDatabaseController {
             notes = "Load endpoint to post data for Oracle"
     )
     @PostMapping("/load")
-    public List<CPerson> load(final List<CPerson> people) {
+    public List<CPerson> load(@RequestBody final List<CPerson> people) {
         final List<CPerson> validated = validator.validate(people);
         return peopleStorage.save(validated);
     }

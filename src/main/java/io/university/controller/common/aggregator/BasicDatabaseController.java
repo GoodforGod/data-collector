@@ -39,13 +39,17 @@ abstract class BasicDatabaseController {
     /**
      * Emulate json serialisation and deserialization
      */
-    List<CPerson> generateAsJson(final int amount) {
+    List<CPerson> generateAsJson(final Integer amount) {
+        if(amount == null || amount < 1)
+            return Collections.emptyList();
+
         try {
             final List<CPerson> people = generateValid(amount);
             final String json = jsonMapper.writeValueAsString(people);
             return jsonMapper.readValue(json, reference);
         } catch (Exception e) {
             logger.warn(e.getMessage());
+            e.printStackTrace();
             return Collections.emptyList();
         }
     }
