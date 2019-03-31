@@ -90,6 +90,13 @@ public class CPersonMongoValidator implements IValidator<CPerson> {
                 }
             }
 
+            validPerson.clearConference();
+            validPerson.clearParticipation();
+            validPerson.clearPublishment();
+            validPerson.clearReadings();
+            validPerson.clearSchedule();
+            validPerson.clearGrades();
+
             validPeople.add(validPerson);
         }
 

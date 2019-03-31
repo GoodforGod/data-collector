@@ -96,6 +96,13 @@ public class CPersonOracleValidator extends BasicCPersonValidator {
                 }
             }
 
+            validPerson.clearLivings();
+            validPerson.clearVisits();
+            validPerson.clearConference();
+            validPerson.clearParticipation();
+            validPerson.clearPublishment();
+            validPerson.clearReadings();
+
             validPeople.add(validPerson);
         }
 
