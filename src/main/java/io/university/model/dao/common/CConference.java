@@ -8,6 +8,7 @@ import io.dummymaker.annotation.simple.string.GenCountry;
 import io.dummymaker.annotation.simple.string.GenName;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +20,7 @@ import java.util.Set;
  * @since 10.03.2019
  */
 @Entity
-public class CConference {
+public class CConference implements Serializable {
 
     @Id
     @GeneratedValue

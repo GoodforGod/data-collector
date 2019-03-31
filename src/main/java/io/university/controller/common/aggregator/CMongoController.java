@@ -5,13 +5,14 @@ import io.swagger.annotations.ApiParam;
 import io.university.model.dao.common.CPerson;
 import io.university.service.factory.impl.CPeopleFactory;
 import io.university.service.validator.impl.CPersonMongoValidator;
-import io.university.storage.impl.common.CPersonStorage;
+import io.university.storage.impl.common.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/common/mongo")
 public class CMongoController extends BasicDatabaseController {
 
+    @Autowired private CCommunityStorage communityStorage;
     @Autowired private CPersonStorage peopleStorage;
+    @Autowired private CLivingStorage livingStorage;
+    @Autowired private CVisitStorage visitStorage;
+    @Autowired private CRoomStorage roomStorage;
+
     @Autowired private CPersonMongoValidator validator;
 
     @Autowired
@@ -61,6 +67,26 @@ public class CMongoController extends BasicDatabaseController {
     ) {
         final int generateAmount = (amount == null || amount < 1) ? 1 : amount;
         return generateAsJson(generateAmount);
+    }
+
+    @ApiOperation(
+            value = "Clean up MongoDB schema",
+            notes = "Clean up MongoDB people full data"
+    )
+    @GetMapping("/clean")
+    public Boolean clean() {
+        final Set<Integer> peopleIds = visitStorage.findAll().stream()
+                .map(v -> v.getPerson().getId())
+                .collect(Collectors.toSet());
+
+        livingStorage.findAll().forEach(v -> peopleIds.add(v.getPerson().getId()));
+
+        visitStorage.deleteAll();
+        livingStorage.deleteAll();
+        roomStorage.deleteAll();
+        communityStorage.deleteAll();
+        peopleIds.forEach(id -> peopleStorage.deleteById(id));
+        return true;
     }
 
     @ApiOperation(

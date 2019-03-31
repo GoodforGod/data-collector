@@ -31,11 +31,6 @@ public class CPeopleController {
         return peopleStorage.findAll();
     }
 
-    @GetMapping("/clean")
-    public Boolean deleteAllPeople() {
-        return peopleStorage.deleteAll();
-    }
-
     @GetMapping("/fill")
     public List<CPerson> fillWithPeople(
             @ApiParam(value = "Amount users to generate", defaultValue = "2")

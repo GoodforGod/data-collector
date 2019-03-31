@@ -5,6 +5,7 @@ import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.string.GenName;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -14,7 +15,7 @@ import java.sql.Timestamp;
  * @since 10.03.2019
  */
 @Entity
-public class CPublishment {
+public class CPublishment implements Serializable {
 
     @Id
     @GeneratedValue

@@ -10,6 +10,7 @@ import io.dummymaker.annotation.simple.string.GenName;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,7 +21,7 @@ import java.util.Set;
  * @since 10.03.2019
  */
 @Entity
-public class CEdition {
+public class CEdition implements Serializable {
 
     public enum Lang {
         EN,

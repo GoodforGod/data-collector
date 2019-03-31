@@ -6,6 +6,7 @@ import io.dummymaker.annotation.simple.number.GenUInteger;
 import io.dummymaker.annotation.simple.string.GenId;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -15,7 +16,7 @@ import java.sql.Timestamp;
  * @since 11.03.2019
  */
 @Entity
-public class CLiving {
+public class CLiving implements Serializable {
 
     @Id
     @GenId

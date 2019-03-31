@@ -5,13 +5,14 @@ import io.swagger.annotations.ApiParam;
 import io.university.model.dao.common.CPerson;
 import io.university.service.factory.impl.CPeopleFactory;
 import io.university.service.validator.impl.CPersonPostgresValidator;
-import io.university.storage.impl.common.CPersonStorage;
+import io.university.storage.impl.common.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,13 @@ import java.util.stream.Collectors;
 @RequestMapping("/common/postgres")
 public class CPostgresController extends BasicDatabaseController {
 
+    @Autowired private CDepartmentStorage departmentStorage;
+    @Autowired private CSpecialityStorage specialityStorage;
+    @Autowired private CSubjectStorage subjectStorage;
     @Autowired private CPersonStorage peopleStorage;
+    @Autowired private CStudyStorage studyStorage;
+    @Autowired private CGradeStorage gradeStorage;
+
     @Autowired private CPersonPostgresValidator validator;
 
     @Autowired
@@ -48,6 +55,27 @@ public class CPostgresController extends BasicDatabaseController {
             p.clearSchedule();
             p.clearVisits();
         }).collect(Collectors.toList());
+    }
+
+    @ApiOperation(
+            value = "Clean up Postgres schema",
+            notes = "Clean up Postgres people full data"
+    )
+    @GetMapping("/clean")
+    public Boolean clean() {
+        final Set<Integer> peopleIds = studyStorage.findAll().stream()
+                .map(p -> p.getPerson().getId())
+                .collect(Collectors.toSet());
+
+        gradeStorage.findAll().forEach(s -> peopleIds.add(s.getPerson().getId()));
+
+        departmentStorage.deleteAll();
+        specialityStorage.deleteAll();
+        subjectStorage.deleteAll();
+        studyStorage.deleteAll();
+        gradeStorage.deleteAll();
+        peopleIds.forEach(id -> peopleStorage.deleteById(id));
+        return true;
     }
 
     @ApiOperation(

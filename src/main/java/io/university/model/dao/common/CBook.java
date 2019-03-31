@@ -8,6 +8,7 @@ import io.dummymaker.annotation.simple.string.GenName;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +20,7 @@ import java.util.Set;
  * @since 10.03.2019
  */
 @Entity
-public class CBook {
+public class CBook implements Serializable {
 
     @Id
     @GeneratedValue
