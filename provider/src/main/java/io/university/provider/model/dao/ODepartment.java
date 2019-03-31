@@ -3,6 +3,7 @@ package io.university.provider.model.dao;
 
 import io.dummymaker.annotation.simple.string.GenCompany;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class ODepartment implements Serializable {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
 
     @GenCompany
     private String name;
@@ -31,7 +32,7 @@ public class ODepartment implements Serializable {
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<OStudy> studies = new ArrayList<>();
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

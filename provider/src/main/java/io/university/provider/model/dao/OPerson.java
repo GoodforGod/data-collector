@@ -7,6 +7,7 @@ import io.dummymaker.annotation.simple.string.GenName;
 import io.dummymaker.annotation.simple.string.GenSurname;
 import io.dummymaker.annotation.special.GenEmbedded;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -19,6 +20,9 @@ import java.util.Set;
  * @since 16.02.2019
  */
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"name", "middleName", "surname", "birthTimestamp", "birthPlace"})
+})
 public class OPerson implements Serializable {
 
     public enum PersonType {
@@ -127,31 +131,23 @@ public class OPerson implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        OPerson person = (OPerson) o;
+        OPerson oPerson = (OPerson) o;
 
-        if (id != person.id) return false;
-        if (name != null ? !name.equals(person.name) : person.name != null) return false;
-        if (middleName != null ? !middleName.equals(person.middleName) : person.middleName != null) return false;
-        if (surname != null ? !surname.equals(person.surname) : person.surname != null) return false;
-        if (birthTimestamp != null ? !birthTimestamp.equals(person.birthTimestamp) : person.birthTimestamp != null)
+        if (name != null ? !name.equals(oPerson.name) : oPerson.name != null) return false;
+        if (middleName != null ? !middleName.equals(oPerson.middleName) : oPerson.middleName != null) return false;
+        if (surname != null ? !surname.equals(oPerson.surname) : oPerson.surname != null) return false;
+        if (birthTimestamp != null ? !birthTimestamp.equals(oPerson.birthTimestamp) : oPerson.birthTimestamp != null)
             return false;
-        if (birthPlace != null ? !birthPlace.equals(person.birthPlace) : person.birthPlace != null) return false;
-        if (type != person.type) return false;
-        if (workHistory != null ? !workHistory.equals(person.workHistory) : person.workHistory != null) return false;
-        return study != null ? study.equals(person.study) : person.study == null;
+        return birthPlace != null ? birthPlace.equals(oPerson.birthPlace) : oPerson.birthPlace == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
         result = 31 * result + (birthTimestamp != null ? birthTimestamp.hashCode() : 0);
         result = 31 * result + (birthPlace != null ? birthPlace.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (workHistory != null ? workHistory.hashCode() : 0);
-        result = 31 * result + (study != null ? study.hashCode() : 0);
         return result;
     }
 }

@@ -4,6 +4,7 @@ import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenUInteger;
 import io.dummymaker.annotation.simple.number.GenUShort;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -20,7 +21,7 @@ public class OSchedule implements Serializable {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
 
     @GenTime
     private Timestamp startTimestamp;
@@ -41,7 +42,7 @@ public class OSchedule implements Serializable {
     @JoinColumn(name = "subject_uid")
     private OSubject subject;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -84,26 +85,22 @@ public class OSchedule implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        OSchedule schedule = (OSchedule) o;
+        OSchedule oSchedule = (OSchedule) o;
 
-        if (id != schedule.id) return false;
-        if (startTimestamp != null ? !startTimestamp.equals(schedule.startTimestamp) : schedule.startTimestamp != null)
+        if (startTimestamp != null ? !startTimestamp.equals(oSchedule.startTimestamp) : oSchedule.startTimestamp != null)
             return false;
-        if (endTimestamp != null ? !endTimestamp.equals(schedule.endTimestamp) : schedule.endTimestamp != null)
+        if (endTimestamp != null ? !endTimestamp.equals(oSchedule.endTimestamp) : oSchedule.endTimestamp != null)
             return false;
-        if (audience != null ? !audience.equals(schedule.audience) : schedule.audience != null) return false;
-        if (campusId != null ? !campusId.equals(schedule.campusId) : schedule.campusId != null) return false;
-        return subject != null ? subject.equals(schedule.subject) : schedule.subject == null;
+        if (audience != null ? !audience.equals(oSchedule.audience) : oSchedule.audience != null) return false;
+        return campusId != null ? campusId.equals(oSchedule.campusId) : oSchedule.campusId == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (startTimestamp != null ? startTimestamp.hashCode() : 0);
+        int result = startTimestamp != null ? startTimestamp.hashCode() : 0;
         result = 31 * result + (endTimestamp != null ? endTimestamp.hashCode() : 0);
         result = 31 * result + (audience != null ? audience.hashCode() : 0);
         result = 31 * result + (campusId != null ? campusId.hashCode() : 0);
-        result = 31 * result + (subject != null ? subject.hashCode() : 0);
         return result;
     }
 }

@@ -1,34 +1,20 @@
-
-
 plugins {
     id 'java'
     id 'idea'
     id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
 }
-
-apply plugin: 'io.spring.dependency-management'
-apply from: 'gradle.properties'
 
 group 'io.university.provider'
-version '1.0.0'
-
-bootJar {
-    mainClassName = 'io.university.provider.AppStarter'
-    version =  '1.0.0'
-}
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 repositories {
     flatDir {
-        dirs 'driver'
+        dir('../driver')
     }
+}
 
-    mavenCentral()
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
-    }
+bootJar {
+    mainClassName = 'io.university.provider.AppStarter'
 }
 
 dependencies {

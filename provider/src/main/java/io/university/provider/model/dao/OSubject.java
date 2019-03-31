@@ -8,6 +8,7 @@ import io.dummymaker.annotation.simple.string.GenCountry;
 import io.dummymaker.annotation.special.GenEmbedded;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -23,11 +24,8 @@ import java.util.List;
 public class OSubject implements Serializable {
 
     @Id
-    @GeneratedValue
-    private int id;
-
     @GenUInteger
-    private int code;
+    private Integer code;
 
     @GenCountry
     private String name;
@@ -59,14 +57,6 @@ public class OSubject implements Serializable {
 
     public void setSpeciality(OSpeciality speciality) {
         this.speciality = speciality;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public int getCode() {
@@ -105,6 +95,24 @@ public class OSubject implements Serializable {
     public OGrade addGrade(OGrade grade) {
         this.grades.add(grade);
         return grade;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OSubject oSubject = (OSubject) o;
+
+        if (code != null ? !code.equals(oSubject.code) : oSubject.code != null) return false;
+        return semester != null ? semester.equals(oSubject.semester) : oSubject.semester == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = code != null ? code.hashCode() : 0;
+        result = 31 * result + (semester != null ? semester.hashCode() : 0);
+        return result;
     }
 }
 

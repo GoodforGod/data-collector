@@ -7,6 +7,8 @@ import io.dummymaker.annotation.simple.string.GenCompany;
 import io.dummymaker.annotation.simple.string.GenNoun;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +28,9 @@ public class OSpeciality implements Serializable {
     }
 
     @Id
-    @GeneratedValue
-    private int id;
-
+    @NotNull
     @GenUInteger
-    private int code;
+    private Integer code;
 
     @GenEnum
     private SpecialityType type;
@@ -48,11 +48,7 @@ public class OSpeciality implements Serializable {
     @OneToOne(mappedBy = "speciality", cascade = CascadeType.ALL)
     private OStudy study;
 
-    public int getId() {
-        return id;
-    }
-
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
@@ -79,5 +75,20 @@ public class OSpeciality implements Serializable {
 
     public OStudy getStudy() {
         return study;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OSpeciality that = (OSpeciality) o;
+
+        return code != null ? code.equals(that.code) : that.code == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return code != null ? code.hashCode() : 0;
     }
 }
