@@ -19,7 +19,7 @@ spring:
     url: ${ORA_URL}
     username: ${ORA_USER}
     password: ${ORA_PASS}
-    driver-class-name: oracle.jdbc.driver.OracleDriver
+    driver-class-name: oracle.jdbc.OracleDriver
     platform: org.hibernate.dialect.Oracle10gDialect
 
 ---
@@ -37,6 +37,6 @@ spring:
     url: ${ORA_URL}
     username: ${ORA_USER}
     password: ${ORA_PASS}
-    driver-class-name: oracle.jdbc.driver.OracleDriver
+    driver-class-name: oracle.jdbc.OracleDriver
     platform: org.hibernate.dialect.Oracle10gDialect
 

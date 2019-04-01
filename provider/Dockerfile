@@ -1,7 +1,7 @@
 FROM goodforgod/debian-jdk10-oracle:sid
 
 ARG DIR=provider
-ARG JAR=provider-1.0.0.jar
+ARG JAR=provider-*.jar
 ARG GRADLE=gradle-4.10.2
 ARG OJDBC=ojdbc7-12.1.0.2.jar
 
@@ -36,11 +36,8 @@ RUN cd /$DIR && \
     cd /$DIR && \
     gradle build && \
     mv /$DIR/build/libs/$JAR / && \
-    apt-get -y remove curl && \
-    apt-get -y remove wget && \
-    apt-get -y remove unzip && \
-    apt-get -y autoremove
+    apt-get -qy autoremove
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "-Djava.security.egd=file:/dev/./urandom", "/$JAR"]
+ENTRYPOINT ["java", "-jar", "--add-modules=java.xml.bind", "-Djava.security.egd=file:/dev/./urandom", "/provider-1.0.0.jar"]

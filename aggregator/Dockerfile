@@ -1,7 +1,7 @@
 FROM goodforgod/debian-jdk10-oracle:sid
 
 ARG DIR=aggregator
-ARG JAR=aggregator-1.0.0.jar
+ARG JAR=aggregator-*.jar
 ARG GRADLE=gradle-4.10.2
 ARG OJDBC=ojdbc7-12.1.0.2.jar
 
@@ -23,7 +23,7 @@ RUN mkdir /opt/gradle && \
 # https://hub.docker.com/_/oracle-database-enterprise-edition
 ENV ORA_USER="sys as sysdba" \
     ORA_PASS="Oradoc_db1" \
-    ORA_URL="jdbc:oracle:thin:@localhost:32769:ORCLCDB" \
+    ORA_URL="jdbc:oracle:thin:@oracledb:32769:ORCLCDB" \
     GRADLE_HOME=/opt/gradle/$GRADLE \
     PATH=$PATH:/opt/gradle/$GRADLE/bin
 
@@ -34,13 +34,13 @@ RUN cd /$DIR && \
     mkdir -p driver && \
     mv $OJDBC /$DIR/driver/ && \
     cd /$DIR && \
-    gradle build && \
-    mv /$DIR/build/libs/$JAR / && \
-    apt-get -y remove curl && \
-    apt-get -y remove wget && \
-    apt-get -y remove unzip && \
-    apt-get -y autoremove
+#    gradle build && \
+#    mv /$DIR/build/libs/$JAR / && \
+    apt-get -qy autoremove
 
-EXPOSE 8080
+WORKDIR /$DIR
 
-ENTRYPOINT ["java", "-jar", "-Djava.security.egd=file:/dev/./urandom", "/$JAR"]
+EXPOSE 8081
+
+#ENTRYPOINT ["java", "-jar", "--add-modules=java.xml.bind", "-Djava.security.egd=file:/dev/./urandom", "/aggregator-1.0.0.jar"]
+ENTRYPOINT ["gradle", "bootRun"]
