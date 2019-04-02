@@ -21,10 +21,6 @@ spring:
     password: ${ORA_PASS}
     driver-class-name: oracle.jdbc.OracleDriver
     platform: org.hibernate.dialect.Oracle10gDialect
-    hikari:
-      login-timeout: 15000
-      connection-timeout: 15000
-      initialization-fail-timeout: 15000
 
 ---
 
@@ -43,8 +39,4 @@ spring:
     password: ${ORA_PASS}
     driver-class-name: oracle.jdbc.OracleDriver
     platform: org.hibernate.dialect.Oracle10gDialect
-    hikari:
-      login-timeout: 15000
-      connection-timeout: 15000
-      initialization-fail-timeout: 15000
 
