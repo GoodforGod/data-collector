@@ -1,5 +1,6 @@
 package io.university.oracle.service.factory.impl;
 
+import io.university.api.service.factory.impl.BasicFactory;
 import io.university.oracle.model.dao.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

@@ -6,6 +6,7 @@ import io.university.aggregator.dao.CPerson;
 import io.university.aggregator.service.factory.impl.CPeopleFactory;
 import io.university.aggregator.service.validator.impl.CPersonMySQLValidator;
 import io.university.aggregator.storage.impl.*;
+import io.university.api.controller.BasicDatabaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/common/mysql")
-public class CMySQLController extends BasicDatabaseController {
+public class CMySQLController extends BasicDatabaseController<CPerson> {
 
     @Autowired private CProjectParticipationStorage participationStorage;
     @Autowired private CPublishmentStorage publishmentStorage;
@@ -43,7 +44,7 @@ public class CMySQLController extends BasicDatabaseController {
     }
 
     @Override
-    List<CPerson> filterOtherDatabases(final List<CPerson> list) {
+    protected List<CPerson> filterOtherDatabases(final List<CPerson> list) {
         if (CollectionUtils.isEmpty(list))
             return Collections.emptyList();
 

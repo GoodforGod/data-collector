@@ -2,6 +2,7 @@ package io.university.aggregator.storage.impl;
 
 import io.university.aggregator.dao.CWorkHistory;
 import io.university.aggregator.repository.CWorkRepository;
+import io.university.api.storage.impl.BasicJpaStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

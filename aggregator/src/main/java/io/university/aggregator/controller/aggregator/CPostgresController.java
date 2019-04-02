@@ -6,6 +6,7 @@ import io.university.aggregator.dao.CPerson;
 import io.university.aggregator.service.factory.impl.CPeopleFactory;
 import io.university.aggregator.service.validator.impl.CPersonPostgresValidator;
 import io.university.aggregator.storage.impl.*;
+import io.university.api.controller.BasicDatabaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/common/postgres")
-public class CPostgresController extends BasicDatabaseController {
+public class CPostgresController extends BasicDatabaseController<CPerson> {
 
     @Autowired private CDepartmentStorage departmentStorage;
     @Autowired private CSpecialityStorage specialityStorage;
@@ -41,7 +42,7 @@ public class CPostgresController extends BasicDatabaseController {
     }
 
     @Override
-    List<CPerson> filterOtherDatabases(final List<CPerson> list) {
+    protected List<CPerson> filterOtherDatabases(final List<CPerson> list) {
         if (CollectionUtils.isEmpty(list))
             return Collections.emptyList();
 

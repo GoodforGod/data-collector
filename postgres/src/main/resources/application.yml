@@ -2,7 +2,10 @@ spring:
   profiles:
     active: "local"
 server:
-  port: 8080
+  port: ${SERVER_PORT}
+logging:
+  level:
+    io.swagger.models.parameters.AbstractSerializableParameter: error
 
 ---
 
@@ -16,7 +19,7 @@ spring:
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
   datasource:
-    url: ${PG_USER}
+    url: ${PG_URL}
     username: ${PG_USER}
     password: ${PG_PASS}
     driver-class-name: org.postgresql.Driver
@@ -33,8 +36,9 @@ spring:
       ddl-auto: update
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+    generate-ddl: true
   datasource:
-    url: ${PG_USER}
+    url: ${PG_URL}
     username: ${PG_USER}
     password: ${PG_PASS}
     driver-class-name: org.postgresql.Driver

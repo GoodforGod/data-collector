@@ -25,13 +25,16 @@ bootRun {
     args = ["--add-modules=java.xml.bind"]
 
     environment([
-            "ORA_USER": System.getenv("ORA_USER") ?: "sys as sysdba",
-            "ORA_PASS": System.getenv("ORA_PASS") ?: "Oradoc_db1",
-            "ORA_URL" : System.getenv("ORA_URL") ?: "jdbc:oracle:thin:@localhost:32769:ORCLCDB"
+            "SERVER_PORT": System.getenv("SERVER_PORT") ?: "8080",
+            "ORA_USER"   : System.getenv("ORA_USER") ?: "sys as sysdba",
+            "ORA_PASS"   : System.getenv("ORA_PASS") ?: "Oradoc_db1",
+            "ORA_URL"    : System.getenv("ORA_URL") ?: "jdbc:oracle:thin:@localhost:1521:ORCLCDB"
     ])
 }
 
 dependencies {
+    compile project(":app-api")
+
     compile "org.springframework.boot:spring-boot-starter-web:$springVersion"
     compile "org.springframework.boot:spring-boot-starter-data-jpa:$springVersion"
     compile "io.springfox:springfox-swagger2:$swaggerVersion"

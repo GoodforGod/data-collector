@@ -1,8 +1,8 @@
 package io.university.aggregator.service.validator.impl;
 
 import io.university.aggregator.dao.*;
-import io.university.aggregator.service.validator.IValidator;
 import io.university.aggregator.storage.impl.*;
+import io.university.api.service.validator.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

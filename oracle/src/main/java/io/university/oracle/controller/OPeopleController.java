@@ -2,6 +2,7 @@ package io.university.oracle.controller;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.university.api.controller.BasicDatabaseController;
 import io.university.oracle.model.dao.OPerson;
 import io.university.oracle.service.factory.impl.OPeopleFactory;
 import io.university.oracle.storage.impl.*;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/oracle/people")
-public class OPeopleController {
+public class OPeopleController extends BasicDatabaseController<OPerson> {
 
     @Autowired private ODepartmentStorage departmentStorage;
     @Autowired private OSpecialityStorage specialityStorage;
@@ -34,7 +35,15 @@ public class OPeopleController {
     @Autowired private OWorkStorage workStorage;
     @Autowired private OGradeStorage gradeStorage;
 
-    @Autowired private OPeopleFactory factory;
+    @Autowired
+    public OPeopleController(OPeopleFactory factory) {
+        super(factory);
+    }
+
+    @Override
+    protected List<OPerson> filterOtherDatabases(List<OPerson> list) {
+        return list;
+    }
 
     @ApiOperation(
             value = "Generate Oracle schema",
@@ -46,7 +55,7 @@ public class OPeopleController {
             @RequestParam(value = "amount", required = false) Integer amount
     ) {
         final int generateAmount = (amount == null || amount < 1) ? 1 : amount;
-        return factory.build(generateAmount);
+        return generateAsJson(generateAmount);
     }
 
     @GetMapping("/all")
@@ -59,9 +68,9 @@ public class OPeopleController {
             @ApiParam(value = "Amount users to generate", defaultValue = "2")
             @RequestParam(value = "amount", required = false) Integer amount
     ) {
-        final List<OPerson> people = generate(amount);
+        final List<OPerson> people = generateValid(amount);
         peopleStorage.save(people);
-        return people;
+        return transform(people);
     }
 
     @ApiOperation(

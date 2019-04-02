@@ -1,5 +1,6 @@
 package io.university.oracle.storage.impl;
 
+import io.university.api.storage.impl.BasicJpaStorage;
 import io.university.oracle.model.dao.OSubject;
 import io.university.oracle.repository.OSubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;

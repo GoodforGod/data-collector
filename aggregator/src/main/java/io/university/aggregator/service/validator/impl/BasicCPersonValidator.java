@@ -4,10 +4,10 @@ import io.university.aggregator.dao.CDepartment;
 import io.university.aggregator.dao.CPerson;
 import io.university.aggregator.dao.CSpeciality;
 import io.university.aggregator.dao.CStudy;
-import io.university.aggregator.service.validator.IValidator;
 import io.university.aggregator.storage.impl.CDepartmentStorage;
 import io.university.aggregator.storage.impl.CSpecialityStorage;
 import io.university.aggregator.storage.impl.CStudyStorage;
+import io.university.api.service.validator.IValidator;
 
 import java.util.Map;
 

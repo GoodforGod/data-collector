@@ -1,6 +1,7 @@
 package io.university.aggregator.service.factory.impl;
 
 import io.university.aggregator.dao.*;
+import io.university.api.service.factory.impl.BasicFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
