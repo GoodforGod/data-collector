@@ -1,7 +1,6 @@
 package io.university.postgres.model.dao;
 
 import io.dummymaker.annotation.complex.GenTime;
-import io.dummymaker.annotation.simple.number.GenCharacter;
 import io.dummymaker.annotation.simple.number.GenUShort;
 import io.dummymaker.annotation.simple.string.GenId;
 
@@ -25,9 +24,6 @@ public class Grade implements Serializable {
     @GenUShort
     private Integer numValue;
 
-    @GenCharacter
-    private Character latinValue;
-
     @GenTime
     private Timestamp gradeTimestamp;
 
@@ -45,10 +41,6 @@ public class Grade implements Serializable {
 
     public Integer getNumValue() {
         return numValue;
-    }
-
-    public Character getLatinValue() {
-        return latinValue;
     }
 
     public Timestamp getGradeTimestamp() {

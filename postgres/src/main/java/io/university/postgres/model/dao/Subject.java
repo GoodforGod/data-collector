@@ -1,5 +1,6 @@
 package io.university.postgres.model.dao;
 
+import io.dummymaker.annotation.complex.GenEnum;
 import io.dummymaker.annotation.complex.GenList;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenUByte;
@@ -22,6 +23,12 @@ import java.util.List;
 @Entity
 public class Subject implements Serializable {
 
+    private enum SubjectType {
+        LECTURE,
+        LABORATORY,
+        PRACTICE
+    }
+
     @Id
     @GenUInteger
     private Integer code;
@@ -31,6 +38,9 @@ public class Subject implements Serializable {
 
     @GenUByte
     private String semester;
+
+    @GenEnum
+    private SubjectType type;
 
     @GenTime
     private Timestamp startTimestamp;
@@ -72,6 +82,10 @@ public class Subject implements Serializable {
 
     public Timestamp getEndTimestamp() {
         return endTimestamp;
+    }
+
+    public SubjectType getType() {
+        return type;
     }
 
     public List<Grade> getGrades() {

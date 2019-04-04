@@ -41,6 +41,9 @@ public class Speciality implements Serializable {
     @GenCompany
     private String qualification;
 
+    @GenCompany
+    private String university;
+
     @GenList(value = EmbeddedGenerator.class, depth = 8)
     @OneToMany(mappedBy = "speciality", cascade = CascadeType.ALL)
     private List<Subject> subjects = new ArrayList<>();
@@ -50,6 +53,10 @@ public class Speciality implements Serializable {
 
     public Integer getCode() {
         return code;
+    }
+
+    public String getUniversity() {
+        return university;
     }
 
     public SpecialityType getType() {
