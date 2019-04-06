@@ -1,5 +1,6 @@
 package io.university.oracle.model.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenEnum;
 import io.dummymaker.annotation.complex.GenList;
 import io.dummymaker.annotation.simple.number.GenUInteger;
@@ -41,10 +42,12 @@ public class OSpeciality implements Serializable {
     @GenCompany
     private String qualification;
 
+    @JsonIgnore
     @GenList(value = EmbeddedGenerator.class, depth = 8)
     @OneToMany(mappedBy = "speciality", cascade = CascadeType.ALL)
     private List<OSubject> subjects = new ArrayList<>();
 
+    @JsonIgnore
     @OneToOne(mappedBy = "speciality", cascade = CascadeType.ALL)
     private OStudy study;
 

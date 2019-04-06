@@ -1,6 +1,7 @@
 package io.university.oracle.model.dao;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.simple.string.GenCompany;
 
 import javax.persistence.*;
@@ -26,9 +27,11 @@ public class ODepartment implements Serializable {
 
     private Integer subDepartmentId;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<OWorkHistory> workHistories = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<OStudy> studies = new ArrayList<>();
 
@@ -40,7 +43,7 @@ public class ODepartment implements Serializable {
         return name;
     }
 
-    public int getSubDepartmentId() {
+    public Integer getSubDepartmentId() {
         return subDepartmentId;
     }
 
@@ -60,5 +63,20 @@ public class ODepartment implements Serializable {
 
     public List<OStudy> getStudies() {
         return studies;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ODepartment that = (ODepartment) o;
+
+        return id != null ? id.equals(that.id) : that.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

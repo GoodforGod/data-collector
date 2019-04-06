@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 /**
@@ -51,9 +50,10 @@ public class OPeopleFactory extends BasicFactory<OPerson> {
         specialities.forEach(s -> s.getSubjects().forEach(subject -> {
             subject.setSpeciality(s);
             subject.getGrades().forEach(g -> {
-                final OPerson person = people.get(ThreadLocalRandom.current().nextInt(0, people.size() - 1));
+                final OPerson person = randomPick(people);
                 g.setSubject(subject);
                 person.addGrade(g);
+                g.setPerson(person);
             });
         }));
 
@@ -72,14 +72,18 @@ public class OPeopleFactory extends BasicFactory<OPerson> {
         }
 
         final List<OSubject> subjects = specialities.stream()
-                .filter(s -> CollectionUtils.isEmpty(s.getSubjects()))
+                .filter(s -> !CollectionUtils.isEmpty(s.getSubjects()))
                 .map(OSpeciality::getSubjects)
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 
         final List<OSchedule> schedules = factory.produce(OSchedule.class, subjects.size());
         for (int i = 0; i < subjects.size(); i++) {
-            subjects.get(i).setSchedule(schedules.get(i));
+            final OPerson person = randomPick(people);
+            OSchedule schedule = schedules.get(i);
+            subjects.get(i).setSchedule(schedule);
+            schedule.setSubject(subjects.get(i));
+            person.addSchedule(schedule);
         }
 
         for (int i = 0; i < people.size(); i++) {

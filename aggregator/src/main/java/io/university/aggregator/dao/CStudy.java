@@ -123,21 +123,11 @@ public class CStudy implements Serializable {
 
         CStudy cStudy = (CStudy) o;
 
-        if (id != null ? !id.equals(cStudy.id) : cStudy.id != null) return false;
-        if (course != null ? !course.equals(cStudy.course) : cStudy.course != null) return false;
-        if (groupNum != null ? !groupNum.equals(cStudy.groupNum) : cStudy.groupNum != null) return false;
-        if (budgetPaid != null ? !budgetPaid.equals(cStudy.budgetPaid) : cStudy.budgetPaid != null)
-            return false;
-        return fullTime != null ? fullTime.equals(cStudy.fullTime) : cStudy.fullTime == null;
+        return id != null ? id.equals(cStudy.id) : cStudy.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (course != null ? course.hashCode() : 0);
-        result = 31 * result + (groupNum != null ? groupNum.hashCode() : 0);
-        result = 31 * result + (budgetPaid != null ? budgetPaid.hashCode() : 0);
-        result = 31 * result + (fullTime != null ? fullTime.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }

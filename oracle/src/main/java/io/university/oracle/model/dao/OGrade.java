@@ -1,5 +1,6 @@
 package io.university.oracle.model.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenCharacter;
 import io.dummymaker.annotation.simple.number.GenUShort;
@@ -35,6 +36,7 @@ public class OGrade implements Serializable {
     @JoinColumn(name = "subject_uid")
     private OSubject subject;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person_uid")
     private OPerson person;

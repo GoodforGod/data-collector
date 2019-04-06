@@ -1,5 +1,6 @@
 package io.university.oracle.model.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenUInteger;
 import io.dummymaker.annotation.simple.number.GenUShort;
@@ -35,6 +36,7 @@ public class OSchedule implements Serializable {
     @GenUInteger
     private Integer campusId;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "schedules", cascade = CascadeType.ALL)
     private Set<OPerson> people = new HashSet<>();
 
@@ -77,7 +79,6 @@ public class OSchedule implements Serializable {
 
     public void setSubject(OSubject subject) {
         this.subject = subject;
-        subject.setSchedule(this);
     }
 
     @Override

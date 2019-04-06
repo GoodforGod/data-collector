@@ -1,5 +1,6 @@
 package io.university.postgres.model.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenEnum;
 import io.dummymaker.annotation.complex.GenList;
 import io.dummymaker.annotation.complex.GenTime;
@@ -48,6 +49,7 @@ public class Subject implements Serializable {
     @GenTime
     private Timestamp endTimestamp;
 
+    @JsonIgnore
     @GenList(value = EmbeddedGenerator.class, depth = 7, max = 5)
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     private List<Grade> grades = new ArrayList<>();
@@ -64,7 +66,7 @@ public class Subject implements Serializable {
         this.speciality = speciality;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 

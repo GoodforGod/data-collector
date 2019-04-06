@@ -1,11 +1,13 @@
 package io.university.postgres.model.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenEnum;
 import io.dummymaker.annotation.complex.GenList;
 import io.dummymaker.annotation.simple.number.GenUInteger;
 import io.dummymaker.annotation.simple.string.GenCompany;
 import io.dummymaker.annotation.simple.string.GenNoun;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
+import io.university.postgres.model.IUpdatable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,7 +22,7 @@ import java.util.List;
  * @since 16.02.2019
  */
 @Entity
-public class Speciality implements Serializable {
+public class Speciality implements IUpdatable<Speciality>, Serializable {
 
     public enum SpecialityType {
         BACHELOR,
@@ -44,10 +46,12 @@ public class Speciality implements Serializable {
     @GenCompany
     private String university;
 
+    @JsonIgnore
     @GenList(value = EmbeddedGenerator.class, depth = 8)
     @OneToMany(mappedBy = "speciality", cascade = CascadeType.ALL)
     private List<Subject> subjects = new ArrayList<>();
 
+    @JsonIgnore
     @OneToOne(mappedBy = "speciality", cascade = CascadeType.ALL)
     private Study study;
 
@@ -82,6 +86,14 @@ public class Speciality implements Serializable {
 
     public Study getStudy() {
         return study;
+    }
+
+    @Override
+    public void update(Speciality speciality) {
+        this.type = speciality.getType();
+        this.course = speciality.getCourse();
+        this.qualification = speciality.getQualification();
+        this.university = speciality.getUniversity();
     }
 
     @Override

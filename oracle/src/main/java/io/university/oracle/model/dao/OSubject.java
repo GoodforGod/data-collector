@@ -1,5 +1,6 @@
 package io.university.oracle.model.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenList;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenUByte;
@@ -39,10 +40,12 @@ public class OSubject implements Serializable {
     @GenTime
     private Timestamp endTimestamp;
 
+    @JsonIgnore
     @GenEmbedded(depth = 7)
     @OneToOne(mappedBy = "subject")
     private OSchedule schedule;
 
+    @JsonIgnore
     @GenList(value = EmbeddedGenerator.class, depth = 7, max = 5)
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     private List<OGrade> grades = new ArrayList<>();
@@ -59,7 +62,7 @@ public class OSubject implements Serializable {
         this.speciality = speciality;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
@@ -85,7 +88,6 @@ public class OSubject implements Serializable {
 
     public void setSchedule(OSchedule schedule) {
         this.schedule = schedule;
-        schedule.setSubject(this);
     }
 
     public List<OGrade> getGrades() {

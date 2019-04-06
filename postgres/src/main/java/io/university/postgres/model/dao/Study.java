@@ -1,5 +1,6 @@
 package io.university.postgres.model.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenUShort;
 import io.dummymaker.annotation.simple.string.GenHexNumber;
@@ -33,6 +34,7 @@ public class Study implements Serializable {
     @GenTime
     private Timestamp graduateTimestamp;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "person_uid")
     private Person person;
@@ -49,7 +51,7 @@ public class Study implements Serializable {
         return speciality;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -84,21 +86,11 @@ public class Study implements Serializable {
 
         Study study = (Study) o;
 
-        if (id != null ? !id.equals(study.id) : study.id != null) return false;
-        if (course != null ? !course.equals(study.course) : study.course != null) return false;
-        if (groupNum != null ? !groupNum.equals(study.groupNum) : study.groupNum != null) return false;
-        if (startTimestamp != null ? !startTimestamp.equals(study.startTimestamp) : study.startTimestamp != null)
-            return false;
-        return graduateTimestamp != null ? graduateTimestamp.equals(study.graduateTimestamp) : study.graduateTimestamp == null;
+        return id != null ? id.equals(study.id) : study.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (course != null ? course.hashCode() : 0);
-        result = 31 * result + (groupNum != null ? groupNum.hashCode() : 0);
-        result = 31 * result + (startTimestamp != null ? startTimestamp.hashCode() : 0);
-        result = 31 * result + (graduateTimestamp != null ? graduateTimestamp.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }

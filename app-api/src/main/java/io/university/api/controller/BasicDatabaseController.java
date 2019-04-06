@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,16 +21,22 @@ import java.util.List;
 public abstract class BasicDatabaseController<T> {
 
     private static final Logger logger = LoggerFactory.getLogger(BasicDatabaseController.class);
+    private static final DateFormat ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
     private final IFactory<T> factory;
     private final ObjectMapper jsonMapper;
     private final TypeReference<List<T>> reference;
 
     public BasicDatabaseController(IFactory<T> factory) {
+        this(factory, ISO_DATE_FORMAT);
+    }
+
+    public BasicDatabaseController(IFactory<T> factory, DateFormat dateFormat) {
         this.factory = factory;
+        this.reference = new TypeReference<List<T>>() { };
+
         this.jsonMapper = new ObjectMapper();
-        this.reference = new TypeReference<List<T>>() {
-        };
+        this.jsonMapper.setDateFormat(dateFormat);
     }
 
     /**

@@ -1,5 +1,6 @@
 package io.university.oracle.model.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.string.GenNick;
 
@@ -33,11 +34,12 @@ public class OWorkHistory implements Serializable {
     @JoinColumn(name = "department_uid")
     private ODepartment department;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "person_uid")
     private OPerson person;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -76,14 +78,11 @@ public class OWorkHistory implements Serializable {
 
         OWorkHistory that = (OWorkHistory) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        return position != null ? position.equals(that.position) : that.position == null;
+        return id != null ? id.equals(that.id) : that.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (position != null ? position.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }

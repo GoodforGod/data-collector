@@ -1,5 +1,6 @@
 package io.university.postgres.model.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenUShort;
 import io.dummymaker.annotation.simple.string.GenId;
@@ -31,6 +32,7 @@ public class Grade implements Serializable {
     @JoinColumn(name = "subject_uid")
     private Subject subject;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person_uid")
     private Person person;

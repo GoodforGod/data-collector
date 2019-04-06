@@ -45,6 +45,7 @@ public class PeopleFactory extends BasicFactory<Person> {
         final List<Person> people = factory.produce(Person.class, n);
 
         specialities.forEach(s -> s.getSubjects().forEach(subject -> {
+            subject.setSpeciality(s);
             subject.getGrades().forEach(g -> {
                 final Person person = randomPick(people);
                 g.setSubject(subject);
