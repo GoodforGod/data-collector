@@ -1,5 +1,7 @@
 package io.university.postgres.config;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -26,14 +28,19 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
+                .paths(excludeErrorPath())
                 .build()
                 .apiInfo(apiInfo());
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Oracle Aggregator")
-                .description("Service API For Oracle Aggregator Database Project")
+                .title("Postgres Provider")
+                .description("Service API For Postgres Database Provider Project")
                 .build();
+    }
+
+    private Predicate<String> excludeErrorPath() {
+        return Predicates.not(PathSelectors.regex("/error"));
     }
 }

@@ -1,5 +1,7 @@
 package io.university.aggregator.config;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -26,6 +28,7 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
+                .paths(excludeErrorPath())
                 .build()
                 .apiInfo(apiInfo());
     }
@@ -35,5 +38,9 @@ public class SwaggerConfig {
                 .title("Oracle Aggregator")
                 .description("Service API For Oracle Aggregator Database Project")
                 .build();
+    }
+
+    private Predicate<String> excludeErrorPath() {
+        return Predicates.not(PathSelectors.regex("/error"));
     }
 }
