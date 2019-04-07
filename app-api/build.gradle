@@ -19,8 +19,10 @@ repositories {
 }
 
 dependencies {
-    compile "com.fasterxml.jackson.core:jackson-databind:2.9.8"
     compile "org.springframework.data:spring-data-jpa:$springVersion"
+    compile "org.springframework:spring-web:5.1.6.RELEASE"
+
+    compile "com.fasterxml.jackson.core:jackson-databind:2.9.8"
     compile "com.github.goodforgod:dummymaker:$dummymakerVersion"
     testImplementation "junit:junit:$junitVersion"
 }

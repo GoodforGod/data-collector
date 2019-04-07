@@ -82,6 +82,7 @@ public class CPersonOracleValidator extends BasicCPersonValidator {
 
                     schedule.setSubject(subject);
                 }
+
                 p.getSchedules().forEach(validPerson::addSchedule);
             }
 

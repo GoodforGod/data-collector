@@ -2,18 +2,21 @@ package io.university.postgres.model.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenEnum;
-import io.dummymaker.annotation.complex.GenList;
+import io.dummymaker.annotation.complex.GenSet;
 import io.dummymaker.annotation.simple.number.GenUInteger;
 import io.dummymaker.annotation.simple.string.GenCompany;
 import io.dummymaker.annotation.simple.string.GenNoun;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
 import io.university.postgres.model.IUpdatable;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * ! NO DESCRIPTION !
@@ -47,13 +50,13 @@ public class Speciality implements IUpdatable<Speciality>, Serializable {
     private String university;
 
     @JsonIgnore
-    @GenList(value = EmbeddedGenerator.class, depth = 8)
+    @GenSet(value = EmbeddedGenerator.class, depth = 8)
     @OneToMany(mappedBy = "speciality", cascade = CascadeType.ALL)
-    private List<Subject> subjects = new ArrayList<>();
+    private Set<Subject> subjects = new HashSet<>();
 
     @JsonIgnore
-    @OneToOne(mappedBy = "speciality", cascade = CascadeType.ALL)
-    private Study study;
+    @OneToMany(mappedBy = "speciality", cascade = CascadeType.ALL)
+    private Set<Study> studies = new HashSet<>();
 
     public Integer getCode() {
         return code;
@@ -75,7 +78,7 @@ public class Speciality implements IUpdatable<Speciality>, Serializable {
         return qualification;
     }
 
-    public List<Subject> getSubjects() {
+    public Set<Subject> getSubjects() {
         return subjects;
     }
 
@@ -84,7 +87,12 @@ public class Speciality implements IUpdatable<Speciality>, Serializable {
         return subject;
     }
 
-    public Study getStudy() {
+    public Set<Study> getStudies() {
+        return studies;
+    }
+
+    public Study addStudy(Study study) {
+        this.studies.add(study);
         return study;
     }
 
@@ -92,8 +100,8 @@ public class Speciality implements IUpdatable<Speciality>, Serializable {
     public void update(Speciality speciality) {
         this.type = speciality.getType();
         this.course = speciality.getCourse();
-        this.qualification = speciality.getQualification();
         this.university = speciality.getUniversity();
+        this.qualification = speciality.getQualification();
     }
 
     @Override

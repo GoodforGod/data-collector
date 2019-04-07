@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenUShort;
 import io.dummymaker.annotation.simple.string.GenHexNumber;
+import io.dummymaker.annotation.simple.string.GenId;
+import io.university.oracle.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,11 +18,11 @@ import java.sql.Timestamp;
  * @since 16.02.2019
  */
 @Entity
-public class OStudy implements Serializable {
+public class OStudy implements IUpdatable<OStudy>, Serializable {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GenId
+    private String id;
 
     @GenHexNumber
     private String course;
@@ -43,7 +45,7 @@ public class OStudy implements Serializable {
     @JoinColumn(name = "department_uid")
     private ODepartment department;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "speciality_uid")
     private OSpeciality speciality;
 
@@ -55,7 +57,7 @@ public class OStudy implements Serializable {
         return speciality;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -89,6 +91,13 @@ public class OStudy implements Serializable {
 
     public void setPerson(OPerson person) {
         this.person = person;
+    }
+
+    @Override
+    public void update(OStudy oStudy) {
+        this.course = oStudy.getCourse();
+        this.groupNum = oStudy.getGroupNum();
+        this.graduateTimestamp = oStudy.getGraduateTimestamp();
     }
 
     @Override

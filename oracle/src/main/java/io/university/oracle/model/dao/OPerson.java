@@ -6,6 +6,7 @@ import io.dummymaker.annotation.simple.string.GenCity;
 import io.dummymaker.annotation.simple.string.GenName;
 import io.dummymaker.annotation.simple.string.GenSurname;
 import io.dummymaker.annotation.special.GenEmbedded;
+import io.university.oracle.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,7 +24,7 @@ import java.util.Set;
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"name", "middleName", "surname", "birthTimestamp", "birthPlace"})
 })
-public class OPerson implements Serializable {
+public class OPerson implements IUpdatable<OPerson>, Serializable {
 
     public enum PersonType {
         STUDENT,
@@ -54,7 +55,7 @@ public class OPerson implements Serializable {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "schedule_mapper",
+            name = "oschedule_mapper",
             joinColumns = { @JoinColumn(name = "person_id") },
             inverseJoinColumns = { @JoinColumn(name = "schedule_id") }
     )
@@ -124,6 +125,12 @@ public class OPerson implements Serializable {
         this.grades.add(grade);
         grade.setPerson(this);
         return grade;
+    }
+
+    @Override
+    public void update(OPerson oPerson) {
+        this.type = oPerson.getType();
+        this.grades.addAll(oPerson.getGrades());
     }
 
     @Override

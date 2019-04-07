@@ -2,17 +2,21 @@ package io.university.oracle.model.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenEnum;
-import io.dummymaker.annotation.complex.GenList;
+import io.dummymaker.annotation.complex.GenSet;
 import io.dummymaker.annotation.simple.number.GenUInteger;
 import io.dummymaker.annotation.simple.string.GenCompany;
 import io.dummymaker.annotation.simple.string.GenNoun;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
+import io.university.oracle.model.IUpdatable;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * ! NO DESCRIPTION !
@@ -21,7 +25,7 @@ import java.util.List;
  * @since 16.02.2019
  */
 @Entity
-public class OSpeciality implements Serializable {
+public class OSpeciality implements IUpdatable<OSpeciality>, Serializable {
 
     public enum SpecialityType {
         BACHELOR,
@@ -43,13 +47,13 @@ public class OSpeciality implements Serializable {
     private String qualification;
 
     @JsonIgnore
-    @GenList(value = EmbeddedGenerator.class, depth = 8)
+    @GenSet(value = EmbeddedGenerator.class, depth = 8)
     @OneToMany(mappedBy = "speciality", cascade = CascadeType.ALL)
-    private List<OSubject> subjects = new ArrayList<>();
+    private Set<OSubject> subjects = new HashSet<>();
 
     @JsonIgnore
-    @OneToOne(mappedBy = "speciality", cascade = CascadeType.ALL)
-    private OStudy study;
+    @OneToMany(mappedBy = "speciality", cascade = CascadeType.ALL)
+    private Set<OStudy> studies = new HashSet<>();
 
     public Integer getCode() {
         return code;
@@ -67,7 +71,7 @@ public class OSpeciality implements Serializable {
         return qualification;
     }
 
-    public List<OSubject> getSubjects() {
+    public Set<OSubject> getSubjects() {
         return subjects;
     }
 
@@ -76,8 +80,20 @@ public class OSpeciality implements Serializable {
         return subject;
     }
 
-    public OStudy getStudy() {
+    public Set<OStudy> getStudies() {
+        return studies;
+    }
+
+    public OStudy addStudy(OStudy study) {
+        this.studies.add(study);
         return study;
+    }
+
+    @Override
+    public void update(OSpeciality oSpeciality) {
+        this.type = oSpeciality.getType();
+        this.course = oSpeciality.getCourse();
+        this.qualification = oSpeciality.getQualification();
     }
 
     @Override

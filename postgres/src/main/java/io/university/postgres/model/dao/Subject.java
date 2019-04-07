@@ -2,18 +2,19 @@ package io.university.postgres.model.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenEnum;
-import io.dummymaker.annotation.complex.GenList;
+import io.dummymaker.annotation.complex.GenSet;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenUByte;
 import io.dummymaker.annotation.simple.number.GenUInteger;
 import io.dummymaker.annotation.simple.string.GenCountry;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
+import io.university.postgres.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * ! NO DESCRIPTION !
@@ -22,7 +23,7 @@ import java.util.List;
  * @since 16.02.2019
  */
 @Entity
-public class Subject implements Serializable {
+public class Subject implements IUpdatable<Subject>, Serializable {
 
     private enum SubjectType {
         LECTURE,
@@ -50,9 +51,9 @@ public class Subject implements Serializable {
     private Timestamp endTimestamp;
 
     @JsonIgnore
-    @GenList(value = EmbeddedGenerator.class, depth = 7, max = 5)
+    @GenSet(value = EmbeddedGenerator.class, depth = 7, max = 5)
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
-    private List<Grade> grades = new ArrayList<>();
+    private Set<Grade> grades = new HashSet<>();
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "speciality_uid")
@@ -90,13 +91,21 @@ public class Subject implements Serializable {
         return type;
     }
 
-    public List<Grade> getGrades() {
+    public Set<Grade> getGrades() {
         return grades;
     }
 
     public Grade addGrade(Grade grade) {
         this.grades.add(grade);
         return grade;
+    }
+
+    @Override
+    public void update(Subject subject) {
+        this.name = subject.getName();
+        this.type = subject.getType();
+        this.semester = subject.getSemester();
+        this.endTimestamp = subject.getEndTimestamp();
     }
 
     @Override

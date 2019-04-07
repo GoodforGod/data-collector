@@ -6,6 +6,7 @@ import io.dummymaker.annotation.simple.string.GenCity;
 import io.dummymaker.annotation.simple.string.GenName;
 import io.dummymaker.annotation.simple.string.GenSurname;
 import io.dummymaker.annotation.special.GenEmbedded;
+import io.university.postgres.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,7 +24,7 @@ import java.util.Set;
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"name", "middleName", "surname", "birthTimestamp", "birthPlace"})
 })
-public class Person implements Serializable {
+public class Person implements IUpdatable<Person>, Serializable {
 
     public enum PersonType {
         STUDENT,
@@ -99,6 +100,12 @@ public class Person implements Serializable {
         this.grades.add(grade);
         grade.setPerson(this);
         return grade;
+    }
+
+    @Override
+    public void update(Person person) {
+        this.type = person.getType();
+        this.grades.addAll(person.getGrades());
     }
 
     @Override

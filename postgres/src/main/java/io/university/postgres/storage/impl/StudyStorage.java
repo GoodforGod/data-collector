@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @since 16.02.2019
  */
 @Component
-public class StudyStorage extends BasicJpaStorage<Study, Integer> {
+public class StudyStorage extends BasicJpaStorage<Study, String> {
 
     @Autowired
     public StudyStorage(final StudyRepository repository) {

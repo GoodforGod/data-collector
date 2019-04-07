@@ -5,6 +5,7 @@ import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenCharacter;
 import io.dummymaker.annotation.simple.number.GenUShort;
 import io.dummymaker.annotation.simple.string.GenId;
+import io.university.oracle.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,7 +18,7 @@ import java.sql.Timestamp;
  * @since 16.02.2019
  */
 @Entity
-public class OGrade implements Serializable {
+public class OGrade implements IUpdatable<OGrade>, Serializable {
 
     @Id
     @GenId
@@ -71,6 +72,13 @@ public class OGrade implements Serializable {
 
     public void setPerson(OPerson person) {
         this.person = person;
+    }
+
+    @Override
+    public void update(OGrade oGrade) {
+        this.numValue = oGrade.getNumValue();
+        this.latinValue = oGrade.getLatinValue();
+        this.gradeTimestamp = oGrade.getGradeTimestamp();
     }
 
     @Override

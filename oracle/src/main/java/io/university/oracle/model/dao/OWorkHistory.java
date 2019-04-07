@@ -3,6 +3,7 @@ package io.university.oracle.model.dao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.string.GenNick;
+import io.university.oracle.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,7 +16,7 @@ import java.sql.Timestamp;
  * @since 16.02.2019
  */
 @Entity
-public class OWorkHistory implements Serializable {
+public class OWorkHistory implements IUpdatable<OWorkHistory>, Serializable {
 
     @Id
     @GeneratedValue
@@ -69,6 +70,12 @@ public class OWorkHistory implements Serializable {
 
     public void setPerson(OPerson person) {
         this.person = person;
+    }
+
+    @Override
+    public void update(OWorkHistory oWorkHistory) {
+        this.endTimestamp = oWorkHistory.getEndTimestamp();
+        this.position = oWorkHistory.getPosition();
     }
 
     @Override

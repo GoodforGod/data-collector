@@ -3,8 +3,13 @@ package io.university.oracle.model.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.simple.string.GenCompany;
+import io.dummymaker.annotation.simple.string.GenId;
+import io.university.oracle.model.IUpdatable;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,16 +21,16 @@ import java.util.List;
  * @since 16.02.2019
  */
 @Entity
-public class ODepartment implements Serializable {
+public class ODepartment implements IUpdatable<ODepartment>, Serializable {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GenId
+    private String id;
 
     @GenCompany
     private String name;
 
-    private Integer subDepartmentId;
+    private String subDepartmentId;
 
     @JsonIgnore
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
@@ -35,7 +40,7 @@ public class ODepartment implements Serializable {
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<OStudy> studies = new ArrayList<>();
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -43,7 +48,7 @@ public class ODepartment implements Serializable {
         return name;
     }
 
-    public Integer getSubDepartmentId() {
+    public String getSubDepartmentId() {
         return subDepartmentId;
     }
 
@@ -63,6 +68,12 @@ public class ODepartment implements Serializable {
 
     public List<OStudy> getStudies() {
         return studies;
+    }
+
+    @Override
+    public void update(ODepartment oDepartment) {
+        this.name = oDepartment.getName();
+        this.subDepartmentId = oDepartment.getSubDepartmentId();
     }
 
     @Override

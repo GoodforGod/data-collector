@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -68,13 +69,12 @@ public class OPeopleFactory extends BasicFactory<OPerson> {
             final ODepartment department = departments.get(i / Ratio.DEPARTMENT.value);
             p.getStudy().setDepartment(department);
             p.getWorkHistory().setDepartment(department);
-
         }
 
         final List<OSubject> subjects = specialities.stream()
                 .filter(s -> !CollectionUtils.isEmpty(s.getSubjects()))
                 .map(OSpeciality::getSubjects)
-                .flatMap(List::stream)
+                .flatMap(Set::stream)
                 .collect(Collectors.toList());
 
         final List<OSchedule> schedules = factory.produce(OSchedule.class, subjects.size());

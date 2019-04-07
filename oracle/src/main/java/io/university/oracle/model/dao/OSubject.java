@@ -1,19 +1,20 @@
 package io.university.oracle.model.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.dummymaker.annotation.complex.GenList;
+import io.dummymaker.annotation.complex.GenSet;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenUByte;
 import io.dummymaker.annotation.simple.number.GenUInteger;
 import io.dummymaker.annotation.simple.string.GenCountry;
 import io.dummymaker.annotation.special.GenEmbedded;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
+import io.university.oracle.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * ! NO DESCRIPTION !
@@ -22,7 +23,7 @@ import java.util.List;
  * @since 16.02.2019
  */
 @Entity
-public class OSubject implements Serializable {
+public class OSubject implements IUpdatable<OSubject>, Serializable {
 
     @Id
     @GenUInteger
@@ -46,9 +47,9 @@ public class OSubject implements Serializable {
     private OSchedule schedule;
 
     @JsonIgnore
-    @GenList(value = EmbeddedGenerator.class, depth = 7, max = 5)
+    @GenSet(value = EmbeddedGenerator.class, depth = 7, max = 5)
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
-    private List<OGrade> grades = new ArrayList<>();
+    private Set<OGrade> grades = new HashSet<>();
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "speciality_uid")
@@ -90,13 +91,20 @@ public class OSubject implements Serializable {
         this.schedule = schedule;
     }
 
-    public List<OGrade> getGrades() {
+    public Set<OGrade> getGrades() {
         return grades;
     }
 
     public OGrade addGrade(OGrade grade) {
         this.grades.add(grade);
         return grade;
+    }
+
+    @Override
+    public void update(OSubject oSubject) {
+        this.name = oSubject.getName();
+        this.semester = oSubject.getSemester();
+        this.endTimestamp = oSubject.getEndTimestamp();
     }
 
     @Override

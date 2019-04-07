@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @since 16.02.2019
  */
 @Repository
-public interface StudyRepository extends JpaRepository<Study, Integer> {
+public interface StudyRepository extends JpaRepository<Study, String> {
 
 }

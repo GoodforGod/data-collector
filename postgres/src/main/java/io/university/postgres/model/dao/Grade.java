@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenUShort;
 import io.dummymaker.annotation.simple.string.GenId;
+import io.university.postgres.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,7 +17,7 @@ import java.sql.Timestamp;
  * @since 16.02.2019
  */
 @Entity
-public class Grade implements Serializable {
+public class Grade implements IUpdatable<Grade>, Serializable {
 
     @Id
     @GenId
@@ -63,6 +64,12 @@ public class Grade implements Serializable {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    @Override
+    public void update(Grade grade) {
+        this.numValue = grade.getNumValue();
+        this.gradeTimestamp = grade.getGradeTimestamp();
     }
 
     @Override

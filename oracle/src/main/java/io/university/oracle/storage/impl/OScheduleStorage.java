@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @since 16.02.2019
  */
 @Component
-public class OScheduleStorage extends BasicJpaStorage<OSchedule, Integer> {
+public class OScheduleStorage extends BasicJpaStorage<OSchedule, String> {
 
     @Autowired
     public OScheduleStorage(final OScheduleRepository repository) {
