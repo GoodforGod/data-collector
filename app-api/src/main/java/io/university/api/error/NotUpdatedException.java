@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author GoodforGod
  * @since 07.04.2019
  */
-@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Model Not Updated")
+@ResponseStatus(code = HttpStatus.CONFLICT, reason = "Model Not Updated")
 public class NotUpdatedException extends RuntimeException {
 
 }
