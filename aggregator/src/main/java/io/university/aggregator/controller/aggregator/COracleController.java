@@ -58,10 +58,7 @@ public class COracleController extends BasicDatabaseController<CPerson> {
         }).collect(Collectors.toList());
     }
 
-    @ApiOperation(
-            value = "Clean up Oracle schema",
-            notes = "Clean up Oracle people full data"
-    )
+    @ApiOperation(value = "Clean up Oracle people data")
     @GetMapping("/clean")
     public Boolean clean() {
         final Set<Integer> peopleIds = workStorage.findAll().stream()
@@ -85,10 +82,7 @@ public class COracleController extends BasicDatabaseController<CPerson> {
         return true;
     }
 
-    @ApiOperation(
-            value = "Generate Oracle schema",
-            notes = "Generate Oracle people data as schema describe"
-    )
+    @ApiOperation(value = "Generate Oracle people data")
     @GetMapping("/generate")
     public List<CPerson> generate(
             @ApiParam(value = "Amount users to generate", defaultValue = "2")
@@ -98,10 +92,7 @@ public class COracleController extends BasicDatabaseController<CPerson> {
         return generateAsJson(generateAmount);
     }
 
-    @ApiOperation(
-            value = "Load emulation Oracle",
-            notes = "Emulates load operation for Oracle"
-    )
+    @ApiOperation(value = "Emulates load operation for Oracle")
     @GetMapping("/load/test")
     public List<CPerson> testLoad(
             @ApiParam(value = "Amount users to generate", defaultValue = "2")
@@ -112,10 +103,7 @@ public class COracleController extends BasicDatabaseController<CPerson> {
         return load(people);
     }
 
-    @ApiOperation(
-            value = "Load endpoint for Oracle",
-            notes = "Load endpoint to post data for Oracle"
-    )
+    @ApiOperation(value = "Load endpoint for Oracle")
     @PostMapping("/load")
     public List<CPerson> load(@RequestBody final List<CPerson> people) {
         final List<CPerson> validated = validator.validate(people);

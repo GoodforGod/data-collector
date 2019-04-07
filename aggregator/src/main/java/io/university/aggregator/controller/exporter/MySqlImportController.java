@@ -1,4 +1,4 @@
-package io.university.aggregator.controller.update;
+package io.university.aggregator.controller.exporter;
 
 import io.university.aggregator.storage.impl.*;
 import org.slf4j.Logger;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/mysql/update")
-public class MySqlUpdateController {
+public class MySqlImportController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MySqlUpdateController.class);
+    private static final Logger logger = LoggerFactory.getLogger(MySqlImportController.class);
 
     @Autowired private CProjectParticipationStorage projectParticipationStorage;
     @Autowired private CPublishmentStorage publishmentStorage;

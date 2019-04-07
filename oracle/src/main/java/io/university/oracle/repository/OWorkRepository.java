@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @since 16.02.2019
  */
 @Repository
-public interface OWorkRepository extends JpaRepository<OWorkHistory, Integer> {
+public interface OWorkRepository extends JpaRepository<OWorkHistory, String> {
 
 }

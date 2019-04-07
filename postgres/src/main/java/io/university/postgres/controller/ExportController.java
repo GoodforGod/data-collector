@@ -1,5 +1,6 @@
 package io.university.postgres.controller;
 
+import io.swagger.annotations.ApiOperation;
 import io.university.api.error.NotUpdatedException;
 import io.university.postgres.model.dao.*;
 import io.university.postgres.storage.impl.*;
@@ -17,11 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @author GoodforGod
  * @since 06.04.2019
  */
+@ApiOperation(value = "Updates model and exports if export is enabled")
 @RestController
-@RequestMapping("/postgres/update")
-public class UpdateController {
+@RequestMapping("/postgres/export")
+public class ExportController {
 
-    private static final Logger logger = LoggerFactory.getLogger(UpdateController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExportController.class);
 
     @Autowired private SpecialityStorage specialityStorage;
     @Autowired private SubjectStorage subjectStorage;

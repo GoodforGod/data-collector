@@ -50,10 +50,7 @@ public class PeopleController extends BasicDatabaseController<CPerson> {
         return peopleStorage.findAll();
     }
 
-    @ApiOperation(
-            value = "Generate Oracle schema",
-            notes = "Generate Oracle people data as schema describe"
-    )
+    @ApiOperation(value = "Generate Aggregator people")
     @GetMapping("/generate")
     public List<CPerson> generate(
             @ApiParam(value = "Amount users to generate", defaultValue = "2")

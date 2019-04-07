@@ -21,10 +21,12 @@ bootRun {
     args = ["--add-modules=java.xml.bind"]
 
     environment([
-            "SERVER_PORT": System.getenv("SERVER_PORT") ?: "8082",
-            "PG_USER"    : System.getenv("PG_USER") ?: "postgres",
-            "PG_PASS"    : System.getenv("PG_PASS") ?: "postgres",
-            "PG_URL"     : System.getenv("PG_URL") ?: "jdbc:postgresql://localhost:5432/postgres?createDatabaseIfNotExist=true"
+            "SERVER_PORT"   : System.getenv("SERVER_PORT") ?: "8082",
+            "EXPORT_ENABLED": System.getenv("EXPORT_ENABLED") ?: "false",
+            "EXPORT_SERVER" : System.getenv("EXPORT_SERVER") ?: "http://localhost:8080",
+            "PG_USER"       : System.getenv("PG_USER") ?: "postgres",
+            "PG_PASS"       : System.getenv("PG_PASS") ?: "postgres",
+            "PG_URL"        : System.getenv("PG_URL") ?: "jdbc:postgresql://localhost:5432/postgres?createDatabaseIfNotExist=true"
     ])
 }
 

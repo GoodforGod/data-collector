@@ -1,5 +1,6 @@
 package io.university.oracle.controller;
 
+import io.swagger.annotations.ApiOperation;
 import io.university.api.error.NotUpdatedException;
 import io.university.oracle.model.dao.*;
 import io.university.oracle.storage.impl.*;
@@ -17,28 +18,21 @@ import org.springframework.web.bind.annotation.RestController;
  * @author GoodforGod
  * @since 06.04.2019
  */
+@ApiOperation(value = "Updates model and exports if export is enabled")
 @RestController
-@RequestMapping("/postgres/update")
-public class UpdateController {
+@RequestMapping("/postgres/export")
+public class ExportController {
 
-    private static final Logger logger = LoggerFactory.getLogger(UpdateController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExportController.class);
 
-    @Autowired
-    private ODepartmentStorage departmentStorage;
-    @Autowired
-    private OSpecialityStorage specialityStorage;
-    @Autowired
-    private OScheduleStorage scheduleStorage;
-    @Autowired
-    private OSubjectStorage subjectStorage;
-    @Autowired
-    private OPersonStorage peopleStorage;
-    @Autowired
-    private OStudyStorage studyStorage;
-    @Autowired
-    private OGradeStorage gradeStorage;
-    @Autowired
-    private OWorkStorage workStorage;
+    @Autowired private ODepartmentStorage departmentStorage;
+    @Autowired private OSpecialityStorage specialityStorage;
+    @Autowired private OScheduleStorage scheduleStorage;
+    @Autowired private OSubjectStorage subjectStorage;
+    @Autowired private OPersonStorage peopleStorage;
+    @Autowired private OStudyStorage studyStorage;
+    @Autowired private OGradeStorage gradeStorage;
+    @Autowired private OWorkStorage workStorage;
 
     @PostMapping("/department")
     public ODepartment postOrUpdateSpeciality(@RequestBody ODepartment department) {
@@ -53,7 +47,7 @@ public class UpdateController {
     }
 
     @PostMapping("/schedule")
-    public OSchedule postOrUpdateSubject(@RequestBody OSchedule schedule) {
+    public OSchedule postOrUpdateSchedule(@RequestBody OSchedule schedule) {
         OSchedule modelToUpdate = scheduleStorage.find(schedule.getId()).orElse(schedule);
         modelToUpdate.update(schedule);
         if (!scheduleStorage.save(modelToUpdate).isPresent()) {

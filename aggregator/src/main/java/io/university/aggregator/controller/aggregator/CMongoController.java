@@ -57,10 +57,7 @@ public class CMongoController extends BasicDatabaseController<CPerson> {
         }).collect(Collectors.toList());
     }
 
-    @ApiOperation(
-            value = "Generate MongoDB schema",
-            notes = "Generate MongoDB people data as schema describe"
-    )
+    @ApiOperation(value = "Generate MongoDB people data")
     @GetMapping("/generate")
     public List<CPerson> generate(
             @ApiParam(value = "Amount users to generate", defaultValue = "2")
@@ -70,10 +67,7 @@ public class CMongoController extends BasicDatabaseController<CPerson> {
         return generateAsJson(generateAmount);
     }
 
-    @ApiOperation(
-            value = "Clean up MongoDB schema",
-            notes = "Clean up MongoDB people full data"
-    )
+    @ApiOperation(value = "Clean up MongoDB people data")
     @GetMapping("/clean")
     public Boolean clean() {
         final Set<Integer> peopleIds = visitStorage.findAll().stream()
@@ -90,10 +84,7 @@ public class CMongoController extends BasicDatabaseController<CPerson> {
         return true;
     }
 
-    @ApiOperation(
-            value = "Load emulation MongoDB",
-            notes = "Emulates load operation for MongoDB"
-    )
+    @ApiOperation(value = "Emulates load operation for MongoDB")
     @GetMapping("/load/test")
     public List<CPerson> testLoad(
             @ApiParam(value = "Amount users to generate", defaultValue = "2")
@@ -104,10 +95,7 @@ public class CMongoController extends BasicDatabaseController<CPerson> {
         return load(people);
     }
 
-    @ApiOperation(
-            value = "Load endpoint for MongoDB",
-            notes = "Load endpoint to post data for MongoDB"
-    )
+    @ApiOperation(value = "Load endpoint for MongoDB")
     @PostMapping("/load")
     public List<CPerson> load(@RequestBody final List<CPerson> people) {
         final List<CPerson> validated = validator.validate(people);

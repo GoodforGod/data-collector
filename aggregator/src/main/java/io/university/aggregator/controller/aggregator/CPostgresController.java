@@ -58,10 +58,7 @@ public class CPostgresController extends BasicDatabaseController<CPerson> {
         }).collect(Collectors.toList());
     }
 
-    @ApiOperation(
-            value = "Clean up Postgres schema",
-            notes = "Clean up Postgres people full data"
-    )
+    @ApiOperation(value = "Clean up Postgres people data")
     @GetMapping("/clean")
     public Boolean clean() {
         final Set<Integer> peopleIds = studyStorage.findAll().stream()
@@ -79,10 +76,7 @@ public class CPostgresController extends BasicDatabaseController<CPerson> {
         return true;
     }
 
-    @ApiOperation(
-            value = "Generate Postgres schema",
-            notes = "Generate Postgres people data as schema describe"
-    )
+    @ApiOperation(value = "Generate Postgres people data")
     @GetMapping("/generate")
     public List<CPerson> generate(
             @ApiParam(value = "Amount users to generate", defaultValue = "2")
@@ -92,10 +86,7 @@ public class CPostgresController extends BasicDatabaseController<CPerson> {
         return generateAsJson(generateAmount);
     }
 
-    @ApiOperation(
-            value = "Load emulation Postgres",
-            notes = "Emulates load operation for Postgres"
-    )
+    @ApiOperation(value = "Emulates load operation for Postgres")
     @GetMapping("/load/test")
     public List<CPerson> testLoad(
             @ApiParam(value = "Amount users to generate", defaultValue = "2")
@@ -106,10 +97,7 @@ public class CPostgresController extends BasicDatabaseController<CPerson> {
         return load(people);
     }
 
-    @ApiOperation(
-            value = "Load endpoint for Postgres",
-            notes = "Load endpoint to post data for Postgres"
-    )
+    @ApiOperation(value = "Load endpoint for Postgres")
     @PostMapping("/load")
     public List<CPerson> load(@RequestBody final List<CPerson> people) {
         final List<CPerson> validated = validator.validate(people);

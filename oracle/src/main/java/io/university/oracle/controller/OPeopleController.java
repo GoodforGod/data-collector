@@ -45,10 +45,12 @@ public class OPeopleController extends BasicDatabaseController<OPerson> {
         return list;
     }
 
-    @ApiOperation(
-            value = "Generate Oracle schema",
-            notes = "Generate Oracle people data as schema describe"
-    )
+    @GetMapping("/all")
+    public List<OPerson> getAll() {
+        return peopleStorage.findAll();
+    }
+
+    @ApiOperation(value = "Generate Oracle schema")
     @GetMapping("/generate")
     public List<OPerson> generate(
             @ApiParam(value = "Amount users to generate", defaultValue = "2")
@@ -56,11 +58,6 @@ public class OPeopleController extends BasicDatabaseController<OPerson> {
     ) {
         final int generateAmount = (amount == null || amount < 1) ? 1 : amount;
         return generateAsJson(generateAmount);
-    }
-
-    @GetMapping("/all")
-    public List<OPerson> getAll() {
-        return peopleStorage.findAll();
     }
 
     @GetMapping("/fill")
@@ -73,10 +70,7 @@ public class OPeopleController extends BasicDatabaseController<OPerson> {
         return transform(people);
     }
 
-    @ApiOperation(
-            value = "Clean up Oracle schema",
-            notes = "Clean up Oracle people full data"
-    )
+    @ApiOperation(value = "Clean up Oracle provider full data")
     @GetMapping("/clean")
     public Boolean clean() {
         final Set<Integer> peopleIds = workStorage.findAll().stream()

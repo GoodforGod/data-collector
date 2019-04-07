@@ -2,6 +2,8 @@ package io.university.api.executor;
 
 import io.university.api.error.ApiTimeoutException;
 import io.university.api.error.ConnectionException;
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.BufferedReader;
@@ -25,18 +27,19 @@ import static java.net.HttpURLConnection.HTTP_MOVED_TEMP;
  * @author GoodforGod
  * @since 07.04.2019
  */
+@Component
 public class HttpExecutor implements IHttpExecutor {
 
     private static final Map<String, String> DEFAULT_HEADERS = new HashMap<>();
 
-    private static final int CONNECT_TIMEOUT = 8000;
+    private static final int CONNECT_TIMEOUT = 15000;
     private static final int READ_TIMEOUT = 0;
 
     static {
         DEFAULT_HEADERS.put("Accept-Language", "en");
         DEFAULT_HEADERS.put("Accept-Encoding", "deflate, gzip");
-        DEFAULT_HEADERS.put("User-Agent", "Chrome/68.0.3440.106");
         DEFAULT_HEADERS.put("Accept-Charset", "UTF-8");
+        DEFAULT_HEADERS.put("User-Agent", "Chrome/68.0.3440.101");
     }
 
     private final Map<String, String> headers;
@@ -65,7 +68,11 @@ public class HttpExecutor implements IHttpExecutor {
                         final Map<String, String> headers) {
         this.connectTimeout = (connectTimeout < 0) ? 0 : connectTimeout;
         this.readTimeout = (readTimeout < 0) ? 0 : readTimeout;
-        this.headers = headers;
+
+        this.headers = new HashMap<>(DEFAULT_HEADERS);
+        if(!CollectionUtils.isEmpty(headers)) {
+            headers.forEach(this.headers::put);
+        }
     }
 
     private HttpURLConnection buildConnection(String urlAsString, String method) throws IOException {

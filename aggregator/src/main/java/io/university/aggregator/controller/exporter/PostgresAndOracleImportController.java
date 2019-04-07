@@ -1,5 +1,6 @@
-package io.university.aggregator.controller.update;
+package io.university.aggregator.controller.exporter;
 
+import io.swagger.annotations.ApiOperation;
 import io.university.aggregator.model.dao.*;
 import io.university.aggregator.storage.impl.*;
 import io.university.api.error.NotUpdatedException;
@@ -17,11 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @author GoodforGod
  * @since 06.04.2019
  */
+@ApiOperation(value = "Updates model")
 @RestController
 @RequestMapping("/postgres_oracle/update")
-public class PostgresAndOracleUpdateController {
+public class PostgresAndOracleImportController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PostgresAndOracleUpdateController.class);
+    private static final Logger logger = LoggerFactory.getLogger(PostgresAndOracleImportController.class);
 
     @Autowired private CDepartmentStorage departmentStorage;
     @Autowired private CSpecialityStorage specialityStorage;
@@ -45,7 +47,7 @@ public class PostgresAndOracleUpdateController {
     }
 
     @PostMapping("/schedule")
-    public CSchedule postOrUpdateSubject(@RequestBody CSchedule schedule) {
+    public CSchedule postOrUpdateSchedule(@RequestBody CSchedule schedule) {
         CSchedule modelToUpdate = scheduleStorage.find(schedule.getId()).orElse(schedule);
         modelToUpdate.update(schedule);
         if (!scheduleStorage.save(modelToUpdate).isPresent()) {

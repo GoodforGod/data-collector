@@ -58,10 +58,7 @@ public class CMySQLController extends BasicDatabaseController<CPerson> {
         }).collect(Collectors.toList());
     }
 
-    @ApiOperation(
-            value = "Clean up MySQL schema",
-            notes = "Clean up MySQL people full data"
-    )
+    @ApiOperation(value = "Clean up MySQL people data")
     @GetMapping("/clean")
     public Boolean clean() {
         final Set<Integer> peopleIds = participationStorage.findAll().stream()
@@ -82,10 +79,7 @@ public class CMySQLController extends BasicDatabaseController<CPerson> {
         return true;
     }
 
-    @ApiOperation(
-            value = "Generate MySQL schema",
-            notes = "Generate MySQL people data as schema describe"
-    )
+    @ApiOperation(value = "Generate MySQL people data")
     @GetMapping("/generate")
     public List<CPerson> generate(
             @ApiParam(value = "Amount users to generate", defaultValue = "2")
@@ -95,10 +89,7 @@ public class CMySQLController extends BasicDatabaseController<CPerson> {
         return generateAsJson(generateAmount);
     }
 
-    @ApiOperation(
-            value = "Load emulation MySQL",
-            notes = "Emulates load operation for MySQL"
-    )
+    @ApiOperation(value = "Emulates load operation for MySQL")
     @GetMapping("/load/test")
     public List<CPerson> testLoad(
             @ApiParam(value = "Amount users to generate", defaultValue = "2")
@@ -109,10 +100,7 @@ public class CMySQLController extends BasicDatabaseController<CPerson> {
         return load(people);
     }
 
-    @ApiOperation(
-            value = "Load endpoint for MySQL",
-            notes = "Load endpoint to post data for MySQL"
-    )
+    @ApiOperation(value = "Load endpoint for MySQL")
     @PostMapping("/load")
     public List<CPerson> load(@RequestBody final List<CPerson> people) {
         final List<CPerson> validated = validator.validate(people);

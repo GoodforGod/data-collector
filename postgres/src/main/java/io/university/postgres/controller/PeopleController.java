@@ -42,10 +42,17 @@ public class PeopleController extends BasicDatabaseController<Person> {
         return list;
     }
 
-    @ApiOperation(
-            value = "Generate Postgres schema",
-            notes = "Generate Postgres people data as schema describe"
-    )
+    @GetMapping("/all")
+    public List<Person> getAll() {
+        return peopleStorage.findAll();
+    }
+
+    @GetMapping("/export/all")
+    public List<Person> exportAll() {
+        return peopleStorage.findAll();
+    }
+
+    @ApiOperation(value = "Generate Postgres people data")
     @GetMapping("/generate")
     public List<Person> generate(
             @ApiParam(value = "Amount users to generate", defaultValue = "2")
@@ -53,11 +60,6 @@ public class PeopleController extends BasicDatabaseController<Person> {
     ) {
         final int generateAmount = (amount == null || amount < 1) ? 1 : amount;
         return generateAsJson(generateAmount);
-    }
-
-    @GetMapping("/all")
-    public List<Person> getAll() {
-        return peopleStorage.findAll();
     }
 
     @GetMapping("/fill")
@@ -70,10 +72,7 @@ public class PeopleController extends BasicDatabaseController<Person> {
         return transform(people);
     }
 
-    @ApiOperation(
-            value = "Clean up Postgres schema",
-            notes = "Clean up Postgres people full data"
-    )
+    @ApiOperation(value = "Clean up Postgres people data")
     @GetMapping("/clean")
     public Boolean clean() {
         final Set<Integer> peopleIds = studyStorage.findAll().stream()

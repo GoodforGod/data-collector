@@ -1,4 +1,4 @@
-package io.university.aggregator.controller.update;
+package io.university.aggregator.controller.exporter;
 
 import io.university.aggregator.storage.impl.*;
 import org.slf4j.Logger;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/mongo/update")
-public class MongoUpdateController {
+public class MongoImportController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MongoUpdateController.class);
+    private static final Logger logger = LoggerFactory.getLogger(MongoImportController.class);
 
     @Autowired private CPersonStorage peopleStorage;
     @Autowired private CCommunityStorage communityStorage;

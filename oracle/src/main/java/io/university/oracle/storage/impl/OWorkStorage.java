@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @since 16.02.2019
  */
 @Component
-public class OWorkStorage extends BasicJpaStorage<OWorkHistory, Integer> {
+public class OWorkStorage extends BasicJpaStorage<OWorkHistory, String> {
 
     @Autowired
     public OWorkStorage(final OWorkRepository repository) {
