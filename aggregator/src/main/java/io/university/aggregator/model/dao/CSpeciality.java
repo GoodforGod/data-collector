@@ -1,4 +1,4 @@
-package io.university.aggregator.dao;
+package io.university.aggregator.model.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenSet;
@@ -7,6 +7,7 @@ import io.dummymaker.annotation.simple.string.GenCompany;
 import io.dummymaker.annotation.simple.string.GenNick;
 import io.dummymaker.annotation.simple.string.GenNoun;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
+import io.university.aggregator.model.IUpdatable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,7 +22,7 @@ import java.util.Set;
  * @since 05.03.2019
  */
 @Entity
-public class CSpeciality implements Serializable {
+public class CSpeciality implements IUpdatable<CSpeciality>, Serializable {
 
     @Id
     @NotNull
@@ -77,6 +78,13 @@ public class CSpeciality implements Serializable {
 
     public void setStudy(CStudy study) {
         this.study = study;
+    }
+
+    @Override
+    public void update(CSpeciality oSpeciality) {
+        this.type = oSpeciality.getType();
+        this.course = oSpeciality.getCourse();
+        this.qualification = oSpeciality.getQualification();
     }
 
     @Override

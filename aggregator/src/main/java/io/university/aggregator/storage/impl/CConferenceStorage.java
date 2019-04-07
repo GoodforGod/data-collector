@@ -1,6 +1,6 @@
 package io.university.aggregator.storage.impl;
 
-import io.university.aggregator.dao.CConference;
+import io.university.aggregator.model.dao.mysql.CConference;
 import io.university.aggregator.repository.CConferenceRepository;
 import io.university.api.storage.impl.BasicJpaStorage;
 import org.springframework.beans.factory.annotation.Autowired;

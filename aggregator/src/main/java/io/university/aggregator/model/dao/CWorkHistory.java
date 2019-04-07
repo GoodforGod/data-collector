@@ -1,8 +1,10 @@
-package io.university.aggregator.dao;
+package io.university.aggregator.model.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
+import io.dummymaker.annotation.simple.string.GenId;
 import io.dummymaker.annotation.simple.string.GenNick;
+import io.university.aggregator.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,11 +17,11 @@ import java.sql.Timestamp;
  * @since 05.03.2019
  */
 @Entity
-public class CWorkHistory implements Serializable {
+public class CWorkHistory implements IUpdatable<CWorkHistory>, Serializable {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GenId
+    private String id;
 
     @GenTime
     private Timestamp startTimestamp;
@@ -39,7 +41,7 @@ public class CWorkHistory implements Serializable {
     @JoinColumn(name = "person_uid")
     private CPerson person;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -72,20 +74,23 @@ public class CWorkHistory implements Serializable {
     }
 
     @Override
+    public void update(CWorkHistory oWorkHistory) {
+        this.endTimestamp = oWorkHistory.getEndTimestamp();
+        this.position = oWorkHistory.getPosition();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         CWorkHistory that = (CWorkHistory) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        return position != null ? position.equals(that.position) : that.position == null;
+        return id != null ? id.equals(that.id) : that.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (position != null ? position.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }

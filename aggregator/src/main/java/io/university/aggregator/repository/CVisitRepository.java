@@ -1,6 +1,6 @@
 package io.university.aggregator.repository;
 
-import io.university.aggregator.dao.CVisit;
+import io.university.aggregator.model.dao.mongo.CVisit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

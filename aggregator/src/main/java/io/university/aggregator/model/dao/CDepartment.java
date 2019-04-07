@@ -1,9 +1,14 @@
-package io.university.aggregator.dao;
+package io.university.aggregator.model.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.simple.string.GenCompany;
+import io.dummymaker.annotation.simple.string.GenId;
+import io.university.aggregator.model.IUpdatable;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +20,11 @@ import java.util.List;
  * @since 05.03.2019
  */
 @Entity
-public class CDepartment implements Serializable {
+public class CDepartment implements IUpdatable<CDepartment>, Serializable {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GenId
+    private String id;
 
     @GenCompany
     private String name;
@@ -34,7 +39,7 @@ public class CDepartment implements Serializable {
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<CStudy> studies = new ArrayList<>();
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -65,22 +70,23 @@ public class CDepartment implements Serializable {
     }
 
     @Override
+    public void update(CDepartment oDepartment) {
+        this.name = oDepartment.getName();
+        this.parentDepartmentId = oDepartment.getParentDepartmentId();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         CDepartment that = (CDepartment) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        return parentDepartmentId != null ? parentDepartmentId.equals(that.parentDepartmentId) : that.parentDepartmentId == null;
+        return id != null ? id.equals(that.id) : that.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (parentDepartmentId != null ? parentDepartmentId.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }

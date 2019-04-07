@@ -2,6 +2,7 @@ package io.university.oracle.model.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
+import io.dummymaker.annotation.simple.string.GenId;
 import io.dummymaker.annotation.simple.string.GenNick;
 import io.university.oracle.model.IUpdatable;
 
@@ -19,8 +20,8 @@ import java.sql.Timestamp;
 public class OWorkHistory implements IUpdatable<OWorkHistory>, Serializable {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GenId
+    private String id;
 
     @GenTime
     private Timestamp startTimestamp;
@@ -40,7 +41,7 @@ public class OWorkHistory implements IUpdatable<OWorkHistory>, Serializable {
     @JoinColumn(name = "person_uid")
     private OPerson person;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 

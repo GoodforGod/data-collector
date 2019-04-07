@@ -1,6 +1,6 @@
 package io.university.aggregator.repository;
 
-import io.university.aggregator.dao.CPublishment;
+import io.university.aggregator.model.dao.mysql.CPublishment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

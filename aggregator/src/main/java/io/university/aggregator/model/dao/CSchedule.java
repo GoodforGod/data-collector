@@ -1,9 +1,11 @@
-package io.university.aggregator.dao;
+package io.university.aggregator.model.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenUInteger;
 import io.dummymaker.annotation.simple.number.GenUShort;
+import io.dummymaker.annotation.simple.string.GenId;
+import io.university.aggregator.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,11 +20,11 @@ import java.util.Set;
  * @since 05.03.2019
  */
 @Entity
-public class CSchedule implements Serializable {
+public class CSchedule implements IUpdatable<CSchedule>, Serializable {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GenId
+    private String id;
 
     @GenTime
     private Timestamp startTimestamp;
@@ -44,7 +46,7 @@ public class CSchedule implements Serializable {
     @JoinColumn(name = "subject_uid")
     private CSubject subject;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -82,26 +84,23 @@ public class CSchedule implements Serializable {
     }
 
     @Override
+    public void update(CSchedule oSchedule) {
+        this.audience = oSchedule.getAudience();
+        this.campusId = oSchedule.getCampusId();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         CSchedule cSchedule = (CSchedule) o;
 
-        if (startTimestamp != null ? !startTimestamp.equals(cSchedule.startTimestamp) : cSchedule.startTimestamp != null)
-            return false;
-        if (endTimestamp != null ? !endTimestamp.equals(cSchedule.endTimestamp) : cSchedule.endTimestamp != null)
-            return false;
-        if (audience != null ? !audience.equals(cSchedule.audience) : cSchedule.audience != null) return false;
-        return campusId != null ? campusId.equals(cSchedule.campusId) : cSchedule.campusId == null;
+        return id != null ? id.equals(cSchedule.id) : cSchedule.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = startTimestamp != null ? startTimestamp.hashCode() : 0;
-        result = 31 * result + (endTimestamp != null ? endTimestamp.hashCode() : 0);
-        result = 31 * result + (audience != null ? audience.hashCode() : 0);
-        result = 31 * result + (campusId != null ? campusId.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }

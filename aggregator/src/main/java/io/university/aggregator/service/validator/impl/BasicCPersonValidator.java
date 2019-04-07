@@ -1,9 +1,9 @@
 package io.university.aggregator.service.validator.impl;
 
-import io.university.aggregator.dao.CDepartment;
-import io.university.aggregator.dao.CPerson;
-import io.university.aggregator.dao.CSpeciality;
-import io.university.aggregator.dao.CStudy;
+import io.university.aggregator.model.dao.CDepartment;
+import io.university.aggregator.model.dao.CPerson;
+import io.university.aggregator.model.dao.CSpeciality;
+import io.university.aggregator.model.dao.CStudy;
 import io.university.aggregator.storage.impl.CDepartmentStorage;
 import io.university.aggregator.storage.impl.CSpecialityStorage;
 import io.university.aggregator.storage.impl.CStudyStorage;

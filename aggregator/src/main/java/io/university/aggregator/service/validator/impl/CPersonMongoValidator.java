@@ -1,6 +1,10 @@
 package io.university.aggregator.service.validator.impl;
 
-import io.university.aggregator.dao.*;
+import io.university.aggregator.model.dao.CPerson;
+import io.university.aggregator.model.dao.mongo.CCommunity;
+import io.university.aggregator.model.dao.mongo.CLiving;
+import io.university.aggregator.model.dao.mongo.CRoom;
+import io.university.aggregator.model.dao.mongo.CVisit;
 import io.university.aggregator.storage.impl.*;
 import io.university.api.service.validator.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +25,8 @@ public class CPersonMongoValidator implements IValidator<CPerson> {
 
     @Autowired private CCommunityStorage communityStorage;
     @Autowired private CPersonStorage peopleStorage;
-    @Autowired private CVisitStorage visitStorage;
     @Autowired private CLivingStorage livingStorage;
+    @Autowired private CVisitStorage visitStorage;
     @Autowired private CRoomStorage roomStorage;
 
     @Override

@@ -1,6 +1,6 @@
 package io.university.aggregator.storage.impl;
 
-import io.university.aggregator.dao.CPerson;
+import io.university.aggregator.model.dao.CPerson;
 import io.university.aggregator.repository.CPersonRepository;
 import io.university.api.storage.impl.BasicJpaStorage;
 import org.springframework.beans.factory.annotation.Autowired;

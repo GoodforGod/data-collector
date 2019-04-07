@@ -1,6 +1,6 @@
 package io.university.aggregator.repository;
 
-import io.university.aggregator.dao.CCommunity;
+import io.university.aggregator.model.dao.mongo.CCommunity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @since 11.03.2019
  */
 @Repository
-public interface CCommunityRepository extends JpaRepository<CCommunity, Integer> {
+public interface CCommunityRepository extends JpaRepository<CCommunity, String> {
 
 }

@@ -1,10 +1,11 @@
-package io.university.aggregator.dao;
+package io.university.aggregator.model.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenCharacter;
 import io.dummymaker.annotation.simple.number.GenUByte;
 import io.dummymaker.annotation.simple.string.GenId;
+import io.university.aggregator.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,7 +18,7 @@ import java.sql.Timestamp;
  * @since 05.03.2019
  */
 @Entity
-public class CGrade implements Serializable {
+public class CGrade implements IUpdatable<CGrade>, Serializable {
 
     @Id
     @GenId
@@ -71,6 +72,13 @@ public class CGrade implements Serializable {
 
     public void setPerson(CPerson person) {
         this.person = person;
+    }
+
+    @Override
+    public void update(CGrade oGrade) {
+        this.numValue = oGrade.getNumValue();
+        this.latinValue = oGrade.getLatinValue();
+        this.gradeTimestamp = oGrade.getGradeTimestamp();
     }
 
     @Override

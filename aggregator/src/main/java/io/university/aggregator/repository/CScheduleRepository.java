@@ -1,6 +1,6 @@
 package io.university.aggregator.repository;
 
-import io.university.aggregator.dao.CSchedule;
+import io.university.aggregator.model.dao.CSchedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @since 16.02.2019
  */
 @Repository
-public interface CScheduleRepository extends JpaRepository<CSchedule, Integer> {
+public interface CScheduleRepository extends JpaRepository<CSchedule, String> {
 
 }

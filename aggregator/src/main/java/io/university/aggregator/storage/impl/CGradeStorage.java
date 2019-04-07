@@ -1,6 +1,6 @@
 package io.university.aggregator.storage.impl;
 
-import io.university.aggregator.dao.CGrade;
+import io.university.aggregator.model.dao.CGrade;
 import io.university.aggregator.repository.CGradeRepository;
 import io.university.api.storage.impl.BasicJpaStorage;
 import org.springframework.beans.factory.annotation.Autowired;

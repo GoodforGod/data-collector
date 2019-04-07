@@ -1,7 +1,9 @@
-package io.university.aggregator.dao;
+package io.university.aggregator.model.dao.mysql;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
+import io.dummymaker.annotation.simple.string.GenId;
+import io.university.aggregator.model.dao.CPerson;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,8 +19,8 @@ import java.sql.Timestamp;
 public class CReading implements Serializable {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GenId
+    private String id;
 
     @GenTime
     private Timestamp takeTimestamp;
@@ -35,7 +37,7 @@ public class CReading implements Serializable {
     @JoinColumn(name = "person_uid")
     private CPerson person;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -70,17 +72,11 @@ public class CReading implements Serializable {
 
         CReading cReading = (CReading) o;
 
-        if (id != null ? !id.equals(cReading.id) : cReading.id != null) return false;
-        if (takeTimestamp != null ? !takeTimestamp.equals(cReading.takeTimestamp) : cReading.takeTimestamp != null)
-            return false;
-        return returnTimestamp != null ? returnTimestamp.equals(cReading.returnTimestamp) : cReading.returnTimestamp == null;
+        return id != null ? id.equals(cReading.id) : cReading.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (takeTimestamp != null ? takeTimestamp.hashCode() : 0);
-        result = 31 * result + (returnTimestamp != null ? returnTimestamp.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }

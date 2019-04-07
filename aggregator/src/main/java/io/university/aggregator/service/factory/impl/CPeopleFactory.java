@@ -1,6 +1,11 @@
 package io.university.aggregator.service.factory.impl;
 
-import io.university.aggregator.dao.*;
+import io.university.aggregator.model.dao.*;
+import io.university.aggregator.model.dao.mongo.CCommunity;
+import io.university.aggregator.model.dao.mongo.CLiving;
+import io.university.aggregator.model.dao.mongo.CRoom;
+import io.university.aggregator.model.dao.mongo.CVisit;
+import io.university.aggregator.model.dao.mysql.*;
 import io.university.api.service.factory.impl.BasicFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

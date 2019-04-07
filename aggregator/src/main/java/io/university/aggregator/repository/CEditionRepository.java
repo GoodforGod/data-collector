@@ -1,6 +1,6 @@
 package io.university.aggregator.repository;
 
-import io.university.aggregator.dao.CEdition;
+import io.university.aggregator.model.dao.mysql.CEdition;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @since 10.03.2019
  */
 @Repository
-public interface CEditionRepository extends JpaRepository<CEdition, Integer> {
+public interface CEditionRepository extends JpaRepository<CEdition, String> {
 
 }

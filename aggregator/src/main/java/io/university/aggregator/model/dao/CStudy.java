@@ -1,10 +1,12 @@
-package io.university.aggregator.dao;
+package io.university.aggregator.model.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.GenBoolean;
 import io.dummymaker.annotation.simple.number.GenUShort;
 import io.dummymaker.annotation.simple.string.GenHexNumber;
+import io.dummymaker.annotation.simple.string.GenId;
+import io.university.aggregator.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,11 +19,11 @@ import java.sql.Timestamp;
  * @since 05.03.2019
  */
 @Entity
-public class CStudy implements Serializable {
+public class CStudy implements IUpdatable<CStudy>, Serializable {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GenId
+    private String id;
 
     @GenHexNumber
     private String course;
@@ -80,7 +82,7 @@ public class CStudy implements Serializable {
         return !fullTime;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -114,6 +116,13 @@ public class CStudy implements Serializable {
 
     public void setPerson(CPerson person) {
         this.person = person;
+    }
+
+    @Override
+    public void update(CStudy oStudy) {
+        this.course = oStudy.getCourse();
+        this.groupNum = oStudy.getGroupNum();
+        this.graduateTimestamp = oStudy.getGraduateTimestamp();
     }
 
     @Override

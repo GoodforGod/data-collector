@@ -30,7 +30,7 @@ public class ODepartment implements IUpdatable<ODepartment>, Serializable {
     @GenCompany
     private String name;
 
-    private String subDepartmentId;
+    private String parentDepartmentId;
 
     @JsonIgnore
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
@@ -48,8 +48,8 @@ public class ODepartment implements IUpdatable<ODepartment>, Serializable {
         return name;
     }
 
-    public String getSubDepartmentId() {
-        return subDepartmentId;
+    public String getParentDepartmentId() {
+        return parentDepartmentId;
     }
 
     public OWorkHistory addWorkHistory(OWorkHistory workHistory) {
@@ -73,7 +73,7 @@ public class ODepartment implements IUpdatable<ODepartment>, Serializable {
     @Override
     public void update(ODepartment oDepartment) {
         this.name = oDepartment.getName();
-        this.subDepartmentId = oDepartment.getSubDepartmentId();
+        this.parentDepartmentId = oDepartment.getParentDepartmentId();
     }
 
     @Override

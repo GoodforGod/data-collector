@@ -1,13 +1,18 @@
-package io.university.aggregator.dao;
+package io.university.aggregator.model.dao.mongo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenSet;
 import io.dummymaker.annotation.simple.number.GenUInteger;
 import io.dummymaker.annotation.simple.string.GenCity;
 import io.dummymaker.annotation.simple.string.GenCountry;
+import io.dummymaker.annotation.simple.string.GenId;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
@@ -23,8 +28,9 @@ import java.util.Set;
 public class CCommunity implements Serializable {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @NotNull
+    @GenId
+    private String id;
 
     @GenUInteger
     private Integer roomCount;
@@ -53,7 +59,7 @@ public class CCommunity implements Serializable {
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
     private Set<CVisit> visits = new HashSet<>();
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -110,25 +116,11 @@ public class CCommunity implements Serializable {
 
         CCommunity that = (CCommunity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (roomCount != null ? !roomCount.equals(that.roomCount) : that.roomCount != null) return false;
-        if (payRentPerPerson != null ? !payRentPerPerson.equals(that.payRentPerPerson) : that.payRentPerPerson != null)
-            return false;
-        if (district != null ? !district.equals(that.district) : that.district != null) return false;
-        if (street != null ? !street.equals(that.street) : that.street != null) return false;
-        if (houseNumber != null ? !houseNumber.equals(that.houseNumber) : that.houseNumber != null) return false;
-        return housingNumber != null ? housingNumber.equals(that.housingNumber) : that.housingNumber == null;
+        return id != null ? id.equals(that.id) : that.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (roomCount != null ? roomCount.hashCode() : 0);
-        result = 31 * result + (payRentPerPerson != null ? payRentPerPerson.hashCode() : 0);
-        result = 31 * result + (district != null ? district.hashCode() : 0);
-        result = 31 * result + (street != null ? street.hashCode() : 0);
-        result = 31 * result + (houseNumber != null ? houseNumber.hashCode() : 0);
-        result = 31 * result + (housingNumber != null ? housingNumber.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }

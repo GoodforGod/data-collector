@@ -1,4 +1,4 @@
-package io.university.aggregator.dao;
+package io.university.aggregator.model.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenSet;
@@ -8,6 +8,7 @@ import io.dummymaker.annotation.simple.number.GenUInteger;
 import io.dummymaker.annotation.simple.string.GenCountry;
 import io.dummymaker.annotation.special.GenEmbedded;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
+import io.university.aggregator.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,7 +23,7 @@ import java.util.Set;
  * @since 05.03.2019
  */
 @Entity
-public class CSubject implements Serializable {
+public class CSubject implements IUpdatable<CSubject>, Serializable {
 
     @Id
     @GenUInteger
@@ -97,6 +98,13 @@ public class CSubject implements Serializable {
     public CGrade addGrade(CGrade grade) {
         this.grades.add(grade);
         return grade;
+    }
+
+    @Override
+    public void update(CSubject oSubject) {
+        this.name = oSubject.getName();
+        this.semester = oSubject.getSemester();
+        this.endTimestamp = oSubject.getEndTimestamp();
     }
 
     @Override

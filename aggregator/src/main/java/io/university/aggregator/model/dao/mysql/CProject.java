@@ -1,12 +1,16 @@
-package io.university.aggregator.dao;
+package io.university.aggregator.model.dao.mysql;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenSet;
+import io.dummymaker.annotation.simple.string.GenId;
 import io.dummymaker.annotation.simple.string.GenNick;
 import io.dummymaker.annotation.simple.string.GenPhrase;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,8 +25,8 @@ import java.util.Set;
 public class CProject implements Serializable {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GenId
+    private String id;
 
     @GenNick
     private String name;
@@ -35,7 +39,7 @@ public class CProject implements Serializable {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private Set<CProjectParticipation> participations = new HashSet<>();
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -63,16 +67,11 @@ public class CProject implements Serializable {
 
         CProject cProject = (CProject) o;
 
-        if (id != null ? !id.equals(cProject.id) : cProject.id != null) return false;
-        if (name != null ? !name.equals(cProject.name) : cProject.name != null) return false;
-        return description != null ? description.equals(cProject.description) : cProject.description == null;
+        return id != null ? id.equals(cProject.id) : cProject.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }

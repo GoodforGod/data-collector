@@ -1,4 +1,4 @@
-package io.university.aggregator.dao;
+package io.university.aggregator.model.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenEnum;
@@ -9,6 +9,13 @@ import io.dummymaker.annotation.simple.string.GenCity;
 import io.dummymaker.annotation.simple.string.GenName;
 import io.dummymaker.annotation.simple.string.GenSurname;
 import io.dummymaker.annotation.special.GenEmbedded;
+import io.university.aggregator.model.IUpdatable;
+import io.university.aggregator.model.dao.mongo.CLiving;
+import io.university.aggregator.model.dao.mongo.CVisit;
+import io.university.aggregator.model.dao.mysql.CConference;
+import io.university.aggregator.model.dao.mysql.CProjectParticipation;
+import io.university.aggregator.model.dao.mysql.CPublishment;
+import io.university.aggregator.model.dao.mysql.CReading;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,7 +33,7 @@ import java.util.Set;
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"name", "middleName", "surname", "birthTimestamp", "birthPlace"})
 })
-public class CPerson implements Serializable {
+public class CPerson implements IUpdatable<CPerson>, Serializable {
 
     public enum CPersonType {
         STUDENT,
@@ -119,7 +126,7 @@ public class CPerson implements Serializable {
         return citationIndex;
     }
 
-    public void setCitationIndex(Integer value){
+    public void setCitationIndex(Integer value) {
         this.citationIndex = value;
     }
 
@@ -266,6 +273,16 @@ public class CPerson implements Serializable {
 
     public void clearLivings() {
         this.livings = new HashSet<>();
+    }
+
+    @Override
+    public void update(CPerson oPerson) {
+        this.personType = oPerson.getPersonType();
+        if (oPerson.getHavePrivilage() != null)
+            this.havePrivilage = oPerson.getHavePrivilage();
+        if (oPerson.getCitationIndex() != null)
+            this.citationIndex = oPerson.getCitationIndex();
+        this.grades.addAll(oPerson.getGrades());
     }
 
     @Override

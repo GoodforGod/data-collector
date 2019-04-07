@@ -1,4 +1,4 @@
-package io.university.aggregator.dao;
+package io.university.aggregator.model.dao.mysql;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenEnum;
@@ -6,10 +6,14 @@ import io.dummymaker.annotation.complex.GenSet;
 import io.dummymaker.annotation.simple.number.GenUInteger;
 import io.dummymaker.annotation.simple.string.GenCity;
 import io.dummymaker.annotation.simple.string.GenCountry;
+import io.dummymaker.annotation.simple.string.GenId;
 import io.dummymaker.annotation.simple.string.GenName;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,8 +35,8 @@ public class CEdition implements Serializable {
     }
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GenId
+    private String id;
 
     @GenName
     private String name;
@@ -54,7 +58,7 @@ public class CEdition implements Serializable {
     @OneToMany(mappedBy = "edition", cascade = CascadeType.ALL)
     private Set<CPublishment> publishments = new HashSet<>();
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -95,20 +99,11 @@ public class CEdition implements Serializable {
 
         CEdition cEdition = (CEdition) o;
 
-        if (pages != cEdition.pages) return false;
-        if (name != null ? !name.equals(cEdition.name) : cEdition.name != null) return false;
-        if (lang != cEdition.lang) return false;
-        if (city != null ? !city.equals(cEdition.city) : cEdition.city != null) return false;
-        return type != null ? type.equals(cEdition.type) : cEdition.type == null;
+        return id != null ? id.equals(cEdition.id) : cEdition.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (lang != null ? lang.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
-        result = 31 * result + pages;
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }

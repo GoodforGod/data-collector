@@ -1,6 +1,6 @@
 package io.university.aggregator.storage.impl;
 
-import io.university.aggregator.dao.CReading;
+import io.university.aggregator.model.dao.mysql.CReading;
 import io.university.aggregator.repository.CReadingRepository;
 import io.university.api.storage.impl.BasicJpaStorage;
 import org.springframework.beans.factory.annotation.Autowired;

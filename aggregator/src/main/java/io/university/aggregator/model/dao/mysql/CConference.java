@@ -1,4 +1,4 @@
-package io.university.aggregator.dao;
+package io.university.aggregator.model.dao.mysql;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
@@ -6,6 +6,7 @@ import io.dummymaker.annotation.simple.string.GenCity;
 import io.dummymaker.annotation.simple.string.GenCompany;
 import io.dummymaker.annotation.simple.string.GenCountry;
 import io.dummymaker.annotation.simple.string.GenName;
+import io.university.aggregator.model.dao.CPerson;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -85,7 +86,6 @@ public class CConference implements Serializable {
 
         CConference that = (CConference) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (country != null ? !country.equals(that.country) : that.country != null) return false;
         if (city != null ? !city.equals(that.city) : that.city != null) return false;
@@ -95,8 +95,7 @@ public class CConference implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (country != null ? country.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);

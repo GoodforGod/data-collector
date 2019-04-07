@@ -1,4 +1,4 @@
-package io.university.aggregator.dao;
+package io.university.aggregator.model.dao.mongo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenSet;
@@ -6,9 +6,11 @@ import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.GenBoolean;
 import io.dummymaker.annotation.simple.number.GenUByte;
 import io.dummymaker.annotation.simple.number.GenUShort;
+import io.dummymaker.annotation.simple.string.GenId;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -24,8 +26,9 @@ import java.util.Set;
 public class CRoom implements Serializable {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @NotNull
+    @GenId
+    private String id;
 
     @GenUShort
     private String roomNumber;
@@ -51,7 +54,7 @@ public class CRoom implements Serializable {
     @JoinColumn(name = "community_uid")
     private CCommunity community;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 

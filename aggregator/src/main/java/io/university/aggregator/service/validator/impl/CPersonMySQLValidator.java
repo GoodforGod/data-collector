@@ -1,6 +1,7 @@
 package io.university.aggregator.service.validator.impl;
 
-import io.university.aggregator.dao.*;
+import io.university.aggregator.model.dao.CPerson;
+import io.university.aggregator.model.dao.mysql.*;
 import io.university.aggregator.storage.impl.*;
 import io.university.api.service.validator.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class CPersonMySQLValidator implements IValidator<CPerson> {
                     if (reading.getBook() == null)
                         continue;
                     CBook book = bookMap.computeIfAbsent(reading.getBook().hashCode(),
-                            (k) -> bookStorage.find(reading.getBook().getId()).orElse(reading.getBook()));
+                            (k) -> bookStorage.find(reading.getBook().getIsbn()).orElse(reading.getBook()));
                     reading.setBook(book);
                     validReadings.add(reading);
                 }

@@ -1,6 +1,6 @@
 package io.university.aggregator.storage.impl;
 
-import io.university.aggregator.dao.CLiving;
+import io.university.aggregator.model.dao.mongo.CLiving;
 import io.university.aggregator.repository.CLivingRepository;
 import io.university.api.storage.impl.BasicJpaStorage;
 import org.springframework.beans.factory.annotation.Autowired;

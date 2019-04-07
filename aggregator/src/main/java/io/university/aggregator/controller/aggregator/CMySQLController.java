@@ -2,7 +2,7 @@ package io.university.aggregator.controller.aggregator;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.university.aggregator.dao.CPerson;
+import io.university.aggregator.model.dao.CPerson;
 import io.university.aggregator.service.factory.impl.CPeopleFactory;
 import io.university.aggregator.service.validator.impl.CPersonMySQLValidator;
 import io.university.aggregator.storage.impl.*;
