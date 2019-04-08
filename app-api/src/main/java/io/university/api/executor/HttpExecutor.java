@@ -2,17 +2,17 @@ package io.university.api.executor;
 
 import io.university.api.error.ApiTimeoutException;
 import io.university.api.error.ConnectionException;
-import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
@@ -27,7 +27,6 @@ import static java.net.HttpURLConnection.HTTP_MOVED_TEMP;
  * @author GoodforGod
  * @since 07.04.2019
  */
-@Component
 public class HttpExecutor implements IHttpExecutor {
 
     private static final Map<String, String> DEFAULT_HEADERS = new HashMap<>();
@@ -109,13 +108,15 @@ public class HttpExecutor implements IHttpExecutor {
         try {
             final HttpURLConnection connection = buildConnection(urlAsString, "POST");
             final String contentLength = (StringUtils.isEmpty(dataToPost)) ? "0" : String.valueOf(dataToPost.length());
-            connection.setRequestProperty("content-length", contentLength);
+            connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            connection.setRequestProperty("Content-Length", contentLength);
+            connection.setFixedLengthStreamingMode(dataToPost.length());
 
             connection.setDoOutput(true);
-            DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-            wr.writeBytes(dataToPost);
-            wr.flush();
-            wr.close();
+            connection.connect();
+            try(OutputStream os = connection.getOutputStream()) {
+                os.write(dataToPost.getBytes(StandardCharsets.UTF_8));
+            }
 
             final int status = connection.getResponseCode();
             if (status == HTTP_MOVED_TEMP || status == HTTP_MOVED_PERM) {

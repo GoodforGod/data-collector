@@ -2,6 +2,7 @@ package io.university.oracle.controller;
 
 import io.swagger.annotations.ApiOperation;
 import io.university.api.error.NotUpdatedException;
+import io.university.oracle.exporter.*;
 import io.university.oracle.model.dao.*;
 import io.university.oracle.storage.impl.*;
 import org.slf4j.Logger;
@@ -25,6 +26,15 @@ public class ExportController {
 
     private static final Logger logger = LoggerFactory.getLogger(ExportController.class);
 
+    @Autowired private OWorkExporter workExporter;
+    @Autowired private OGradeExporter gradeExporter;
+    @Autowired private OStudyExporter studyExporter;
+    @Autowired private OPersonExporter personExporter;
+    @Autowired private OSubjectExporter subjectExporter;
+    @Autowired private OScheduleExporter scheduleExporter;
+    @Autowired private OSpecialityExporter specialityExporter;
+    @Autowired private ODepartmentExporter departmentExporter;
+
     @Autowired private ODepartmentStorage departmentStorage;
     @Autowired private OSpecialityStorage specialityStorage;
     @Autowired private OScheduleStorage scheduleStorage;
@@ -43,6 +53,7 @@ public class ExportController {
             throw new NotUpdatedException();
         }
 
+        departmentExporter.exportIfPossible(modelToUpdate);
         return modelToUpdate;
     }
 
@@ -55,6 +66,7 @@ public class ExportController {
             throw new NotUpdatedException();
         }
 
+        scheduleExporter.exportIfPossible(modelToUpdate);
         return modelToUpdate;
     }
 
@@ -68,6 +80,7 @@ public class ExportController {
             throw new NotUpdatedException();
         }
 
+        workExporter.exportIfPossible(modelToUpdate);
         return modelToUpdate;
     }
 
@@ -83,6 +96,7 @@ public class ExportController {
             throw new NotUpdatedException();
         }
 
+        gradeExporter.exportIfPossible(modelToUpdate);
         return modelToUpdate;
     }
 
@@ -95,6 +109,7 @@ public class ExportController {
             throw new NotUpdatedException();
         }
 
+        specialityExporter.exportIfPossible(modelToUpdate);
         return modelToUpdate;
     }
 
@@ -107,6 +122,7 @@ public class ExportController {
             throw new NotUpdatedException();
         }
 
+        subjectExporter.exportIfPossible(modelToUpdate);
         return modelToUpdate;
     }
 
@@ -120,6 +136,7 @@ public class ExportController {
             throw new NotUpdatedException();
         }
 
+        personExporter.exportIfPossible(modelToUpdate);
         return modelToUpdate;
     }
 
@@ -132,6 +149,7 @@ public class ExportController {
             throw new NotUpdatedException();
         }
 
+        studyExporter.exportIfPossible(modelToUpdate);
         return modelToUpdate;
     }
 }

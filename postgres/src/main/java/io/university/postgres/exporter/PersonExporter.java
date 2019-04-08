@@ -5,21 +5,19 @@ import io.university.postgres.model.dao.Person;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 /**
  * ! NO DESCRIPTION !
  *
  * @author GoodforGod
- * @since 09.04.2019
+ * @since 07.04.2019
  */
 @Component
-public class PeopleExporter extends BasicExporter<List<Person>> {
+public class PersonExporter extends BasicExporter<Person> {
 
     @Value("${EXPORT_SERVER}")
     private String baseUrl;
 
-    private final String modelEndpoint = "/common/postgres/load";
+    private final String modelEndpoint = "/postgres_oracle/update/person";
 
     @Override
     protected String getUrl() {

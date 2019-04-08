@@ -2,6 +2,7 @@ package io.university.postgres.controller;
 
 import io.swagger.annotations.ApiOperation;
 import io.university.api.error.NotUpdatedException;
+import io.university.postgres.exporter.*;
 import io.university.postgres.model.dao.*;
 import io.university.postgres.storage.impl.*;
 import org.slf4j.Logger;
@@ -25,6 +26,12 @@ public class ExportController {
 
     private static final Logger logger = LoggerFactory.getLogger(ExportController.class);
 
+    @Autowired private SpecialityExporter specialityExporter;
+    @Autowired private SubjectExporter subjectExporter;
+    @Autowired private PersonExporter personExporter;
+    @Autowired private GradeExporter gradeExporter;
+    @Autowired private StudyExporter studyExporter;
+
     @Autowired private SpecialityStorage specialityStorage;
     @Autowired private SubjectStorage subjectStorage;
     @Autowired private PersonStorage peopleStorage;
@@ -40,6 +47,7 @@ public class ExportController {
             throw new NotUpdatedException();
         }
 
+        gradeExporter.exportIfPossible(modelToUpdate);
         return modelToUpdate;
     }
 
@@ -52,6 +60,7 @@ public class ExportController {
             throw new NotUpdatedException();
         }
 
+        specialityExporter.exportIfPossible(modelToUpdate);
         return modelToUpdate;
     }
 
@@ -64,6 +73,7 @@ public class ExportController {
             throw new NotUpdatedException();
         }
 
+        subjectExporter.exportIfPossible(modelToUpdate);
         return modelToUpdate;
     }
 
@@ -77,6 +87,7 @@ public class ExportController {
             throw new NotUpdatedException();
         }
 
+        personExporter.exportIfPossible(modelToUpdate);
         return modelToUpdate;
     }
 
@@ -89,6 +100,7 @@ public class ExportController {
             throw new NotUpdatedException();
         }
 
+        studyExporter.exportIfPossible(modelToUpdate);
         return modelToUpdate;
     }
 }

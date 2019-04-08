@@ -276,13 +276,13 @@ public class CPerson implements IUpdatable<CPerson>, Serializable {
     }
 
     @Override
-    public void update(CPerson oPerson) {
-        this.personType = oPerson.getPersonType();
-        if (oPerson.getHavePrivilage() != null)
-            this.havePrivilage = oPerson.getHavePrivilage();
-        if (oPerson.getCitationIndex() != null)
-            this.citationIndex = oPerson.getCitationIndex();
-        this.grades.addAll(oPerson.getGrades());
+    public void update(CPerson person) {
+        if (person.getPersonType() != null)
+            this.personType = person.getPersonType();
+        if (person.getHavePrivilage() != null)
+            this.havePrivilage = person.getHavePrivilage();
+        if (person.getCitationIndex() != null)
+            this.citationIndex = person.getCitationIndex();
     }
 
     @Override

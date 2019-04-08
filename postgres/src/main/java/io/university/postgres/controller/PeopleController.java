@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.university.api.controller.BasicDatabaseController;
+import io.university.postgres.exporter.PeopleExporter;
 import io.university.postgres.model.dao.Person;
 import io.university.postgres.service.factory.impl.PeopleFactory;
 import io.university.postgres.storage.impl.*;
@@ -26,6 +27,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/postgres/people")
 public class PeopleController extends BasicDatabaseController<Person> {
+
+    @Autowired private PeopleExporter peopleExporter;
 
     @Autowired private SpecialityStorage specialityStorage;
     @Autowired private SubjectStorage subjectStorage;
@@ -50,7 +53,9 @@ public class PeopleController extends BasicDatabaseController<Person> {
 
     @GetMapping("/export/all")
     public List<Person> exportAll() {
-        return peopleStorage.findAll();
+        List<Person> people = transform(peopleStorage.findAll());
+        peopleExporter.exportIfPossible(people);
+        return people;
     }
 
     @ApiOperation(value = "Generate Postgres people data")
