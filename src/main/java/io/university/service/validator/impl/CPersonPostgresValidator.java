@@ -1,10 +1,10 @@
 package io.university.service.validator.impl;
 
-import io.university.model.dao.common.CDepartment;
-import io.university.model.dao.common.CPerson;
-import io.university.model.dao.common.CSpeciality;
-import io.university.model.dao.common.CStudy;
-import io.university.storage.impl.common.*;
+import io.university.model.dao.CDepartment;
+import io.university.model.dao.CPerson;
+import io.university.model.dao.CSpeciality;
+import io.university.model.dao.CStudy;
+import io.university.storage.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

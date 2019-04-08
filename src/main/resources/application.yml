@@ -1,8 +1,13 @@
 spring:
   profiles:
     active: "local"
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
 server:
-  port: 8080
+  port: ${SERVER_PORT}
+logging:
+  level:
+    io.swagger.models.parameters.AbstractSerializableParameter: error
 
 ---
 
@@ -19,13 +24,16 @@ spring:
     url: ${ORA_URL}
     username: ${ORA_USER}
     password: ${ORA_PASS}
-    driver-class-name: oracle.jdbc.driver.OracleDriver
+    driver-class-name: oracle.jdbc.OracleDriver
     platform: org.hibernate.dialect.Oracle10gDialect
+    hikari:
+      connection-timeout: 10000
+      initialization-fail-timeout: 10000
 
 ---
 
 spring:
-  profiles: univ
+  profiles: prod
   jpa:
     database: oracle
     show-sql: false
@@ -37,6 +45,9 @@ spring:
     url: ${ORA_URL}
     username: ${ORA_USER}
     password: ${ORA_PASS}
-    driver-class-name: oracle.jdbc.driver.OracleDriver
+    driver-class-name: oracle.jdbc.OracleDriver
     platform: org.hibernate.dialect.Oracle10gDialect
+    hikari:
+      connection-timeout: 10000
+      initialization-fail-timeout: 10000
 

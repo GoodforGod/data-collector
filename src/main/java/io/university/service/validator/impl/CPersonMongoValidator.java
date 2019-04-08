@@ -1,8 +1,8 @@
 package io.university.service.validator.impl;
 
-import io.university.model.dao.common.*;
+import io.university.model.dao.*;
 import io.university.service.validator.IValidator;
-import io.university.storage.impl.common.*;
+import io.university.storage.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -48,17 +48,19 @@ public class CPersonMongoValidator implements IValidator<CPerson> {
             if (!CollectionUtils.isEmpty(p.getVisits())) {
 
                 // May be should locate exist visits first, may be not
-//                final Set<CVisit> visits = p.getVisits().stream()
-//                        .map(v -> visitMap.computeIfAbsent(v.hashCode(),
-//                                (k) -> visitStorage.find(v.getId()).orElse(v)))
-//                        .collect(Collectors.toSet());
+                final Set<CVisit> visits = p.getVisits().stream()
+                        .map(v -> visitMap.computeIfAbsent(v.hashCode(),
+                                (k) -> visitStorage.find(v.getId()).orElse(v)))
+                        .collect(Collectors.toSet());
 
                 for (CVisit visit : p.getVisits()) {
                     if (visit.getCommunity() != null) {
                         CCommunity community = communityMap.computeIfAbsent(visit.getCommunity().hashCode(),
                                 (k) -> communityStorage.find(visit.getCommunity().getId()).orElse(visit.getCommunity()));
 
-                        visit.setCommunity(community);
+                        final CVisit usedVisit = visitMap.computeIfAbsent(visit.hashCode(),
+                                (k) -> visitStorage.find(visit.getId()).orElse(visit));
+                        usedVisit.setCommunity(community);
 
                         if (!CollectionUtils.isEmpty(community.getRooms())) {
 

@@ -1,8 +1,8 @@
 package io.university.service.validator.impl;
 
-import io.university.model.dao.common.*;
+import io.university.model.dao.*;
 import io.university.service.validator.IValidator;
-import io.university.storage.impl.common.*;
+import io.university.storage.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -18,22 +18,14 @@ import java.util.*;
 @Service
 public class CPersonMySQLValidator implements IValidator<CPerson> {
 
-    @Autowired
-    private CProjectParticipationStorage participationStorage;
-    @Autowired
-    private CPublishmentStorage publishmentStorage;
-    @Autowired
-    private CConferenceStorage conferenceStorage;
-    @Autowired
-    private CProjectStorage projectStorage;
-    @Autowired
-    private CEditionStorage editionStorage;
-    @Autowired
-    private CReadingStorage readingStorage;
-    @Autowired
-    private CPersonStorage peopleStorage;
-    @Autowired
-    private CBookStorage bookStorage;
+    @Autowired private CProjectParticipationStorage participationStorage;
+    @Autowired private CPublishmentStorage publishmentStorage;
+    @Autowired private CConferenceStorage conferenceStorage;
+    @Autowired private CProjectStorage projectStorage;
+    @Autowired private CEditionStorage editionStorage;
+    @Autowired private CReadingStorage readingStorage;
+    @Autowired private CPersonStorage peopleStorage;
+    @Autowired private CBookStorage bookStorage;
 
     @Override
     public List<CPerson> validate(List<CPerson> people) {
@@ -59,13 +51,13 @@ public class CPersonMySQLValidator implements IValidator<CPerson> {
                     p.getBirthTimestamp()).orElse(p);
             validPerson.setCitationIndex(p.getCitationIndex());
 
-            if(!CollectionUtils.isEmpty(p.getReadings())) {
+            if (!CollectionUtils.isEmpty(p.getReadings())) {
                 final List<CReading> validReadings = new ArrayList<>(p.getReadings().size());
                 for (CReading reading : p.getReadings()) {
                     if (reading.getBook() == null)
                         continue;
                     CBook book = bookMap.computeIfAbsent(reading.getBook().hashCode(),
-                            (k) -> bookStorage.find(reading.getBook().getId()).orElse(reading.getBook()));
+                            (k) -> bookStorage.find(reading.getBook().getIsbn()).orElse(reading.getBook()));
                     reading.setBook(book);
                     validReadings.add(reading);
                 }
@@ -73,7 +65,7 @@ public class CPersonMySQLValidator implements IValidator<CPerson> {
                 validReadings.forEach(validPerson::addReading);
             }
 
-            if(!CollectionUtils.isEmpty(p.getConferences())) {
+            if (!CollectionUtils.isEmpty(p.getConferences())) {
                 final List<CConference> validConferences = new ArrayList<>(p.getConferences().size());
                 for (CConference conference : p.getConferences()) {
                     CConference validConference = conferenceMap.computeIfAbsent(conference.hashCode(),
@@ -84,7 +76,7 @@ public class CPersonMySQLValidator implements IValidator<CPerson> {
                 validConferences.forEach(validPerson::addConference);
             }
 
-            if(!CollectionUtils.isEmpty(p.getParticipations())) {
+            if (!CollectionUtils.isEmpty(p.getParticipations())) {
                 final List<CProjectParticipation> validParticipations = new ArrayList<>(p.getParticipations().size());
                 for (CProjectParticipation participation : p.getParticipations()) {
                     if (participation.getProject() == null)
@@ -98,7 +90,7 @@ public class CPersonMySQLValidator implements IValidator<CPerson> {
                 validParticipations.forEach(validPerson::addParticipation);
             }
 
-            if(!CollectionUtils.isEmpty(p.getPublishments())) {
+            if (!CollectionUtils.isEmpty(p.getPublishments())) {
                 final List<CPublishment> validPublishments = new ArrayList<>(p.getPublishments().size());
                 for (CPublishment publishment : p.getPublishments()) {
                     if (publishment.getEdition() == null)

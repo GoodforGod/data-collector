@@ -13,10 +13,10 @@ Rename file to *ojdbc7-12.1.0.2.jar*
 
 Build with:
 ```bash
-./gradlew bootJar
+./gradlew bootRun
 ```
 
-Set environment variables:
+Set environment variables (Or [default will be used](/build.gradle)):
 * ORA_USER - database user
 * ORA_PASS - database password
 * ORA_URL - database url (like *jdbc:oracle:thin:@localhost:32769:ORCLCDB*)
@@ -60,4 +60,4 @@ Some tables changed, check DB for correct schema.
 
 ### JSON Example
 
-[Full JSON schema](https://pastebin.com/10irNJfY)
+[People List JSON schema](https://pastebin.com/jkWRzGPe)

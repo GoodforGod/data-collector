@@ -1,7 +1,7 @@
 package io.university.service.validator.impl;
 
-import io.university.model.dao.common.*;
-import io.university.storage.impl.common.*;
+import io.university.model.dao.*;
+import io.university.storage.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

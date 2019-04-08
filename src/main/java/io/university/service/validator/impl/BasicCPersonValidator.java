@@ -1,13 +1,13 @@
 package io.university.service.validator.impl;
 
-import io.university.model.dao.common.CDepartment;
-import io.university.model.dao.common.CPerson;
-import io.university.model.dao.common.CSpeciality;
-import io.university.model.dao.common.CStudy;
+import io.university.model.dao.CDepartment;
+import io.university.model.dao.CPerson;
+import io.university.model.dao.CSpeciality;
+import io.university.model.dao.CStudy;
 import io.university.service.validator.IValidator;
-import io.university.storage.impl.common.CDepartmentStorage;
-import io.university.storage.impl.common.CSpecialityStorage;
-import io.university.storage.impl.common.CStudyStorage;
+import io.university.storage.impl.CDepartmentStorage;
+import io.university.storage.impl.CSpecialityStorage;
+import io.university.storage.impl.CStudyStorage;
 
 import java.util.Map;
 

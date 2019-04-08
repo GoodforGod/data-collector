@@ -1,6 +1,6 @@
 package io.university.service.factory.impl;
 
-import io.university.model.dao.common.*;
+import io.university.model.dao.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
