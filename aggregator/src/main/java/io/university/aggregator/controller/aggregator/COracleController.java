@@ -1,5 +1,6 @@
 package io.university.aggregator.controller.aggregator;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.university.aggregator.model.dao.CPerson;
@@ -40,7 +41,7 @@ public class COracleController extends BasicDatabaseController<CPerson> {
 
     @Autowired
     public COracleController(CPeopleFactory factory) {
-        super(factory);
+        super(factory, new TypeReference<List<CPerson>>() { });
     }
 
     @Override

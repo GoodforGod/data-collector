@@ -1,5 +1,6 @@
 package io.university.postgres.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.university.api.controller.BasicDatabaseController;
@@ -34,7 +35,7 @@ public class PeopleController extends BasicDatabaseController<Person> {
 
     @Autowired
     public PeopleController(PeopleFactory factory) {
-        super(factory);
+        super(factory, new TypeReference<List<Person>>() { });
     }
 
     @Override

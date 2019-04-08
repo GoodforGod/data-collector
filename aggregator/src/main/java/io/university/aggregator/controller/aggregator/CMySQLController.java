@@ -1,5 +1,6 @@
 package io.university.aggregator.controller.aggregator;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.university.aggregator.model.dao.CPerson;
@@ -40,7 +41,7 @@ public class CMySQLController extends BasicDatabaseController<CPerson> {
 
     @Autowired
     public CMySQLController(CPeopleFactory factory) {
-        super(factory);
+        super(factory, new TypeReference<List<CPerson>>() { });
     }
 
     @Override
@@ -62,11 +63,16 @@ public class CMySQLController extends BasicDatabaseController<CPerson> {
     @GetMapping("/clean")
     public Boolean clean() {
         final Set<Integer> peopleIds = participationStorage.findAll().stream()
+                .filter(p -> p.getPerson() != null)
                 .map(p -> p.getPerson().getId())
                 .collect(Collectors.toSet());
 
-        readingStorage.findAll().forEach(r -> peopleIds.add(r.getPerson().getId()));
-        publishmentStorage.findAll().forEach(p -> peopleIds.add(p.getPerson().getId()));
+        readingStorage.findAll().stream()
+                .filter(r -> r.getPerson() != null)
+                .forEach(r -> peopleIds.add(r.getPerson().getId()));
+        publishmentStorage.findAll().stream()
+                .filter(p -> p.getPerson() != null)
+                .forEach(p -> peopleIds.add(p.getPerson().getId()));
 
         participationStorage.deleteAll();
         publishmentStorage.deleteAll();

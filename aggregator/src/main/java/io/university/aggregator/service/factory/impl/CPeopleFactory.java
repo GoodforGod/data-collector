@@ -29,7 +29,7 @@ public class CPeopleFactory extends BasicFactory<CPerson> {
         EDITION(10),
         PROJECT(20),
         BOOKS(30),
-        COMMUNITY(30),
+        COMMUNITY(20),
         SPECIALITY(30);
 
         private final int value;

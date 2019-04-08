@@ -28,12 +28,16 @@ public abstract class BasicDatabaseController<T> {
     private final TypeReference<List<T>> reference;
 
     public BasicDatabaseController(IFactory<T> factory) {
-        this(factory, ISO_DATE_FORMAT);
+        this(factory, new TypeReference<List<T>>() { });
     }
 
-    public BasicDatabaseController(IFactory<T> factory, DateFormat dateFormat) {
+    public BasicDatabaseController(IFactory<T> factory, TypeReference<List<T>> typeReference) {
+        this(factory, typeReference, ISO_DATE_FORMAT);
+    }
+
+    public BasicDatabaseController(IFactory<T> factory, TypeReference<List<T>> typeReference, DateFormat dateFormat) {
         this.factory = factory;
-        this.reference = new TypeReference<List<T>>() { };
+        this.reference = typeReference;
 
         this.jsonMapper = new ObjectMapper();
         this.jsonMapper.setDateFormat(dateFormat);

@@ -1,5 +1,6 @@
 package io.university.aggregator.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.university.aggregator.controller.aggregator.CMongoController;
@@ -37,7 +38,7 @@ public class PeopleController extends BasicDatabaseController<CPerson> {
 
     @Autowired
     public PeopleController(CPeopleFactory factory) {
-        super(factory);
+        super(factory, new TypeReference<List<CPerson>>() { });
     }
 
     @Override
