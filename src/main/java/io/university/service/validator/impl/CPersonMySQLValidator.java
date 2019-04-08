@@ -108,6 +108,11 @@ public class CPersonMySQLValidator implements IValidator<CPerson> {
                 }
             }
 
+            validPerson.clearLivings();
+            validPerson.clearVisits();
+            validPerson.clearSchedule();
+            validPerson.clearGrades();
+
             validPeople.add(validPerson);
         }
 

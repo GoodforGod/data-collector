@@ -35,6 +35,7 @@ public class CPersonOracleValidator extends BasicCPersonValidator {
         final Map<Integer, CSpeciality> specialityMap = new HashMap<>();
         final Map<Integer, CSubject> subjectMap = new HashMap<>();
         final Map<Integer, CStudy> studyMap = new HashMap<>();
+        final Map<Integer, CGrade> gradeMap = new HashMap<>();
 
         final List<CPerson> validPeople = new ArrayList<>(people.size());
 
@@ -64,7 +65,7 @@ public class CPersonOracleValidator extends BasicCPersonValidator {
                     if (schedule.getSubject() == null)
                         continue;
 
-                    CSubject subject = subjectMap.computeIfAbsent(schedule.getSubject().hashCode(),
+                    CSubject subject = subjectMap.computeIfAbsent(schedule.getSubject().getCode(),
                             (k) -> subjectStorage.find(schedule.getSubject().getCode()).orElse(schedule.getSubject()));
                     if (subject != schedule.getSubject()) {
                         final List<CGrade> grades = schedule.getSubject().getGrades().stream()
@@ -78,9 +79,29 @@ public class CPersonOracleValidator extends BasicCPersonValidator {
                         fillSpecialityStudy(speciality, subject.getSpeciality().getStudy(), studyMap, studyStorage);
                         subject.setSpeciality(speciality);
                     }
+
+                    schedule.setSubject(subject);
                 }
                 p.getSchedules().forEach(validPerson::addSchedule);
             }
+
+            if(!CollectionUtils.isEmpty(p.getGrades())) {
+                for (CGrade grade : p.getGrades()) {
+                    CSubject subject = subjectMap.computeIfAbsent(grade.getSubject().getCode(),
+                            (k) -> subjectStorage.find(grade.getSubject().getCode()).orElse(grade.getSubject()));
+
+                    grade.setPerson(validPerson);
+                    grade.setSubject(subject);
+                    subject.addGrade(grade);
+                }
+            }
+
+            validPerson.clearLivings();
+            validPerson.clearVisits();
+            validPerson.clearConference();
+            validPerson.clearParticipation();
+            validPerson.clearPublishment();
+            validPerson.clearReadings();
 
             validPeople.add(validPerson);
         }

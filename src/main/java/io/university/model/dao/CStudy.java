@@ -53,7 +53,7 @@ public class CStudy implements Serializable {
     @JoinColumn(name = "department_uid")
     private CDepartment department;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "speciality_id")
     private CSpeciality speciality;
 

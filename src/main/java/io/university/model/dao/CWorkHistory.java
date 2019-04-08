@@ -38,7 +38,7 @@ public class CWorkHistory implements Serializable {
     private CDepartment department;
 
     @JsonIgnore
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person_uid")
     private CPerson person;
 

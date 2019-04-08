@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * ! NO DESCRIPTION !
@@ -29,7 +28,7 @@ public interface CPersonRepository extends JpaRepository<CPerson, Integer> {
             @Param("birthTimestamp") Timestamp birthTimestamp
     );
 
-    Optional<CPerson> findByNameAndMiddleNameAndSurnameAndBirthPlaceAndBirthTimestamp(
+    CPerson findByNameAndMiddleNameAndSurnameAndBirthPlaceAndBirthTimestamp(
             @Param("name") String name,
             @Param("middleName") String middleName,
             @Param("surname") String surname,
