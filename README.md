@@ -60,4 +60,4 @@ Some tables changed, check DB for correct schema.
 
 ### JSON Example
 
-[People List JSON schema](https://pastebin.com/jkWRzGPe)
+[People List JSON schema](https://pastebin.com/RDV7tqd6)

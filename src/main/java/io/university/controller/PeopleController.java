@@ -22,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/common/people")
-public class PeopleController extends BasicDatabaseController<CPerson> {
+public class PeopleController extends BasicDatabaseController {
 
     @Autowired private CMongoController mongoController;
     @Autowired private CMySQLController mySQLController;

@@ -7,6 +7,7 @@ import io.university.service.factory.impl.CPeopleFactory;
 import io.university.service.validator.impl.CPersonMongoValidator;
 import io.university.storage.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/common/mongo")
-public class CMongoController extends BasicDatabaseController<CPerson> {
+public class CMongoController extends BasicDatabaseController {
 
     @Autowired private CCommunityStorage communityStorage;
     @Autowired private CPersonStorage peopleStorage;
@@ -68,6 +69,7 @@ public class CMongoController extends BasicDatabaseController<CPerson> {
 
     @ApiOperation(value = "Clean up MongoDB people data")
     @GetMapping("/clean")
+    @Transactional
     public Boolean clean() {
         final Set<Integer> peopleIds = visitStorage.findAll().stream()
                 .map(v -> v.getPerson().getId())

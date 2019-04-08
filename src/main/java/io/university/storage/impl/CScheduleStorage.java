@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @since 16.02.2019
  */
 @Component
-public class CScheduleStorage extends BasicJpaStorage<CSchedule, Integer> {
+public class CScheduleStorage extends BasicJpaStorage<CSchedule, String> {
 
     @Autowired
     public CScheduleStorage(final CScheduleRepository repository) {

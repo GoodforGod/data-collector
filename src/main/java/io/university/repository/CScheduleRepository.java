@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @since 16.02.2019
  */
 @Repository
-public interface CScheduleRepository extends JpaRepository<CSchedule, Integer> {
+public interface CScheduleRepository extends JpaRepository<CSchedule, String> {
 
 }

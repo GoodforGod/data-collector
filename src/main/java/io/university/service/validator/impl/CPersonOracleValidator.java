@@ -33,6 +33,7 @@ public class CPersonOracleValidator extends BasicCPersonValidator {
 
         final Map<Integer, CDepartment> departmentMap = new HashMap<>();
         final Map<Integer, CSpeciality> specialityMap = new HashMap<>();
+        final Map<Integer, CSchedule> scheduleMap = new HashMap<>();
         final Map<Integer, CSubject> subjectMap = new HashMap<>();
         final Map<Integer, CStudy> studyMap = new HashMap<>();
         final Map<Integer, CGrade> gradeMap = new HashMap<>();
@@ -58,19 +59,27 @@ public class CPersonOracleValidator extends BasicCPersonValidator {
                 }
 
                 validPerson.setWorkHistory(history);
+                history.setPerson(validPerson);
             }
 
             if (!CollectionUtils.isEmpty(p.getSchedules())) {
+                final Set<CSchedule> schedules = new HashSet<>();
                 for (CSchedule schedule : p.getSchedules()) {
-                    if (schedule.getSubject() == null)
+                    final CSchedule usedSchedule = scheduleMap.computeIfAbsent(schedule.hashCode(),
+                            (k) -> scheduleStorage.find(schedule.getId()).orElse(schedule));
+
+                    if (schedule.getSubject() == null) {
+                        validPerson.addSchedule(usedSchedule);
                         continue;
+                    }
 
                     CSubject subject = subjectMap.computeIfAbsent(schedule.getSubject().getCode(),
                             (k) -> subjectStorage.find(schedule.getSubject().getCode()).orElse(schedule.getSubject()));
+
                     if (subject != schedule.getSubject()) {
-                        final List<CGrade> grades = schedule.getSubject().getGrades().stream()
-                                .filter(g -> !gradeStorage.exist(g.getId()))
-                                .collect(Collectors.toList());
+                        Set<CGrade> grades = schedule.getSubject().getGrades().stream()
+                                .peek(g -> subject.getGrades().remove(g))
+                                .collect(Collectors.toSet());
                         subject.getGrades().addAll(grades);
                     }
 
@@ -80,9 +89,11 @@ public class CPersonOracleValidator extends BasicCPersonValidator {
                         subject.setSpeciality(speciality);
                     }
 
-                    schedule.setSubject(subject);
+                    usedSchedule.setSubject(subject);
+                    schedules.add(usedSchedule);
                 }
-                p.getSchedules().forEach(validPerson::addSchedule);
+                validPerson.getSchedules().removeAll(schedules);
+                validPerson.getSchedules().addAll(schedules);
             }
 
             if(!CollectionUtils.isEmpty(p.getGrades())) {
@@ -92,16 +103,17 @@ public class CPersonOracleValidator extends BasicCPersonValidator {
 
                     grade.setPerson(validPerson);
                     grade.setSubject(subject);
+                    subject.getGrades().remove(grade);
                     subject.addGrade(grade);
                 }
             }
 
-            validPerson.clearLivings();
-            validPerson.clearVisits();
             validPerson.clearConference();
             validPerson.clearParticipation();
             validPerson.clearPublishment();
             validPerson.clearReadings();
+            validPerson.clearLivings();
+            validPerson.clearVisits();
 
             validPeople.add(validPerson);
         }

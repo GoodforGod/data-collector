@@ -83,9 +83,7 @@ public class CPersonPostgresValidator extends BasicCPersonValidator {
 
             if (isExist) {
                 if (!CollectionUtils.isEmpty(existPerson.getGrades())) {
-                    existPerson.getGrades().stream()
-                            .filter(g -> !p.getGrades().contains(g))
-                            .forEach(p::addGrade);
+                    existPerson.getGrades().forEach(p::addGrade);
                 }
 
                 final CWorkHistory history = existPerson.getWorkHistory();

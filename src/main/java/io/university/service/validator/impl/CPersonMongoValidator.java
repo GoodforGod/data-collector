@@ -21,8 +21,8 @@ public class CPersonMongoValidator implements IValidator<CPerson> {
 
     @Autowired private CCommunityStorage communityStorage;
     @Autowired private CPersonStorage peopleStorage;
-    @Autowired private CVisitStorage visitStorage;
     @Autowired private CLivingStorage livingStorage;
+    @Autowired private CVisitStorage visitStorage;
     @Autowired private CRoomStorage roomStorage;
 
     @Override
@@ -78,6 +78,7 @@ public class CPersonMongoValidator implements IValidator<CPerson> {
                                                     (lKey) -> livingStorage.find(l.getId()).orElse(l));
                                             living.setRoom(v);
                                             living.setPerson(p);
+                                            p.addLiving(living);
                                         });
                                     }
                             });

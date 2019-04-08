@@ -7,6 +7,7 @@ import io.university.service.factory.impl.CPeopleFactory;
 import io.university.service.validator.impl.CPersonPostgresValidator;
 import io.university.storage.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/common/postgres")
-public class CPostgresController extends BasicDatabaseController<CPerson> {
+public class CPostgresController extends BasicDatabaseController {
 
     @Autowired private CDepartmentStorage departmentStorage;
     @Autowired private CSpecialityStorage specialityStorage;
@@ -59,6 +60,7 @@ public class CPostgresController extends BasicDatabaseController<CPerson> {
 
     @ApiOperation(value = "Clean up Postgres people data")
     @GetMapping("/clean")
+    @Transactional
     public Boolean clean() {
         final Set<Integer> peopleIds = studyStorage.findAll().stream()
                 .map(p -> p.getPerson().getId())

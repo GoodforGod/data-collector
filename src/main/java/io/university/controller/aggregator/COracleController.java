@@ -3,6 +3,7 @@ package io.university.controller.aggregator;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.university.model.dao.CPerson;
+import io.university.model.dao.CSchedule;
 import io.university.service.factory.impl.CPeopleFactory;
 import io.university.service.validator.impl.CPersonOracleValidator;
 import io.university.storage.impl.*;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/common/oracle")
-public class COracleController extends BasicDatabaseController<CPerson> {
+public class COracleController extends BasicDatabaseController {
 
     @Autowired private CDepartmentStorage departmentStorage;
     @Autowired private CSpecialityStorage specialityStorage;
@@ -61,7 +62,8 @@ public class COracleController extends BasicDatabaseController<CPerson> {
     @GetMapping("/clean")
     public Boolean clean() {
         final Set<Integer> peopleIds = workStorage.findAll().stream()
-                .map(p -> p.getPerson().getId())
+                .filter(w -> w.getPerson() != null)
+                .map(w -> w.getPerson().getId())
                 .collect(Collectors.toSet());
 
         scheduleStorage.findAll().forEach(s -> peopleIds.addAll(
@@ -106,6 +108,10 @@ public class COracleController extends BasicDatabaseController<CPerson> {
     @PostMapping("/load")
     public List<CPerson> load(@RequestBody final List<CPerson> people) {
         final List<CPerson> validated = validator.validate(people);
+        List<CSchedule> collect = validated.stream()
+                .map(CPerson::getSchedules)
+                .flatMap(Set::stream)
+                .collect(Collectors.toList());
         return peopleStorage.save(validated);
     }
 }

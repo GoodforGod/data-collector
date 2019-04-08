@@ -7,6 +7,7 @@ import io.university.service.factory.impl.CPeopleFactory;
 import io.university.service.validator.impl.CPersonMySQLValidator;
 import io.university.storage.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/common/mysql")
-public class CMySQLController extends BasicDatabaseController<CPerson> {
+public class CMySQLController extends BasicDatabaseController {
 
     @Autowired private CProjectParticipationStorage participationStorage;
     @Autowired private CPublishmentStorage publishmentStorage;
@@ -59,8 +60,10 @@ public class CMySQLController extends BasicDatabaseController<CPerson> {
 
     @ApiOperation(value = "Clean up MySQL people data")
     @GetMapping("/clean")
+    @Transactional
     public Boolean clean() {
         final Set<Integer> peopleIds = participationStorage.findAll().stream()
+                .filter(p -> p.getPerson() != null)
                 .map(p -> p.getPerson().getId())
                 .collect(Collectors.toSet());
 

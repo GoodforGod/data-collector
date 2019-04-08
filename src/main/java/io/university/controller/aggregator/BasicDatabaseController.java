@@ -18,22 +18,22 @@ import java.util.List;
  * @author GoodforGod
  * @since 16.03.2019
  */
-public abstract class BasicDatabaseController<T> {
+public abstract class BasicDatabaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(BasicDatabaseController.class);
     private static final DateFormat ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
-    private final IFactory<T> factory;
+    private final IFactory<CPerson> factory;
     private final ObjectMapper jsonMapper;
-    private final TypeReference<List<T>> reference;
+    private final TypeReference<List<CPerson>> reference;
 
-    public BasicDatabaseController(IFactory<T> factory) {
+    public BasicDatabaseController(IFactory<CPerson> factory) {
         this(factory, ISO_DATE_FORMAT);
     }
 
-    public BasicDatabaseController(IFactory<T> factory, DateFormat dateFormat) {
+    public BasicDatabaseController(IFactory<CPerson> factory, DateFormat dateFormat) {
         this.factory = factory;
-        this.reference = new TypeReference<List<T>>() { };
+        this.reference = new TypeReference<List<CPerson>>() { };
 
         this.jsonMapper = new ObjectMapper();
         this.jsonMapper.setDateFormat(dateFormat);
@@ -43,7 +43,7 @@ public abstract class BasicDatabaseController<T> {
      * Filters CPerson entities parts to emulate only data for
      * Specific database only
      */
-    protected abstract List<T> filterOtherDatabases(final List<T> list);
+    protected abstract List<CPerson> filterOtherDatabases(final List<CPerson> list);
 
     /**
      * Emulate json serialisation and deserialization
@@ -53,9 +53,9 @@ public abstract class BasicDatabaseController<T> {
             return Collections.emptyList();
 
         try {
-            final List<T> people = generateValid(amount);
+            final List<CPerson> people = generateValid(amount);
             final String json = jsonMapper.writeValueAsString(people);
-            return jsonMapper.readValue(json, reference);
+            return jsonMapper.readValue(json, this.reference);
         } catch (Exception e) {
             logger.warn(e.getMessage());
             e.printStackTrace();
@@ -66,8 +66,8 @@ public abstract class BasicDatabaseController<T> {
     /**
      * Generates people with correct links between objects
      */
-    protected List<T> generateValid(final int amount) {
-        final List<T> people = factory.build(amount);
+    protected List<CPerson> generateValid(final int amount) {
+        final List<CPerson> people = factory.build(amount);
         return filterOtherDatabases(people);
     }
 }
