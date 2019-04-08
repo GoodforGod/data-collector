@@ -3,6 +3,7 @@ package io.university.oracle.exporter;
 import io.university.api.exporter.BasicExporter;
 import io.university.oracle.model.dao.ODepartment;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * ! NO DESCRIPTION !
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
  * @author GoodforGod
  * @since 09.04.2019
  */
+@Component
 public class ODepartmentExporter extends BasicExporter<ODepartment> {
 
     @Value("${EXPORT_SERVER}")

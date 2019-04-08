@@ -3,6 +3,9 @@ spring:
     active: "local"
   jackson:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+    deserialization:
+      fail-on-unknown-properties: false
+
 server:
   port: ${SERVER_PORT}
 logging:
