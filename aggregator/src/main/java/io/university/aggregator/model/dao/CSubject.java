@@ -8,7 +8,7 @@ import io.dummymaker.annotation.simple.number.GenUInteger;
 import io.dummymaker.annotation.simple.string.GenCountry;
 import io.dummymaker.annotation.special.GenEmbedded;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
-import io.university.aggregator.model.IUpdatable;
+import io.university.api.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;

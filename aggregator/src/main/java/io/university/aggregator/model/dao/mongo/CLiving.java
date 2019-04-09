@@ -5,6 +5,7 @@ import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenUInteger;
 import io.dummymaker.annotation.simple.string.GenId;
 import io.university.aggregator.model.dao.CPerson;
+import io.university.api.model.IUpdatable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,7 +19,7 @@ import java.sql.Timestamp;
  * @since 11.03.2019
  */
 @Entity
-public class CLiving implements Serializable {
+public class CLiving implements IUpdatable<CLiving>, Serializable {
 
     @Id
     @NotNull
@@ -81,6 +82,11 @@ public class CLiving implements Serializable {
 
     public void setRoom(CRoom room) {
         this.room = room;
+    }
+
+    @Override
+    public void update(CLiving cLiving) {
+
     }
 
     @Override

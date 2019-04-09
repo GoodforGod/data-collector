@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @since 10.03.2019
  */
 @Repository
-public interface CPublishmentRepository extends JpaRepository<CPublishment, Integer> {
+public interface CPublishmentRepository extends JpaRepository<CPublishment, String> {
 
 }

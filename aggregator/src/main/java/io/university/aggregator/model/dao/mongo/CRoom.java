@@ -8,6 +8,7 @@ import io.dummymaker.annotation.simple.number.GenUByte;
 import io.dummymaker.annotation.simple.number.GenUShort;
 import io.dummymaker.annotation.simple.string.GenId;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
+import io.university.api.model.IUpdatable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -23,7 +24,7 @@ import java.util.Set;
  * @since 11.03.2019
  */
 @Entity
-public class CRoom implements Serializable {
+public class CRoom implements IUpdatable<CRoom>, Serializable {
 
     @Id
     @NotNull
@@ -93,6 +94,11 @@ public class CRoom implements Serializable {
 
     public void setCommunity(CCommunity community) {
         this.community = community;
+    }
+
+    @Override
+    public void update(CRoom cRoom) {
+
     }
 
     @Override

@@ -9,6 +9,7 @@ import io.dummymaker.annotation.simple.string.GenCountry;
 import io.dummymaker.annotation.simple.string.GenId;
 import io.dummymaker.annotation.simple.string.GenName;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
+import io.university.api.model.IUpdatable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -25,7 +26,7 @@ import java.util.Set;
  * @since 10.03.2019
  */
 @Entity
-public class CEdition implements Serializable {
+public class CEdition implements IUpdatable<CEdition>, Serializable {
 
     public enum Lang {
         EN,
@@ -90,6 +91,11 @@ public class CEdition implements Serializable {
         this.publishments.add(publishment);
         publishment.setEdition(this);
         return publishment;
+    }
+
+    @Override
+    public void update(CEdition cEdition) {
+
     }
 
     @Override
