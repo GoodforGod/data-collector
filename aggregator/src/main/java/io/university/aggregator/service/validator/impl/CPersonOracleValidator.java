@@ -69,7 +69,7 @@ public class CPersonOracleValidator extends BasicCPersonValidator {
                             (k) -> scheduleStorage.find(schedule.getId()).orElse(schedule));
 
                     if (schedule.getSubject() == null) {
-                        validPerson.addSchedule(usedSchedule);
+                        schedules.add(usedSchedule);
                         continue;
                     }
 
@@ -80,6 +80,7 @@ public class CPersonOracleValidator extends BasicCPersonValidator {
                         Set<CGrade> grades = schedule.getSubject().getGrades().stream()
                                 .peek(g -> subject.getGrades().remove(g))
                                 .collect(Collectors.toSet());
+                        subject.getGrades().removeAll(grades);
                         subject.getGrades().addAll(grades);
                     }
 
@@ -92,6 +93,7 @@ public class CPersonOracleValidator extends BasicCPersonValidator {
                     usedSchedule.setSubject(subject);
                     schedules.add(usedSchedule);
                 }
+
                 validPerson.getSchedules().removeAll(schedules);
                 validPerson.getSchedules().addAll(schedules);
             }

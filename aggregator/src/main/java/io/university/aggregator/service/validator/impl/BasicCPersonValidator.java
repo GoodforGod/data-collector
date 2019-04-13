@@ -32,7 +32,8 @@ abstract class BasicCPersonValidator implements IValidator<CPerson> {
                              Map<Integer, CStudy> studyMap,
                              CStudyStorage studyStorage) {
         if (speciality.getStudy() != null) {
-            CStudy cStudy = studyMap.computeIfAbsent(speciality.getStudy().hashCode(), (k) -> speciality.getStudy());
+            CStudy cStudy = studyMap.computeIfAbsent(speciality.getStudy().hashCode(),
+                    (k) -> speciality.getStudy());
             speciality.setStudy(cStudy);
         } else if (primeStudy != null) {
             CStudy cStudy = studyMap.computeIfAbsent(primeStudy.hashCode(),

@@ -60,13 +60,13 @@ public class OPeopleFactory extends BasicFactory<OPerson> {
 
         for (int i = 0; i < people.size(); i++) {
             final OPerson p = people.get(i);
-            final OSpeciality speciality = specialities.get(i / Ratio.SPECIALITY.value);
+            final OSpeciality speciality = randomPick(specialities);
 
             p.getStudy().setPerson(p);
             p.getStudy().setSpeciality(speciality);
             p.getWorkHistory().setPerson(p);
 
-            final ODepartment department = departments.get(i / Ratio.DEPARTMENT.value);
+            final ODepartment department = randomPick(departments);
             p.getStudy().setDepartment(department);
             p.getWorkHistory().setDepartment(department);
         }
@@ -88,7 +88,7 @@ public class OPeopleFactory extends BasicFactory<OPerson> {
 
         for (int i = 0; i < people.size(); i++) {
             final OPerson p = people.get(i);
-            final OSpeciality speciality = specialities.get(i / Ratio.SPECIALITY.value);
+            final OSpeciality speciality = randomPick(specialities);
             speciality.getSubjects().forEach(s -> p.addSchedule(s.getSchedule()));
         }
 

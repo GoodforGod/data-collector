@@ -114,6 +114,11 @@ public class CPerson implements IUpdatable<CPerson>, Serializable {
     )
     private Set<CConference> conferences = new HashSet<>();
 
+    @JsonIgnore
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Integer getId() {
         return id;
     }

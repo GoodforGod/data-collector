@@ -26,7 +26,7 @@ bootRun {
 
     environment([
             "SERVER_PORT"   : System.getenv("SERVER_PORT") ?: "8081",
-            "EXPORT_ENABLED": System.getenv("EXPORT_ENABLED") ?: "false",
+            "EXPORT_ENABLED": System.getenv("EXPORT_ENABLED") ?: "true",
             "EXPORT_SERVER" : System.getenv("EXPORT_SERVER") ?: "http://localhost:8080",
             "ORA_USER"      : System.getenv("ORA_USER") ?: "sys as sysdba",
             "ORA_PASS"      : System.getenv("ORA_PASS") ?: "Oradoc_db1",
