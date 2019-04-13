@@ -5,11 +5,14 @@ spring:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
     deserialization:
       fail-on-unknown-properties: false
+
 server:
-  port: ${SERVER_PORT}
+  port: ${ORA_PROVIDER_PORT}
+
 logging:
   level:
     io.swagger.models.parameters.AbstractSerializableParameter: error
+
 ---
 
 spring:
@@ -27,6 +30,8 @@ spring:
     password: ${ORA_PASS}
     driver-class-name: oracle.jdbc.OracleDriver
     platform: org.hibernate.dialect.Oracle10gDialect
+    hikari:
+      connection-timeout: 10000
 
 ---
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.university.api.controller.BasicDatabaseController;
+import io.university.oracle.exporter.OPeopleExporter;
 import io.university.oracle.model.dao.OPerson;
 import io.university.oracle.service.factory.impl.OPeopleFactory;
 import io.university.oracle.storage.impl.*;
@@ -27,6 +28,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/oracle/people")
 public class OPeopleController extends BasicDatabaseController<OPerson> {
 
+    @Autowired private OPeopleExporter peopleExporter;
+
     @Autowired private ODepartmentStorage departmentStorage;
     @Autowired private OSpecialityStorage specialityStorage;
     @Autowired private OScheduleStorage scheduleStorage;
@@ -49,6 +52,13 @@ public class OPeopleController extends BasicDatabaseController<OPerson> {
     @GetMapping("/all")
     public List<OPerson> getAll() {
         return peopleStorage.findAll();
+    }
+
+    @GetMapping("/export/all")
+    public List<OPerson> exportAll() {
+        List<OPerson> people = transform(peopleStorage.findAll());
+        peopleExporter.exportIfPossible(people);
+        return people;
     }
 
     @ApiOperation(value = "Generate Oracle schema")

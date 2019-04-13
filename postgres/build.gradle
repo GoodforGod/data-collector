@@ -10,9 +10,7 @@ version '1.0.0'
 
 repositories {
     mavenCentral()
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
-    }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 }
 
 bootRun {
@@ -21,17 +19,19 @@ bootRun {
     args = ["--add-modules=java.xml.bind"]
 
     environment([
-            "SERVER_PORT"   : System.getenv("SERVER_PORT") ?: "8082",
-            "EXPORT_ENABLED": System.getenv("EXPORT_ENABLED") ?: "true",
-            "EXPORT_SERVER" : System.getenv("EXPORT_SERVER") ?: "http://localhost:8080",
-            "PG_USER"       : System.getenv("PG_USER") ?: "postgres",
-            "PG_PASS"       : System.getenv("PG_PASS") ?: "postgres",
-            "PG_URL"        : System.getenv("PG_URL") ?: "jdbc:postgresql://localhost:5432/postgres?createDatabaseIfNotExist=true"
+            "PG_PROVIDER_PORT": System.getenv("PG_PROVIDER_PORT") ?: "$pgProviderPort",
+            "EXPORT_ENABLED"  : System.getenv("EXPORT_ENABLED") ?: "$exportEnabled",
+            "EXPORT_SERVER"   : System.getenv("EXPORT_SERVER") ?: "$exportServer",
+            "PG_USER"         : System.getenv("PG_USER") ?: "$pgUser",
+            "PG_PASS"         : System.getenv("PG_PASS") ?: "$pgPass",
+            "PG_URL"          : System.getenv("PG_URL") ?: "$pgUrl"
     ])
 }
 
 dependencies {
     compile project(":app-api")
+
+    compile 'javax.xml.bind:jaxb-api:2.3.0'
 
     compile "org.springframework.boot:spring-boot-starter-web:$springVersion"
     compile "org.springframework.boot:spring-boot-starter-data-jpa:$springVersion"
@@ -42,4 +42,3 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.springframework.boot:spring-boot-starter-test:$springVersion"
 }
-

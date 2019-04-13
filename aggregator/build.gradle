@@ -10,13 +10,9 @@ version '1.0.0'
 
 repositories {
     mavenCentral()
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
-    }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 
-    flatDir {
-        dir('driver')
-    }
+    flatDir { dir('driver') }
 }
 
 bootRun {
@@ -25,15 +21,17 @@ bootRun {
     args = ["--add-modules=java.xml.bind"]
 
     environment([
-            "SERVER_PORT": System.getenv("SERVER_PORT") ?: "8080",
-            "ORA_USER"   : System.getenv("ORA_USER") ?: "sys as sysdba",
-            "ORA_PASS"   : System.getenv("ORA_PASS") ?: "Oradoc_db1",
-            "ORA_URL"    : System.getenv("ORA_URL") ?: "jdbc:oracle:thin:@localhost:1521:ORCLCDB"
+            "AGGREGATOR_PORT"    : System.getenv("AGGREGATOR_PORT") ?: "$aggregatorPort",
+            "ORA_AGGREGATOR_USER": System.getenv("ORA_AGGREGATOR_USER") ?: "$oraAggregatorUser",
+            "ORA_AGGREGATOR_PASS": System.getenv("ORA_AGGREGATOR_PASS") ?: "$oraAggregatorPass",
+            "ORA_AGGREGATOR_URL" : System.getenv("ORA_AGGREGATOR_URL") ?: "$oraAggregatorUrl"
     ])
 }
 
 dependencies {
     compile project(":app-api")
+
+    compile 'javax.xml.bind:jaxb-api:2.3.0'
 
     compile "org.springframework.boot:spring-boot-starter-web:$springVersion"
     compile "org.springframework.boot:spring-boot-starter-data-jpa:$springVersion"
@@ -44,4 +42,3 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.springframework.boot:spring-boot-starter-test:$springVersion"
 }
-

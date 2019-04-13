@@ -1,6 +1,5 @@
 package io.university.api.exporter;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.university.api.executor.HttpExecutor;
 import io.university.api.executor.IHttpExecutor;
@@ -41,8 +40,8 @@ public abstract class BasicExporter<T> implements IExporter<T> {
                 logger.warn("Response is invalid!");
 
             return t;
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            logger.warn("Can't export objects!", e);
         }
 
         return null;
