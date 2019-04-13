@@ -9,13 +9,13 @@ import io.dummymaker.annotation.simple.string.GenCity;
 import io.dummymaker.annotation.simple.string.GenName;
 import io.dummymaker.annotation.simple.string.GenSurname;
 import io.dummymaker.annotation.special.GenEmbedded;
-import io.university.aggregator.model.IUpdatable;
 import io.university.aggregator.model.dao.mongo.CLiving;
 import io.university.aggregator.model.dao.mongo.CVisit;
 import io.university.aggregator.model.dao.mysql.CConference;
 import io.university.aggregator.model.dao.mysql.CProjectParticipation;
 import io.university.aggregator.model.dao.mysql.CPublishment;
 import io.university.aggregator.model.dao.mysql.CReading;
+import io.university.api.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -113,6 +113,11 @@ public class CPerson implements IUpdatable<CPerson>, Serializable {
             inverseJoinColumns = {@JoinColumn(name = "conference_uid")}
     )
     private Set<CConference> conferences = new HashSet<>();
+
+    @JsonIgnore
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getId() {
         return id;

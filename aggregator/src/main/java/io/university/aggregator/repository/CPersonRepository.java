@@ -28,7 +28,7 @@ public interface CPersonRepository extends JpaRepository<CPerson, Integer> {
             @Param("birthTimestamp") Timestamp birthTimestamp
     );
 
-    CPerson findByNameAndMiddleNameAndSurnameAndBirthPlaceAndBirthTimestamp(
+    List<CPerson> findByNameAndMiddleNameAndSurnameAndBirthPlaceAndBirthTimestamp(
             @Param("name") String name,
             @Param("middleName") String middleName,
             @Param("surname") String surname,

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.string.GenId;
 import io.university.aggregator.model.dao.CPerson;
+import io.university.api.model.IUpdatable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,7 +18,7 @@ import java.sql.Timestamp;
  * @since 11.03.2019
  */
 @Entity
-public class CVisit implements Serializable {
+public class CVisit implements IUpdatable<CVisit>, Serializable {
 
     @Id
     @NotNull
@@ -65,6 +66,11 @@ public class CVisit implements Serializable {
 
     public void setCommunity(CCommunity community) {
         this.community = community;
+    }
+
+    @Override
+    public void update(CVisit cVisit) {
+
     }
 
     @Override

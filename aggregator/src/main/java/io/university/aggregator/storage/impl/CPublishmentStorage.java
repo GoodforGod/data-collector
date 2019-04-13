@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @since 10.03.2019
  */
 @Component
-public class CPublishmentStorage extends BasicJpaStorage<CPublishment, Integer> {
+public class CPublishmentStorage extends BasicJpaStorage<CPublishment, String> {
 
     @Autowired
     public CPublishmentStorage(final CPublishmentRepository repository) {

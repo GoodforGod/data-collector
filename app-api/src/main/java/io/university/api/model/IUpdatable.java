@@ -1,4 +1,4 @@
-package io.university.aggregator.model;
+package io.university.api.model;
 
 /**
  * ! NO DESCRIPTION !

@@ -3,7 +3,7 @@ package io.university.aggregator.model.dao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.simple.string.GenCompany;
 import io.dummymaker.annotation.simple.string.GenId;
-import io.university.aggregator.model.IUpdatable;
+import io.university.api.model.IUpdatable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -70,9 +70,9 @@ public class CDepartment implements IUpdatable<CDepartment>, Serializable {
     }
 
     @Override
-    public void update(CDepartment oDepartment) {
-        this.name = oDepartment.getName();
-        this.parentDepartmentId = oDepartment.getParentDepartmentId();
+    public void update(CDepartment department) {
+        this.name = department.getName();
+        this.parentDepartmentId = department.getParentDepartmentId();
     }
 
     @Override

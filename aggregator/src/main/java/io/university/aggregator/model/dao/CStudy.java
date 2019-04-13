@@ -6,7 +6,7 @@ import io.dummymaker.annotation.simple.GenBoolean;
 import io.dummymaker.annotation.simple.number.GenUShort;
 import io.dummymaker.annotation.simple.string.GenHexNumber;
 import io.dummymaker.annotation.simple.string.GenId;
-import io.university.aggregator.model.IUpdatable;
+import io.university.api.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -44,7 +44,7 @@ public class CStudy implements IUpdatable<CStudy>, Serializable {
     private Timestamp graduateTimestamp;
 
     @JsonIgnore
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person_uid")
     private CPerson person;
 
@@ -53,7 +53,7 @@ public class CStudy implements IUpdatable<CStudy>, Serializable {
     private CDepartment department;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "speciality_id")
+    @JoinColumn(name = "speciality_uid")
     private CSpeciality speciality;
 
     public void setSpeciality(CSpeciality speciality) {

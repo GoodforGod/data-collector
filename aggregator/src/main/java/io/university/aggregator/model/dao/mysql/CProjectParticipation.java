@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.string.GenId;
 import io.university.aggregator.model.dao.CPerson;
+import io.university.api.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,7 +17,7 @@ import java.sql.Timestamp;
  * @since 10.03.2019
  */
 @Entity
-public class CProjectParticipation implements Serializable {
+public class CProjectParticipation implements IUpdatable<CProjectParticipation>, Serializable {
 
     @Id
     @GenId
@@ -63,6 +64,11 @@ public class CProjectParticipation implements Serializable {
 
     public void setProject(CProject project) {
         this.project = project;
+    }
+
+    @Override
+    public void update(CProjectParticipation cProjectParticipation) {
+
     }
 
     @Override

@@ -7,7 +7,7 @@ import io.dummymaker.annotation.simple.string.GenCompany;
 import io.dummymaker.annotation.simple.string.GenNick;
 import io.dummymaker.annotation.simple.string.GenNoun;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
-import io.university.aggregator.model.IUpdatable;
+import io.university.api.model.IUpdatable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

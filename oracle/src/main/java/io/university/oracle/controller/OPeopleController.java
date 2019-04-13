@@ -71,6 +71,13 @@ public class OPeopleController extends BasicDatabaseController<OPerson> {
         return generateAsJson(generateAmount);
     }
 
+    @GetMapping("/export/all")
+    public List<OPerson> exportAll() {
+        List<OPerson> people = transform(peopleStorage.findAll());
+        peopleExporter.exportIfPossible(people);
+        return people;
+    }
+
     @GetMapping("/fill")
     public List<OPerson> fillWithPeople(
             @ApiParam(value = "Amount users to generate", defaultValue = "2")

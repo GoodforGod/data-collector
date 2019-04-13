@@ -5,6 +5,7 @@ import io.university.aggregator.repository.CPersonRepository;
 import io.university.api.storage.impl.BasicJpaStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -45,12 +46,14 @@ public class CPersonStorage extends BasicJpaStorage<CPerson, Integer> {
                                                     final String birthPlace,
                                                     final Timestamp birthTimestamp
     ) {
-        return Optional.ofNullable(
-                personRepository.findByNameAndMiddleNameAndSurnameAndBirthPlaceAndBirthTimestamp(name,
+        final List<CPerson> people = personRepository.findByNameAndMiddleNameAndSurnameAndBirthPlaceAndBirthTimestamp(name,
                 middleName,
                 surname,
                 birthPlace,
-                birthTimestamp)
-        );
+                birthTimestamp);
+
+        return (CollectionUtils.isEmpty(people))
+                ? Optional.empty()
+                : Optional.of(people.get(0));
     }
 }

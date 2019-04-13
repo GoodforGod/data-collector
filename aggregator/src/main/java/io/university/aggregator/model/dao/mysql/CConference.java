@@ -7,6 +7,7 @@ import io.dummymaker.annotation.simple.string.GenCompany;
 import io.dummymaker.annotation.simple.string.GenCountry;
 import io.dummymaker.annotation.simple.string.GenName;
 import io.university.aggregator.model.dao.CPerson;
+import io.university.api.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,7 +22,7 @@ import java.util.Set;
  * @since 10.03.2019
  */
 @Entity
-public class CConference implements Serializable {
+public class CConference implements IUpdatable<CConference>, Serializable {
 
     @Id
     @GeneratedValue
@@ -77,6 +78,11 @@ public class CConference implements Serializable {
     public CPerson addPerson(CPerson person) {
         this.people.add(person);
         return person;
+    }
+
+    @Override
+    public void update(CConference cConference) {
+
     }
 
     @Override

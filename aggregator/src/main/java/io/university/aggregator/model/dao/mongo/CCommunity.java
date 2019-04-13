@@ -7,6 +7,7 @@ import io.dummymaker.annotation.simple.string.GenCity;
 import io.dummymaker.annotation.simple.string.GenCountry;
 import io.dummymaker.annotation.simple.string.GenId;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
+import io.university.api.model.IUpdatable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -25,7 +26,7 @@ import java.util.Set;
  * @since 11.03.2019
  */
 @Entity
-public class CCommunity implements Serializable {
+public class CCommunity implements IUpdatable<CCommunity>, Serializable {
 
     @Id
     @NotNull
@@ -107,6 +108,11 @@ public class CCommunity implements Serializable {
 
     public Set<CRoom> updateRooms(Collection<CRoom> rooms) {
         return (this.rooms = new HashSet<>(rooms));
+    }
+
+    @Override
+    public void update(CCommunity community) {
+
     }
 
     @Override

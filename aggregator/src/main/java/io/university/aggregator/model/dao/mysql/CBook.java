@@ -6,6 +6,7 @@ import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.string.GenId;
 import io.dummymaker.annotation.simple.string.GenName;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
+import io.university.api.model.IUpdatable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -24,7 +25,7 @@ import java.util.Set;
  * @since 10.03.2019
  */
 @Entity
-public class CBook implements Serializable {
+public class CBook implements IUpdatable<CBook>, Serializable {
 
     @Id
     @NotNull
@@ -61,6 +62,11 @@ public class CBook implements Serializable {
     public CReading addReading(CReading reading) {
         this.readings.add(reading);
         return reading;
+    }
+
+    @Override
+    public void update(CBook book) {
+
     }
 
     @Override

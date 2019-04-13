@@ -5,7 +5,7 @@ import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.number.GenCharacter;
 import io.dummymaker.annotation.simple.number.GenUByte;
 import io.dummymaker.annotation.simple.string.GenId;
-import io.university.aggregator.model.IUpdatable;
+import io.university.api.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -75,10 +75,10 @@ public class CGrade implements IUpdatable<CGrade>, Serializable {
     }
 
     @Override
-    public void update(CGrade oGrade) {
-        this.numValue = oGrade.getNumValue();
-        this.latinValue = oGrade.getLatinValue();
-        this.gradeTimestamp = oGrade.getGradeTimestamp();
+    public void update(CGrade grade) {
+        this.numValue = grade.getNumValue();
+        this.latinValue = grade.getLatinValue();
+        this.gradeTimestamp = grade.getGradeTimestamp();
     }
 
     @Override

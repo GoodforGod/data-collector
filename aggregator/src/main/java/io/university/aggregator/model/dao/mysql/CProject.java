@@ -6,6 +6,7 @@ import io.dummymaker.annotation.simple.string.GenId;
 import io.dummymaker.annotation.simple.string.GenNick;
 import io.dummymaker.annotation.simple.string.GenPhrase;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
+import io.university.api.model.IUpdatable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -22,7 +23,7 @@ import java.util.Set;
  * @since 10.03.2019
  */
 @Entity
-public class CProject implements Serializable {
+public class CProject implements IUpdatable<CProject>, Serializable {
 
     @Id
     @GenId
@@ -58,6 +59,11 @@ public class CProject implements Serializable {
     public CProjectParticipation addPraticipation(CProjectParticipation participation) {
         this.participations.add(participation);
         return participation;
+    }
+
+    @Override
+    public void update(CProject cProject) {
+
     }
 
     @Override

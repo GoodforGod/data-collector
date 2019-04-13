@@ -5,6 +5,7 @@ import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.string.GenId;
 import io.dummymaker.annotation.simple.string.GenName;
 import io.university.aggregator.model.dao.CPerson;
+import io.university.api.model.IUpdatable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,7 +18,7 @@ import java.sql.Timestamp;
  * @since 10.03.2019
  */
 @Entity
-public class CPublishment implements Serializable {
+public class CPublishment implements IUpdatable<CPublishment>, Serializable {
 
     @Id
     @GenId
@@ -64,6 +65,11 @@ public class CPublishment implements Serializable {
 
     public void setEdition(CEdition edition) {
         this.edition = edition;
+    }
+
+    @Override
+    public void update(CPublishment cPublishment) {
+
     }
 
     @Override
