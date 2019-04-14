@@ -63,6 +63,6 @@ There are specific *load* & *load test* endpoints for each database with specifi
 ### Aggregator Common Schema
 ![](doc/schema_common.png)
 
-### JSON Example
+### JSON Model Example
 
-[JSON schema](https://pastebin.com/nsycLfgE)
+[JSON model](https://pastebin.com/jk3wu6Fh)
