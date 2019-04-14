@@ -1,18 +1,22 @@
-version: '3.1'
+version: '2.3'
 services:
-  oracle:
+  oracledb:
     image: store/oracle/database-enterprise:12.2.0.1
-    restart: always
+    restart: on-failure
 # Uncomment if you need volumes
 #    volumes:
 #    - "/data/OracleDBData:/ORCL store/oracle/database-enterprise:12.2.0.1"
     ports:
-    - "32769:1521"
-    - "32768:5500"
+    - "1521:1521"
+    - "5500:5500"
+
   aggregator:
     build: .
-    image: oracle-aggregator
+    restart: on-failure
+    depends_on:
+      oracledb:
+        condition: service_healthy
     links:
-    - oracle
+    - oracledb
     ports:
     - "8080:8080"

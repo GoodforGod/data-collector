@@ -1,9 +1,9 @@
-package io.university.controller.aggregator;
+package io.university.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.university.model.dao.CPerson;
-import io.university.service.factory.IFactory;
+import io.university.factory.IFactory;
+import io.university.model.CPerson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

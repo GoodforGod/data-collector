@@ -1,6 +1,6 @@
 package io.university.storage.impl;
 
-import io.university.model.dao.CRoom;
+import io.university.model.CRoom;
 import io.university.repository.CRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

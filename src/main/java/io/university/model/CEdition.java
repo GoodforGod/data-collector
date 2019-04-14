@@ -1,4 +1,4 @@
-package io.university.model.dao;
+package io.university.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenEnum;

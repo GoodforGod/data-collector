@@ -1,4 +1,4 @@
-package io.university.service.factory;
+package io.university.factory;
 
 import java.util.List;
 

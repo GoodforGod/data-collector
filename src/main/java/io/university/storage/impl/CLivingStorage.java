@@ -1,6 +1,6 @@
 package io.university.storage.impl;
 
-import io.university.model.dao.CLiving;
+import io.university.model.CLiving;
 import io.university.repository.CLivingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

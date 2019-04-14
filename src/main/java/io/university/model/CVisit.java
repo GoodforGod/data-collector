@@ -1,4 +1,4 @@
-package io.university.model.dao;
+package io.university.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
@@ -12,10 +12,10 @@ import java.sql.Timestamp;
  * ! NO DESCRIPTION !
  *
  * @author GoodforGod
- * @since 10.03.2019
+ * @since 11.03.2019
  */
 @Entity
-public class CProjectParticipation {
+public class CVisit {
 
     @Id
     @NotNull
@@ -23,30 +23,30 @@ public class CProjectParticipation {
     private String id;
 
     @GenTime
-    private Timestamp startTimestamp;
+    private Timestamp enterTimestamp;
 
     @GenTime
-    private Timestamp endTimestamp;
+    private Timestamp exitTimestamp;
 
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person_uid")
     private CPerson person;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "project_uid")
-    private CProject project;
+    @JoinColumn(name = "community_uid")
+    private CCommunity community;
 
     public String getId() {
         return id;
     }
 
-    public Timestamp getStartTimestamp() {
-        return startTimestamp;
+    public Timestamp getEnterTimestamp() {
+        return enterTimestamp;
     }
 
-    public Timestamp getEndTimestamp() {
-        return endTimestamp;
+    public Timestamp getExitTimestamp() {
+        return exitTimestamp;
     }
 
     public CPerson getPerson() {
@@ -57,12 +57,12 @@ public class CProjectParticipation {
         this.person = person;
     }
 
-    public CProject getProject() {
-        return project;
+    public CCommunity getCommunity() {
+        return community;
     }
 
-    public void setProject(CProject project) {
-        this.project = project;
+    public void setCommunity(CCommunity community) {
+        this.community = community;
     }
 
     @Override
@@ -70,9 +70,9 @@ public class CProjectParticipation {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CProjectParticipation that = (CProjectParticipation) o;
+        CVisit visit = (CVisit) o;
 
-        return id != null ? id.equals(that.id) : that.id == null;
+        return id != null ? id.equals(visit.id) : visit.id == null;
     }
 
     @Override

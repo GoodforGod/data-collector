@@ -1,6 +1,6 @@
 package io.university.storage.impl;
 
-import io.university.model.dao.CDepartment;
+import io.university.model.CDepartment;
 import io.university.repository.CDepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

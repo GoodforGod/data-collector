@@ -1,6 +1,6 @@
 package io.university.storage.impl;
 
-import io.university.model.dao.CConference;
+import io.university.model.CConference;
 import io.university.repository.CConferenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

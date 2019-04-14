@@ -1,6 +1,6 @@
 package io.university.repository;
 
-import io.university.model.dao.CProject;
+import io.university.model.CProject;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

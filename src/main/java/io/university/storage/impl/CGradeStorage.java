@@ -1,6 +1,6 @@
 package io.university.storage.impl;
 
-import io.university.model.dao.CGrade;
+import io.university.model.CGrade;
 import io.university.repository.CGradeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

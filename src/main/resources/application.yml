@@ -50,4 +50,3 @@ spring:
     hikari:
       connection-timeout: 10000
       initialization-fail-timeout: 10000
-

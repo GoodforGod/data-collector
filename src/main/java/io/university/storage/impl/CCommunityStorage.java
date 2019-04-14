@@ -1,6 +1,6 @@
 package io.university.storage.impl;
 
-import io.university.model.dao.CCommunity;
+import io.university.model.CCommunity;
 import io.university.repository.CCommunityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

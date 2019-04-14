@@ -1,4 +1,4 @@
-package io.university.model.dao;
+package io.university.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenSet;
@@ -8,7 +8,10 @@ import io.dummymaker.annotation.simple.string.GenNick;
 import io.dummymaker.annotation.simple.string.GenNoun;
 import io.dummymaker.generator.simple.impl.EmbeddedGenerator;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -43,8 +46,8 @@ public class CSpeciality implements Serializable {
     private Set<CSubject> subjects = new HashSet<>();
 
     @JsonIgnore
-    @OneToOne(mappedBy = "speciality", cascade = CascadeType.ALL)
-    private CStudy study;
+    @OneToMany(mappedBy = "speciality", cascade = CascadeType.ALL)
+    private Set<CStudy> studies = new HashSet<>();
 
     public Integer getCode() {
         return code;
@@ -71,12 +74,13 @@ public class CSpeciality implements Serializable {
         return subject;
     }
 
-    public CStudy getStudy() {
-        return study;
+    public Set<CStudy> getStudies() {
+        return studies;
     }
 
-    public void setStudy(CStudy study) {
-        this.study = study;
+    public CStudy addStudy(CStudy study) {
+        this.studies.add(study);
+        return study;
     }
 
     @Override

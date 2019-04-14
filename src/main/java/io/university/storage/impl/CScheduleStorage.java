@@ -1,6 +1,6 @@
 package io.university.storage.impl;
 
-import io.university.model.dao.CSchedule;
+import io.university.model.CSchedule;
 import io.university.repository.CScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

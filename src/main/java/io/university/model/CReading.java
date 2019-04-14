@@ -1,9 +1,8 @@
-package io.university.model.dao;
+package io.university.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
 import io.dummymaker.annotation.simple.string.GenId;
-import io.dummymaker.annotation.simple.string.GenName;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,22 +15,22 @@ import java.sql.Timestamp;
  * @since 10.03.2019
  */
 @Entity
-public class CPublishment {
+public class CReading {
 
     @Id
     @NotNull
     @GenId
     private String id;
 
-    @GenName
-    private String name;
+    @GenTime
+    private Timestamp takeTimestamp;
 
     @GenTime
-    private Timestamp publishTimestamp;
+    private Timestamp returnTimestamp;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "edition_uid")
-    private CEdition edition;
+    @JoinColumn(name = "book_uid")
+    private CBook book;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
@@ -42,12 +41,20 @@ public class CPublishment {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public Timestamp getTakeTimestamp() {
+        return takeTimestamp;
     }
 
-    public Timestamp getPublishTimestamp() {
-        return publishTimestamp;
+    public Timestamp getReturnTimestamp() {
+        return returnTimestamp;
+    }
+
+    public CBook getBook() {
+        return book;
+    }
+
+    public void setBook(CBook book) {
+        this.book = book;
     }
 
     public CPerson getPerson() {
@@ -58,22 +65,14 @@ public class CPublishment {
         this.person = person;
     }
 
-    public CEdition getEdition() {
-        return edition;
-    }
-
-    public void setEdition(CEdition edition) {
-        this.edition = edition;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CPublishment that = (CPublishment) o;
+        CReading cReading = (CReading) o;
 
-        return id != null ? id.equals(that.id) : that.id == null;
+        return id != null ? id.equals(cReading.id) : cReading.id == null;
     }
 
     @Override

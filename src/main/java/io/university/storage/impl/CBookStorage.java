@@ -1,6 +1,6 @@
 package io.university.storage.impl;
 
-import io.university.model.dao.CBook;
+import io.university.model.CBook;
 import io.university.repository.CBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

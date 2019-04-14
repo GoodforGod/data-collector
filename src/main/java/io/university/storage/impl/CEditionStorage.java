@@ -1,6 +1,6 @@
 package io.university.storage.impl;
 
-import io.university.model.dao.CEdition;
+import io.university.model.CEdition;
 import io.university.repository.CEditionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

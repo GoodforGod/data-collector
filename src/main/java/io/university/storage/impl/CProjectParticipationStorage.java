@@ -1,6 +1,6 @@
 package io.university.storage.impl;
 
-import io.university.model.dao.CProjectParticipation;
+import io.university.model.CProjectParticipation;
 import io.university.repository.CProjectParticipationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

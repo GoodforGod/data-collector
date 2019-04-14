@@ -1,4 +1,4 @@
-package io.university.model.dao;
+package io.university.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
@@ -45,7 +45,7 @@ public class CStudy implements Serializable {
     private Timestamp graduateTimestamp;
 
     @JsonIgnore
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person_uid")
     private CPerson person;
 
@@ -53,8 +53,8 @@ public class CStudy implements Serializable {
     @JoinColumn(name = "department_uid")
     private CDepartment department;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "speciality_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "speciality_uid")
     private CSpeciality speciality;
 
     public void setSpeciality(CSpeciality speciality) {

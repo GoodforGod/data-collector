@@ -1,6 +1,6 @@
 package io.university.storage.impl;
 
-import io.university.model.dao.CStudy;
+import io.university.model.CStudy;
 import io.university.repository.CStudyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

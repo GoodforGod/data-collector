@@ -1,6 +1,6 @@
 package io.university.repository;
 
-import io.university.model.dao.CRoom;
+import io.university.model.CRoom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

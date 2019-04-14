@@ -1,7 +1,7 @@
-package io.university.service.factory.impl;
+package io.university.factory.impl;
 
 import io.dummymaker.factory.impl.GenProduceFactory;
-import io.university.service.factory.IFactory;
+import io.university.factory.IFactory;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;

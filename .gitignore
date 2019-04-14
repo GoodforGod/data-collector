@@ -1,2 +1,10 @@
 .idea
 *.iml
+out
+build
+.gradle
+
+oracle
+postgres
+aggregator
+app-api

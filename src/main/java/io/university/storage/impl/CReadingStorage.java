@@ -1,6 +1,6 @@
 package io.university.storage.impl;
 
-import io.university.model.dao.CReading;
+import io.university.model.CReading;
 import io.university.repository.CReadingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

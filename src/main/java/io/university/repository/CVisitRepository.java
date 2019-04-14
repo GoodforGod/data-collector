@@ -1,6 +1,6 @@
 package io.university.repository;
 
-import io.university.model.dao.CVisit;
+import io.university.model.CVisit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

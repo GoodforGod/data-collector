@@ -1,8 +1,7 @@
-package io.university.model.dao;
+package io.university.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
-import io.dummymaker.annotation.simple.number.GenUInteger;
 import io.dummymaker.annotation.simple.string.GenId;
 
 import javax.persistence.*;
@@ -13,10 +12,10 @@ import java.sql.Timestamp;
  * ! NO DESCRIPTION !
  *
  * @author GoodforGod
- * @since 11.03.2019
+ * @since 10.03.2019
  */
 @Entity
-public class CLiving {
+public class CProjectParticipation {
 
     @Id
     @NotNull
@@ -24,45 +23,30 @@ public class CLiving {
     private String id;
 
     @GenTime
-    private Timestamp enterTimestamp;
+    private Timestamp startTimestamp;
 
     @GenTime
-    private Timestamp exitTimestamp;
-
-    @GenUInteger
-    private Integer enterCource;
-
-    @GenUInteger
-    private Integer invoiceCount;
+    private Timestamp endTimestamp;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person_uid")
     private CPerson person;
 
-    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "room_uid")
-    private CRoom room;
+    @JoinColumn(name = "project_uid")
+    private CProject project;
 
     public String getId() {
         return id;
     }
 
-    public Timestamp getEnterTimestamp() {
-        return enterTimestamp;
+    public Timestamp getStartTimestamp() {
+        return startTimestamp;
     }
 
-    public Timestamp getExitTimestamp() {
-        return exitTimestamp;
-    }
-
-    public Integer getEnterCource() {
-        return enterCource;
-    }
-
-    public Integer getInvoiceCount() {
-        return invoiceCount;
+    public Timestamp getEndTimestamp() {
+        return endTimestamp;
     }
 
     public CPerson getPerson() {
@@ -73,12 +57,12 @@ public class CLiving {
         this.person = person;
     }
 
-    public CRoom getRoom() {
-        return room;
+    public CProject getProject() {
+        return project;
     }
 
-    public void setRoom(CRoom room) {
-        this.room = room;
+    public void setProject(CProject project) {
+        this.project = project;
     }
 
     @Override
@@ -86,9 +70,9 @@ public class CLiving {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CLiving living = (CLiving) o;
+        CProjectParticipation that = (CProjectParticipation) o;
 
-        return id != null ? id.equals(living.id) : living.id == null;
+        return id != null ? id.equals(that.id) : that.id == null;
     }
 
     @Override

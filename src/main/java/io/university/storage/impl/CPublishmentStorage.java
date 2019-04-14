@@ -1,6 +1,6 @@
 package io.university.storage.impl;
 
-import io.university.model.dao.CPublishment;
+import io.university.model.CPublishment;
 import io.university.repository.CPublishmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

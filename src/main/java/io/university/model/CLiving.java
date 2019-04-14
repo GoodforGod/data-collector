@@ -1,7 +1,8 @@
-package io.university.model.dao;
+package io.university.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.dummymaker.annotation.complex.GenTime;
+import io.dummymaker.annotation.simple.number.GenUInteger;
 import io.dummymaker.annotation.simple.string.GenId;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ import java.sql.Timestamp;
  * @since 11.03.2019
  */
 @Entity
-public class CVisit {
+public class CLiving {
 
     @Id
     @NotNull
@@ -28,14 +29,21 @@ public class CVisit {
     @GenTime
     private Timestamp exitTimestamp;
 
+    @GenUInteger
+    private Integer enterCource;
+
+    @GenUInteger
+    private Integer invoiceCount;
+
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person_uid")
     private CPerson person;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "community_uid")
-    private CCommunity community;
+    @JoinColumn(name = "room_uid")
+    private CRoom room;
 
     public String getId() {
         return id;
@@ -49,6 +57,14 @@ public class CVisit {
         return exitTimestamp;
     }
 
+    public Integer getEnterCource() {
+        return enterCource;
+    }
+
+    public Integer getInvoiceCount() {
+        return invoiceCount;
+    }
+
     public CPerson getPerson() {
         return person;
     }
@@ -57,12 +73,12 @@ public class CVisit {
         this.person = person;
     }
 
-    public CCommunity getCommunity() {
-        return community;
+    public CRoom getRoom() {
+        return room;
     }
 
-    public void setCommunity(CCommunity community) {
-        this.community = community;
+    public void setRoom(CRoom room) {
+        this.room = room;
     }
 
     @Override
@@ -70,9 +86,9 @@ public class CVisit {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CVisit visit = (CVisit) o;
+        CLiving living = (CLiving) o;
 
-        return id != null ? id.equals(visit.id) : visit.id == null;
+        return id != null ? id.equals(living.id) : living.id == null;
     }
 
     @Override

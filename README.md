@@ -11,7 +11,6 @@ Download repository.
 Download [oJDBC (ojdbc7.jar)](https://www.oracle.com/technetwork/database/features/jdbc/jdbc-drivers-12c-download-1958347.html) and put it in */driver* folder inside project root.
 Rename file to *ojdbc7-12.1.0.2.jar*
 
-
 Set environment variables (Or [default will be used](/build.gradle)):
 * ORA_USER - database user
 * ORA_PASS - database password
