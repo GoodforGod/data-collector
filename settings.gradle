@@ -1,1 +1,5 @@
-rootProject.name = 'oracle-aggregator'
+include 'aggregator'
+include 'oracle'
+include 'postgres'
+include 'app-api'
+

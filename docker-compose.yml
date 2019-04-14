@@ -1,18 +1,52 @@
-version: '3.1'
+version: '2.3'
 services:
-  oracle:
+  oracledb:
     image: store/oracle/database-enterprise:12.2.0.1
-    restart: always
-# Uncomment if you need volumes
-#    volumes:
+    restart: on-failure
+#    volumes: #Uncomment if you need volumes
 #    - "/data/OracleDBData:/ORCL store/oracle/database-enterprise:12.2.0.1"
     ports:
-    - "32769:1521"
-    - "32768:5500"
-  aggregator:
-    build: .
-    image: oracle-aggregator
-    links:
-    - oracle
+    - "1521:1521"
+    - "5500:5500"
+
+  postgresdb:
+    image: postgres
+    restart: on-failure
     ports:
-    - "8080:8080"
+    - "5432:5432"
+
+#  aggregator:
+#    restart: on-failure
+#    build:
+#      context: .
+#      dockerfile: Dockerfile_aggregator
+#    ports:
+#    - "8080:8080"
+#    depends_on:
+#      oracledb:
+#        condition: service_healthy
+#    links:
+#      - oracledb
+
+#  oracle_provider:
+#    restart: on-failure
+#    build:
+#      context: .
+#      dockerfile: Dockerfile_oracle
+#    ports:
+#    - "8081:8081"
+#    depends_on:
+#      oracledb:
+#        condition: service_healthy
+#    links:
+#      - oracledb
+
+#  postgres_provider:
+#    restart: on-failure
+#    build:
+#      context: .
+#      dockerfile: Dockerfile_postgres
+#    ports:
+#    - "8082:8082"
+#    links:
+#      - postgresdb

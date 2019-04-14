@@ -1,0 +1,54 @@
+spring:
+  profiles:
+    active: "local"
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+    deserialization:
+      fail-on-unknown-properties: false
+
+server:
+  port: ${PG_PROVIDER_PORT}
+
+logging:
+  level:
+    io.swagger.models.parameters.AbstractSerializableParameter: error
+
+---
+
+spring:
+  profiles: local
+  jpa:
+    database: postgresql
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+  datasource:
+    url: ${PG_URL}
+    username: ${PG_USER}
+    password: ${PG_PASS}
+    driver-class-name: org.postgresql.Driver
+    platform: org.hibernate.dialect.PostgreSQLDialect
+    hikari:
+      connection-timeout: 10000
+
+---
+
+spring:
+  profiles: prod
+  jpa:
+    database: postgresql
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+    generate-ddl: true
+  datasource:
+    url: ${PG_URL}
+    username: ${PG_USER}
+    password: ${PG_PASS}
+    driver-class-name: org.postgresql.Driver
+    platform: org.hibernate.dialect.PostgreSQLDialect
+

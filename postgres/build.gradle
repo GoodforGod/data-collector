@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'org.springframework.boot' version "2.0.2.RELEASE"
+    id 'io.spring.dependency-management' version "1.0.7.RELEASE"
+}
+
+group 'io.university.postgres'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+}
+
+bootRun {
+    main = 'io.university.postgres.AppStarter'
+
+    args = ["--add-modules=java.xml.bind"]
+
+    environment([
+            "PG_PROVIDER_PORT": System.getenv("PG_PROVIDER_PORT") ?: "$pgProviderPort",
+            "EXPORT_ENABLED"  : System.getenv("EXPORT_ENABLED") ?: "$exportEnabled",
+            "EXPORT_SERVER"   : System.getenv("EXPORT_SERVER") ?: "$exportServer",
+            "PG_USER"         : System.getenv("PG_USER") ?: "$pgUser",
+            "PG_PASS"         : System.getenv("PG_PASS") ?: "$pgPass",
+            "PG_URL"          : System.getenv("PG_URL") ?: "$pgUrl"
+    ])
+}
+
+dependencies {
+    compile project(":app-api")
+
+    compile 'javax.xml.bind:jaxb-api:2.3.0'
+
+    compile "org.springframework.boot:spring-boot-starter-web:$springVersion"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa:$springVersion"
+    compile "io.springfox:springfox-swagger2:$swaggerVersion"
+    compile "io.springfox:springfox-swagger-ui:$swaggerVersion"
+    compile "com.github.goodforgod:dummymaker:$dummymakerVersion"
+    compile "org.postgresql:postgresql:$pgjdbcVersion"
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:$springVersion"
+}

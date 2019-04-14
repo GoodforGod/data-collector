@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    id 'idea'
+}
+
+group 'io.university'
+version '1.0.0'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+}
+
+dependencies {
+    compile "org.springframework.data:spring-data-jpa:$springVersion"
+    compile "org.springframework:spring-web:5.1.6.RELEASE"
+
+    compile "com.fasterxml.jackson.core:jackson-databind:2.9.8"
+    compile "com.github.goodforgod:dummymaker:$dummymakerVersion"
+    testImplementation "junit:junit:$junitVersion"
+}

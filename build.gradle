@@ -1,8 +1,6 @@
 plugins {
     id 'java'
     id 'idea'
-    id 'org.springframework.boot' version '2.0.2.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.7.RELEASE'
 }
 
 group 'io.university'
@@ -11,37 +9,15 @@ version '1.0.0'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-repositories {
-    flatDir {
-        dirs 'driver'
-    }
-
-    mavenCentral()
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
+allprojects {
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots"
+        }
     }
 }
 
-bootRun {
-    main = 'io.university.AppStarter'
-
-    args = ["--add-modules=java.xml.bind"]
-
-    environment([
-            "SERVER_PORT"   : System.getenv("SERVER_PORT") ?: "8080",
-            "ORA_USER"      : System.getenv("ORA_USER") ?: "sys as sysdba",
-            "ORA_PASS"      : System.getenv("ORA_PASS") ?: "Oradoc_db1",
-            "ORA_URL"       : System.getenv("ORA_URL") ?: "jdbc:oracle:thin:@localhost:1521:ORCLCDB"
-    ])
-}
-
-dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-web:2.0.2.RELEASE'
-    compile 'org.springframework.boot:spring-boot-starter-data-jpa:2.0.2.RELEASE'
-    compile 'com.github.goodforgod:dummymaker:1.1.4-SNAPSHOT'
-    compile 'com.oracle:ojdbc7:12.1.0.2'
-    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
-    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
-    testImplementation  group: 'junit', name: 'junit', version: '4.12'
-    testImplementation  'org.springframework.boot:spring-boot-starter-test:2.0.2.RELEASE'
+subprojects {
+    version = '1.0.0'
 }
